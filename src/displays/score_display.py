@@ -2,32 +2,34 @@ from src.displays.display import Display
 from typing import List, Optional
 import pygame
 import time
-from src.interfaces.observer_interface import ObserverInterface
 from src.enums.event_enum import EventEnum
+from src.game_objects.player_game_object import PlayerGameObject
+from src.utils.utils import format_seconds_to_min_sec
 
-class ScoreDisplay(Display, ObserverInterface):
-  def __init__(self, screen: pygame.Surface) -> None:
+class ScoreDisplay(Display):
+  def __init__(self, screen: pygame.Surface, duration: int) -> None:
     super().__init__(screen)
 
-    self._time_spent: Optional[int] = None
-    self._score: Optional[int] = None
-    self._font: Optional[pygame.font.Font] = None
-    self._start_time: Optional[pygame.font.Font] = None
+    self._duration = duration
 
   def start(self) -> None:
-    self._time_spent = 0
-    self._score = 0
-    self._font = pygame.font.SysFont('impact', 48)
-    self._start_time = int(time.time())
+    self._time_spent: int = 0
+    self._player1_score: int = 0
+    self._player2_score: int = 0
+    self._font: pygame.font.Font = pygame.font.SysFont('impact', 40)
+    self._start_time: int = int(time.time())
+    self._remaining_time: int = self._duration
 
   def update(self) -> None:
     self._time_spent = int(time.time() - self._start_time)
-    time_spent_image = self._font.render(f'Time Spent: {self._time_spent}', True, (255, 255, 255))
-    score_image = self._font.render(f'Score: {self._score}', True, (255, 255, 255))
+    self._remaining_time = max(self._duration - self._time_spent, 0)
+
+    score_image = self._font.render(f'[Player1] {self._player1_score} X {self._player2_score} [Player2]', True, (255, 255, 255))
+    remaining_time_image = self._font.render(f'{format_seconds_to_min_sec(self._remaining_time)}', True, (255, 255, 255))
 
     pygame.draw.rect(self._screen, 'blue', (0, 0, self._screen.get_width(), self.height()))
-    self._screen.blit(time_spent_image, (0, 0))
-    self._screen.blit(score_image, (self._screen.get_width() - score_image.get_width(), 0))
+    self._screen.blit(score_image, (0, 0))
+    self._screen.blit(remaining_time_image, (self._screen.get_width() - remaining_time_image.get_width(), 0))
 
   def height(self) -> float:
     return 35.0

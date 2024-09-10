@@ -1,4 +1,4 @@
-from src.games.kill_fly_game import KillFlyGame
+from src.games.bomberman_game import BombermanGame
 from src.scenes.main_scene import MainScene
 from src.game_objects.player_game_object import PlayerGameObject
 from src.displays.score_display import ScoreDisplay
@@ -10,15 +10,16 @@ from typing import Tuple
 import pygame
 
 if __name__ == '__main__':
-  PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.RABBIT
-  PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.PIG
+  PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.CAT
+  PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.MOUSE
   SPRITES_SIZE: Tuple[int, int] = (64, 64)
   DELTA_TIME: int = 1
   VELOCITY: float = 0.1
+  GAME_DURATION: int = 300
 
   screen = pygame.display.set_mode((640, 480))
 
-  display = ScoreDisplay(screen)
+  display = ScoreDisplay(screen, GAME_DURATION)
   scene = MainScene(screen, display)
 
   player1 = PlayerGameObject(
@@ -33,6 +34,7 @@ if __name__ == '__main__':
     DELTA_TIME,
     VELOCITY,
     PlayerCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
+    PLAYER_1_TYPE,
     layers = []
   )
 
@@ -48,15 +50,17 @@ if __name__ == '__main__':
     DELTA_TIME,
     VELOCITY,
     PlayerCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
+    PLAYER_2_TYPE,
     layers = []
   )
 
   game_objects = [player1, player2]
   # observers = [display]
 
-  game = KillFlyGame(
+  game = BombermanGame(
     scene,
     game_objects,
+    GAME_DURATION,
     # observers = observers,
   )
   game.run()

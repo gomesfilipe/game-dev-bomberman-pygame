@@ -1,6 +1,7 @@
 from typing import Dict, Optional, Callable, List
 from src.game_objects.game_object import GameObject
 from src.utils.player_commands import PlayerCommands
+from src.enums.player_type_enum import PlayerTypeEnum
 import math
 from typing import Tuple
 from src.utils.utils import lerp
@@ -16,6 +17,7 @@ class PlayerGameObject(GameObject):
       delta_time: int,
       velocity: float,
       commands: PlayerCommands,
+      type: PlayerTypeEnum,
       layers: List[str] = [],
     ) -> None:
     super().__init__(sprites, scene, commands, layers)
