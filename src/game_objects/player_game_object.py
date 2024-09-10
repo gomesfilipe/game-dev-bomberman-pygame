@@ -18,12 +18,14 @@ class PlayerGameObject(GameObject):
       velocity: float,
       commands: PlayerCommands,
       type: PlayerTypeEnum,
+      lives: int,
       layers: List[str] = [],
     ) -> None:
     super().__init__(sprites, scene, commands, layers)
 
     self._delta_time = delta_time
     self._velocity = velocity
+    self._lives = lives
 
     self._key_handlers = self.__key_handlers()
 

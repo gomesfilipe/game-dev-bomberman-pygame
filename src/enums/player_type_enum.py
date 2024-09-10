@@ -9,7 +9,7 @@ class PlayerTypeEnum(Enum):
   PIG = 'Pig'
   RABBIT = 'Rabbit'
 
-  def assets_path(self) -> str:
+  def base_dir(self) -> str:
     dirs = {
       PlayerTypeEnum.BEAR: 'BEAR',
       PlayerTypeEnum.CAT: 'CAT',
@@ -19,4 +19,10 @@ class PlayerTypeEnum(Enum):
       PlayerTypeEnum.RABBIT: 'RABBIT',
     }
 
-    return join('assets', 'animals', dirs[self], 'rotation preview')
+    return join('assets', 'animals', dirs[self])
+
+  def rotation_assets_path(self) -> str:
+    return join(self.base_dir(), 'rotation preview')
+  
+  def face_assets_path(self) -> str:
+    return join(self.base_dir(), 'face')

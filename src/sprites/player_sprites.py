@@ -3,11 +3,12 @@ from typing import Tuple
 import pygame
 
 class PlayerSprites(Sprites):
-  def __init__(self, up_path: str, left_path: str, down_path: str, right_path: str, size: Tuple[int, int]) -> None:
+  def __init__(self, up_path: str, left_path: str, down_path: str, right_path: str, face_path: str, size: Tuple[int, int]) -> None:
     self.__up_path = up_path
     self.__left_path = left_path
     self.__down_path = down_path
     self.__right_path = right_path
+    self.__face_path = face_path
     self.__size = size
 
   def initialize_sprites(self) -> None:
@@ -15,6 +16,7 @@ class PlayerSprites(Sprites):
     self.__left = self._read_sprite(self.__left_path, self.__size)
     self.__down = self._read_sprite(self.__down_path, self.__size)
     self.__right = self._read_sprite(self.__right_path, self.__size)
+    self.__face = self._read_sprite(self.__face_path, self.__size)
 
   def up(self) -> pygame.Surface:
     return self.__up
@@ -27,3 +29,6 @@ class PlayerSprites(Sprites):
 
   def right(self) -> pygame.Surface:
     return self.__right
+  
+  def face(self) -> pygame.Surface:
+    return self.__face
