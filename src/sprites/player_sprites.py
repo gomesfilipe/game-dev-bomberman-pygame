@@ -19,6 +19,12 @@ class PlayerSprites(Sprites):
     self.__right = self._read_sprite(self.__right_path)
     self.__face = self._read_sprite(self.__face_path)
 
+  def initialize_hitbox(self) -> None:
+    self._hitbox = pygame.Surface((self._size[0] / 2, self._size[1] / 2))
+
+  def sprites_position(self, x: float, y: float) -> Tuple[float, float]:
+    return x - self.width() / 4, y - self.height() / 2
+  
   def up(self) -> pygame.Surface:
     return self.__up
 

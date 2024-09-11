@@ -81,8 +81,8 @@ if __name__ == '__main__':
     PlayerCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
     PLAYER_2_TYPE,
     PLAYER_MAX_LIVES,
-    SCREEN_WIDTH - PLAYER_WIDTH,
-    SCREEN_HEIGHT - PLAYER_HEIGHT,
+    SCREEN_WIDTH - PLAYER_WIDTH / 2,
+    SCREEN_HEIGHT - PLAYER_HEIGHT / 2,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
     layers = ['player2_collision'],
     debug = DEBUG,
@@ -93,9 +93,9 @@ if __name__ == '__main__':
   l = block_sprites.width()
   h = block_sprites.height()
 
-  i: int = 2
+  i: int = 1
   while (i + 1) * h + display.height() < scene.get_screen().get_height():
-    j: int = 2
+    j: int = 1
     while (j + 1) * l < scene.get_screen().get_width():
       blocks.append(
         BlockGameObject(

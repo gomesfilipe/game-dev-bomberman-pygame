@@ -30,6 +30,7 @@ class GameObject(ABC):
   def _start_decorator(func: Callable) -> Callable:
     def initialize_sprites(self: 'GameObject') -> None:
       self._sprites.initialize_sprites()
+      self._sprites.initialize_hitbox()
       func(self)
 
     return initialize_sprites
@@ -40,7 +41,7 @@ class GameObject(ABC):
 
       if self._debug:
         screen = self._scene.get_screen()
-        pygame.draw.rect(screen, (255, 0, 0), self._current_sprite.get_rect(x = self._x, y = self._y), 2)
+        pygame.draw.rect(screen, (255, 0, 0), self._sprites._hitbox.get_rect(x = self._x, y = self._y), 2)
 
     return show_hitbox
 
@@ -66,13 +67,6 @@ class GameObject(ABC):
     image = image.convert_alpha()
     return image
 
-  def _valid_position(self, x: float, y: float) -> bool:
-    screen = self._scene.get_screen()
-    display = self._scene.get_display()
-
-    return x > 0 and x + self._current_sprite.get_width() < screen.get_width() and \
-      y > display.height() and y + self._current_sprite.get_height() < screen.get_height()
-
   def get_layers(self) -> List[str]:
     return self._layers
 
@@ -80,7 +74,7 @@ class GameObject(ABC):
     return self._order_in_layer
 
   def is_colliding(self, other: 'GameObject') -> bool:
-    self_rect = self._current_sprite.get_rect(x = self._x, y = self._y)
-    other_rect = other._current_sprite.get_rect(x = other._x, y = other._y)
+    self_rect = self._sprites._hitbox.get_rect(x = self._x, y = self._y)
+    other_rect = other._sprites._hitbox.get_rect(x = other._x, y = other._y)
 
     return self_rect.colliderect(other_rect)

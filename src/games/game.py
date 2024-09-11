@@ -106,9 +106,9 @@ class Game(ObserverInterface):
       self._time_last_sort = now
 
     self._scene.get_screen().fill('white')
+    self._scene.update_scene()
 
     for game_object in self._game_objects:
       game_object.update_scene()
 
-    self._scene.update_scene()
     pygame.display.flip()

@@ -10,9 +10,11 @@ class Sprites(ABC):
   def initialize_sprites(self) -> None:
     pass
 
-  # TODO
   def initialize_hitbox(self) -> None:
-    pass
+    self._hitbox = pygame.Surface((self._size[0], self._size[1]))
+
+  def sprites_position(self, x: float, y: float) -> Tuple[float, float]:
+    return x, y
 
   def _read_sprite(self, path: str) -> pygame.Surface:
     image = pygame.image.load(path)

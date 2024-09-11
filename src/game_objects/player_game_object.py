@@ -52,8 +52,10 @@ class PlayerGameObject(GameObject):
 
   @GameObject._update_scene_decorator
   def update_scene(self) -> None:
+    x, y = self._sprites.sprites_position(self._x, self._y)
+
     screen = self._scene.get_screen()
-    screen.blit(self._current_sprite, (self._x, self._y))
+    screen.blit(self._current_sprite, (x, y))
 
   def __vertical_move(self, angle: int) -> None:
     screen = self._scene.get_screen()
@@ -61,14 +63,14 @@ class PlayerGameObject(GameObject):
     self._theta = math.radians(angle)
     self._vy = self._velocity * math.sin(self._theta)
     self._previous_y = self._y
-    self._y = lerp(self._y + self._vy * self._delta_time, display.height(), screen.get_height() - self._current_sprite.get_height())
+    self._y = lerp(self._y + self._vy * self._delta_time, display.height(), screen.get_height() - self._sprites._hitbox.get_height())
 
   def __horizontal_move(self, angle: int) -> None:
     screen = self._scene.get_screen()
     self._theta = math.radians(angle)
     self._vx = self._velocity * math.cos(self._theta)
     self._previous_x = self._x
-    self._x = lerp(self._x + self._vx * self._delta_time, 0, screen.get_width() - self._current_sprite.get_width())
+    self._x = lerp(self._x + self._vx * self._delta_time, 0, screen.get_width() - self._sprites._hitbox.get_width())
 
   def __move_up(self) -> None:
     self.__vertical_move(-90)
