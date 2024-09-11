@@ -18,9 +18,8 @@ class BlockGameObject(GameObject):
       y: float,
       order_in_layer: int,
       layers: List[str] = [],
-      debug: bool = False,
     ) -> None:
-    super().__init__(sprites, scene, x, y, order_in_layer, layers, debug)
+    super().__init__(sprites, scene, x, y, order_in_layer, layers)
     self._sprites = sprites
 
   @GameObject._start_decorator
@@ -37,4 +36,3 @@ class BlockGameObject(GameObject):
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     return
-

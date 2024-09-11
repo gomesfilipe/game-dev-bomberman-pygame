@@ -29,7 +29,6 @@ if __name__ == '__main__':
   DISPLAY_HEIGHT: int = 80
 
   GAME_DURATION: int = 300
-  DEBUG: bool = True
 
   SCREEN_WIDTH: int = BLOCK_SIZE * 15
   SCREEN_HEIGHT: int = DISPLAY_HEIGHT + BLOCK_SIZE * 11
@@ -70,7 +69,6 @@ if __name__ == '__main__':
     DISPLAY_HEIGHT,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
     layers = ['player1_collision'],
-    debug = DEBUG,
   )
 
   player2 = PlayerGameObject(
@@ -85,7 +83,6 @@ if __name__ == '__main__':
     SCREEN_HEIGHT - PLAYER_HEIGHT / 2,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
     layers = ['player2_collision'],
-    debug = DEBUG,
   )
 
   blocks: List[BlockGameObject] = []
@@ -105,7 +102,6 @@ if __name__ == '__main__':
           i * l + display.height(),
           BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
           layers = ['player1_collision', 'player2_collision'],
-          debug = DEBUG,
         )
       )
 

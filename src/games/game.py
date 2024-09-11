@@ -43,23 +43,36 @@ class Game(ObserverInterface):
   def _should_stop(self) -> None:
     return self._stop
 
-  def handle_event(self, event: int) -> None:
-    handlers = {
-      EventEnum.QUIT.value: self.__handle_quit_event
+  def handle_event(self, event: pygame.event.Event) -> None:
+    handlers: Dict[int, Callable] = {
+      EventEnum.QUIT.value: lambda: self.__handle_quit_event(event),
+      EventEnum.PRESSED_KEY.value: lambda: self.__handle_pressed_key_event(event),
     }
 
-    handlers[event]()
+    handlers[event.type]()
 
-  def __handle_quit_event(self) -> None:
+  def __handle_quit_event(self, event: pygame.event.Event) -> None:
     self._stop = True
 
+  def __handle_pressed_key_event(self, event: pygame.event.Event) -> None:
+    keys: Dict[int, Callable] = {
+      pygame.K_SPACE: lambda: self.__switch_debug_mode(),
+    }
+
+    if event.key in keys:
+      keys[event.key]()
+
+  def __switch_debug_mode(self) -> None:
+    for game_object in self._game_objects:
+      game_object.switch_debug_mode()
+
   def interested_events(self) -> List[int]:
-    return [pygame.QUIT]
+    return [pygame.QUIT, pygame.KEYDOWN]
 
   def _handle_event(self, event: pygame.event.Event) -> None:
     for observer in self._observers:
       if event.type in observer.interested_events():
-        observer.handle_event(event.type)
+        observer.handle_event(event)
 
   def run(self):
     self.__start()

@@ -14,7 +14,6 @@ class GameObject(ABC):
       y: float,
       order_in_layer: int,
       layers: List[str] = [],
-      debug: bool = False,
   ) -> None:
     self._sprites = sprites
     self._scene = scene
@@ -22,7 +21,7 @@ class GameObject(ABC):
     self._layers = layers
     self._x = x
     self._y = y
-    self._debug = debug
+    self._debug = False
 
     self._current_sprite: Optional[pygame.Surface] = None
     self._images: Dict[str, pygame.Surface] = {}
@@ -40,7 +39,9 @@ class GameObject(ABC):
       func(self)
 
       if self._debug:
+        sprite_x, sprite_y = self._sprites.sprites_position(self._x, self._y)
         screen = self._scene.get_screen()
+        pygame.draw.rect(screen, 'blue', self._current_sprite.get_rect(x = sprite_x, y = sprite_y), 2)
         pygame.draw.rect(screen, (255, 0, 0), self._sprites._hitbox.get_rect(x = self._x, y = self._y), 2)
 
     return show_hitbox
@@ -78,3 +79,6 @@ class GameObject(ABC):
     other_rect = other._sprites._hitbox.get_rect(x = other._x, y = other._y)
 
     return self_rect.colliderect(other_rect)
+
+  def switch_debug_mode(self) -> None:
+    self._debug = not self._debug

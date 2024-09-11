@@ -24,9 +24,8 @@ class PlayerGameObject(GameObject):
       y: float,
       order_in_layer: int,
       layers: List[str] = [],
-      debug: bool = False,
     ) -> None:
-    super().__init__(sprites, scene, x, y, order_in_layer, layers, debug)
+    super().__init__(sprites, scene, x, y, order_in_layer, layers)
     self._sprites = sprites
     self._delta_time = delta_time
     self._velocity = velocity
