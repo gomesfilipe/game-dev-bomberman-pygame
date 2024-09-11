@@ -12,11 +12,13 @@ class GameObject(ABC):
       scene: Scene,
       x: float,
       y: float,
+      order_in_layer: int,
       layers: List[str] = [],
       debug: bool = False,
   ) -> None:
     self._sprites = sprites
     self._scene = scene
+    self._order_in_layer = order_in_layer
     self._layers = layers
     self._x = x
     self._y = y
@@ -73,6 +75,9 @@ class GameObject(ABC):
 
   def get_layers(self) -> List[str]:
     return self._layers
+
+  def get_order_in_layer(self) -> int:
+    return self._order_in_layer
 
   def is_colliding(self, other: 'GameObject') -> bool:
     self_rect = self._current_sprite.get_rect(x = self._x, y = self._y)

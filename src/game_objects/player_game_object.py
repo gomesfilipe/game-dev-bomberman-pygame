@@ -22,10 +22,11 @@ class PlayerGameObject(GameObject):
       lives: int,
       x: float,
       y: float,
+      order_in_layer: int,
       layers: List[str] = [],
       debug: bool = False,
     ) -> None:
-    super().__init__(sprites, scene, x, y, layers, debug)
+    super().__init__(sprites, scene, x, y, order_in_layer, layers, debug)
     self._sprites = sprites
     self._delta_time = delta_time
     self._velocity = velocity

@@ -16,10 +16,11 @@ class BlockGameObject(GameObject):
       scene: Scene,
       x: float,
       y: float,
+      order_in_layer: int,
       layers: List[str] = [],
       debug: bool = False,
     ) -> None:
-    super().__init__(sprites, scene, x, y, layers, debug)
+    super().__init__(sprites, scene, x, y, order_in_layer, layers, debug)
     self._sprites = sprites
 
   @GameObject._start_decorator

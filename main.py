@@ -20,7 +20,8 @@ if __name__ == '__main__':
   MAX_LIVES: int = 5
   GAME_DURATION: int = 300
   DEBUG: bool = True
-
+  PLAYER_GAME_OBJECT_ORDER_IN_LAYER = 1
+  BLOCK_GAME_OBJECT_ORDER_IN_LAYER = 0
 
   player1_sprites = PlayerSprites(
     join(PLAYER_1_TYPE.rotation_assets_path(), '3 Back.png'),
@@ -56,6 +57,7 @@ if __name__ == '__main__':
     MAX_LIVES,
     100,
     100,
+    PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
     layers = ['player1_collision'],
     debug = DEBUG,
   )
@@ -70,6 +72,7 @@ if __name__ == '__main__':
     MAX_LIVES,
     300,
     300,
+    PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
     layers = ['player2_collision'],
     debug = DEBUG,
   )
@@ -79,6 +82,7 @@ if __name__ == '__main__':
     scene,
     200,
     200,
+    BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
     layers = ['player1_collision', 'player2_collision'],
     debug = DEBUG,
   )

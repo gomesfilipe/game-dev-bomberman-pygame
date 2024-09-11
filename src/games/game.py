@@ -1,10 +1,12 @@
 import pygame
-from typing import Tuple, Optional, List, Dict
+from typing import Tuple, Optional, List, Dict, Callable
 from abc import ABC, abstractmethod
 from src.game_objects.game_object import GameObject
 from src.scenes.scene import Scene
 from src.interfaces.observer_interface import ObserverInterface
 from src.enums.event_enum import EventEnum
+import random
+import time
 
 class Game(ObserverInterface):
   def __init__(
@@ -18,17 +20,25 @@ class Game(ObserverInterface):
     self._observers = observers + [self]
     self._stop: bool = False
 
-    self._collider_groups: Dict[str, List[GameObject]] = {}
-
     self._x: Optional[float] = None
     self._y: Optional[float] = None
 
+    self._time_to_sort_game_objects: float = 0.5
+    self._time_last_sort: float = time.time()
+
+    self._collider_groups = self._build_collider_groups()
+
+  def _build_collider_groups(self) -> Dict[str, List[GameObject]]:
+    collider_groups: Dict[str, List[GameObject]] = {}
+
     for game_object in self._game_objects:
       for layer in game_object.get_layers():
-        if layer in self._collider_groups:
-          self._collider_groups[layer].append(game_object)
+        if layer in collider_groups:
+          collider_groups[layer].append(game_object)
         else:
-          self._collider_groups[layer] = [game_object]
+          collider_groups[layer] = [game_object]
+
+    return collider_groups
 
   def _should_stop(self) -> None:
     return self._stop
@@ -87,6 +97,14 @@ class Game(ObserverInterface):
             pygame.event.post(pygame.event.Event(EventEnum.COLLISION.value))
 
   def __update_scenes(self) -> None:
+    now = time.time()
+
+    # Reordena os GabeObjects baseados na sua order in layer num certo intervalo de tempo.
+    if now >= self._time_last_sort + self._time_to_sort_game_objects:
+      key_func: Callable[[GameObject], Tuple[int, int]] = lambda game_object: (game_object.get_order_in_layer(), random.random())
+      self._game_objects.sort(key = key_func)
+      self._time_last_sort = now
+
     self._scene.get_screen().fill('white')
 
     for game_object in self._game_objects:
