@@ -14,7 +14,8 @@ import pygame
 if __name__ == '__main__':
   PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.PIG
   PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.RABBIT
-  SPRITES_SIZE: Tuple[int, int] = (64, 64)
+  PLAYER_WIDTH = 64
+  PLAYER_HEIGHT = 64
   BLOCK_SIZE: int = 32
   DISPLAY_HEIGHT: int = 80
   DELTA_TIME: int = 1
@@ -25,13 +26,16 @@ if __name__ == '__main__':
   PLAYER_GAME_OBJECT_ORDER_IN_LAYER = 1
   BLOCK_GAME_OBJECT_ORDER_IN_LAYER = 0
 
+  SCREEN_WIDTH: int = BLOCK_SIZE * 15
+  SCREEN_HEIGHT: int = DISPLAY_HEIGHT + BLOCK_SIZE * 11
+
   player1_sprites = PlayerSprites(
     join(PLAYER_1_TYPE.rotation_assets_path(), '3 Back.png'),
     join(PLAYER_1_TYPE.rotation_assets_path(), '2 Left.png'),
     join(PLAYER_1_TYPE.rotation_assets_path(), '1 Front.png'),
     join(PLAYER_1_TYPE.rotation_assets_path(), '4 Right.png'),
     join(PLAYER_1_TYPE.face_assets_path(), 'face.png'),
-    SPRITES_SIZE,
+    (PLAYER_WIDTH, PLAYER_HEIGHT),
   )
 
   player2_sprites = PlayerSprites(
@@ -40,12 +44,12 @@ if __name__ == '__main__':
     join(PLAYER_2_TYPE.rotation_assets_path(), '1 Front.png'),
     join(PLAYER_2_TYPE.rotation_assets_path(), '4 Right.png'),
     join(PLAYER_2_TYPE.face_assets_path(), 'face.png'),
-    SPRITES_SIZE,
+    (PLAYER_WIDTH, PLAYER_HEIGHT),
   )
 
   block_sprites = BlockSprites(join('assets', 'blocks', 'block.png'), (BLOCK_SIZE, BLOCK_SIZE))
 
-  screen = pygame.display.set_mode((BLOCK_SIZE * 15, DISPLAY_HEIGHT + BLOCK_SIZE * 11))
+  screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
   display = ScoreDisplay(screen, GAME_DURATION, MAX_LIVES, player1_sprites, player2_sprites)
   scene = MainScene(screen, display)
 
@@ -57,8 +61,8 @@ if __name__ == '__main__':
     PlayerCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
     PLAYER_1_TYPE,
     MAX_LIVES,
-    100,
-    100,
+    0,
+    DISPLAY_HEIGHT,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
     layers = ['player1_collision'],
     debug = DEBUG,
@@ -72,8 +76,8 @@ if __name__ == '__main__':
     PlayerCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
     PLAYER_2_TYPE,
     MAX_LIVES,
-    300,
-    300,
+    SCREEN_WIDTH - PLAYER_WIDTH,
+    SCREEN_HEIGHT - PLAYER_HEIGHT,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
     layers = ['player2_collision'],
     debug = DEBUG,
