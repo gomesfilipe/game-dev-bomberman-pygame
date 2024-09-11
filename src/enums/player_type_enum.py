@@ -13,7 +13,7 @@ class PlayerTypeEnum(Enum):
     dirs = {
       PlayerTypeEnum.BEAR: 'BEAR',
       PlayerTypeEnum.CAT: 'CAT',
-      PlayerTypeEnum.DOG: 'BEAR',
+      PlayerTypeEnum.DOG: 'DOG',
       PlayerTypeEnum.MOUSE: 'MOUSE',
       PlayerTypeEnum.PIG: 'PIG',
       PlayerTypeEnum.RABBIT: 'RABBIT',
@@ -23,6 +23,6 @@ class PlayerTypeEnum(Enum):
 
   def rotation_assets_path(self) -> str:
     return join(self.base_dir(), 'rotation preview')
-  
+
   def face_assets_path(self) -> str:
     return join(self.base_dir(), 'face')

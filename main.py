@@ -12,8 +12,8 @@ from typing import Tuple
 import pygame
 
 if __name__ == '__main__':
-  PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.CAT
-  PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.MOUSE
+  PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.PIG
+  PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.RABBIT
   SPRITES_SIZE: Tuple[int, int] = (64, 64)
   DELTA_TIME: int = 1
   VELOCITY: float = 0.1
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     SPRITES_SIZE,
   )
 
-  block_sprites = BlockSprites(join('assets', 'blocks', 'block.png'), SPRITES_SIZE)
+  block_sprites = BlockSprites(join('assets', 'blocks', 'block.png'), (32, 32))
 
   screen = pygame.display.set_mode((640, 480))
   display = ScoreDisplay(screen, GAME_DURATION, MAX_LIVES, player1_sprites, player2_sprites)
