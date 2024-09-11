@@ -17,8 +17,9 @@ class BlockGameObject(GameObject):
       x: float,
       y: float,
       layers: List[str] = [],
+      debug: bool = False,
     ) -> None:
-    super().__init__(sprites, scene, x, y, layers)
+    super().__init__(sprites, scene, x, y, layers, debug)
     self._sprites = sprites
 
   @GameObject._start_decorator
@@ -28,6 +29,7 @@ class BlockGameObject(GameObject):
   def update(self) -> None:
     return
 
+  @GameObject._update_scene_decorator
   def update_scene(self) -> None:
     screen = self._scene.get_screen()
     screen.blit(self._current_sprite, (self._x, self._y))

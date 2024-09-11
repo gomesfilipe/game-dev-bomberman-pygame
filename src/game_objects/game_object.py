@@ -13,12 +13,14 @@ class GameObject(ABC):
       x: float,
       y: float,
       layers: List[str] = [],
+      debug: bool = False,
   ) -> None:
     self._sprites = sprites
     self._scene = scene
     self._layers = layers
     self._x = x
     self._y = y
+    self._debug = debug
 
     self._current_sprite: Optional[pygame.Surface] = None
     self._images: Dict[str, pygame.Surface] = {}
@@ -29,6 +31,16 @@ class GameObject(ABC):
       func(self)
 
     return initialize_sprites
+
+  def _update_scene_decorator(func: Callable) -> Callable:
+    def show_hitbox(self: 'GameObject') -> None:
+      func(self)
+
+      if self._debug:
+        screen = self._scene.get_screen()
+        pygame.draw.rect(screen, (255, 0, 0), self._current_sprite.get_rect(x = self._x, y = self._y), 2)
+
+    return show_hitbox
 
   @abstractmethod
   def start(self) -> None:

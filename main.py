@@ -19,6 +19,7 @@ if __name__ == '__main__':
   VELOCITY: float = 0.1
   MAX_LIVES: int = 5
   GAME_DURATION: int = 300
+  DEBUG: bool = True
 
 
   player1_sprites = PlayerSprites(
@@ -55,7 +56,8 @@ if __name__ == '__main__':
     MAX_LIVES,
     100,
     100,
-    layers = ['player1_collision']
+    layers = ['player1_collision'],
+    debug = DEBUG,
   )
 
   player2 = PlayerGameObject(
@@ -68,7 +70,8 @@ if __name__ == '__main__':
     MAX_LIVES,
     300,
     300,
-    layers = ['player2_collision']
+    layers = ['player2_collision'],
+    debug = DEBUG,
   )
 
   block = BlockGameObject(
@@ -76,7 +79,8 @@ if __name__ == '__main__':
     scene,
     200,
     200,
-    layers = ['player1_collision', 'player2_collision']
+    layers = ['player1_collision', 'player2_collision'],
+    debug = DEBUG,
   )
 
   game_objects = [player1, player2, block]

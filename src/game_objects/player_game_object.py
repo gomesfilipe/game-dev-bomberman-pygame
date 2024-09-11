@@ -23,8 +23,9 @@ class PlayerGameObject(GameObject):
       x: float,
       y: float,
       layers: List[str] = [],
+      debug: bool = False,
     ) -> None:
-    super().__init__(sprites, scene, x, y, layers)
+    super().__init__(sprites, scene, x, y, layers, debug)
     self._sprites = sprites
     self._delta_time = delta_time
     self._velocity = velocity
@@ -48,6 +49,7 @@ class PlayerGameObject(GameObject):
   def update(self) -> None:
     self.__handle_pressed_keys()
 
+  @GameObject._update_scene_decorator
   def update_scene(self) -> None:
     screen = self._scene.get_screen()
     screen.blit(self._current_sprite, (self._x, self._y))
