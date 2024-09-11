@@ -12,3 +12,9 @@ class BlockSprites(Sprites):
 
   def idle(self) -> pygame.Surface:
     return self.__idle
+
+  def width(self) -> int:
+    return self.__size[0]
+
+  def height(self) -> int:
+    return self.__size[1]
