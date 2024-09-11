@@ -1,10 +1,12 @@
 from src.games.bomberman_game import BombermanGame
 from src.scenes.main_scene import MainScene
 from src.game_objects.player_game_object import PlayerGameObject
+from src.game_objects.block_game_object import BlockGameObject
 from src.displays.score_display import ScoreDisplay
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.utils.player_commands import PlayerCommands
 from src.sprites.player_sprites import PlayerSprites
+from src.sprites.block_sprites import BlockSprites
 from os.path import join
 from typing import Tuple
 import pygame
@@ -37,10 +39,11 @@ if __name__ == '__main__':
     SPRITES_SIZE,
   )
 
+  block_sprites = BlockSprites(join('assets', 'blocks', 'block.png'), SPRITES_SIZE)
+
   screen = pygame.display.set_mode((640, 480))
   display = ScoreDisplay(screen, GAME_DURATION, MAX_LIVES, player1_sprites, player2_sprites)
   scene = MainScene(screen, display)
-
 
   player1 = PlayerGameObject(
     player1_sprites,
@@ -50,7 +53,9 @@ if __name__ == '__main__':
     PlayerCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
     PLAYER_1_TYPE,
     MAX_LIVES,
-    layers = []
+    0,
+    0,
+    layers = ['player1_collision']
   )
 
   player2 = PlayerGameObject(
@@ -61,11 +66,20 @@ if __name__ == '__main__':
     PlayerCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
     PLAYER_2_TYPE,
     MAX_LIVES,
-    layers = []
+    300,
+    300,
+    layers = ['player2_collision']
   )
 
+  block = BlockGameObject(
+    block_sprites,
+    scene,
+    200,
+    200,
+    layers = ['player1_collision', 'player2_collision']
+  )
 
-  game_objects = [player1, player2]
+  game_objects = [player1, player2, block]
   # observers = [display]
 
   game = BombermanGame(
