@@ -53,8 +53,8 @@ if __name__ == '__main__':
     PlayerCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
     PLAYER_1_TYPE,
     MAX_LIVES,
-    0,
-    0,
+    100,
+    100,
     layers = ['player1_collision']
   )
 

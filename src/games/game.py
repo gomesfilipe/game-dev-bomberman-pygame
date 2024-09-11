@@ -52,35 +52,45 @@ class Game(ObserverInterface):
         observer.handle_event(event.type)
 
   def run(self):
+    self.__start()
+
+    while not self._should_stop():
+      self.__handle_events()
+      self.__update_game_objects()
+      self.__handle_collisions()
+      self.__update_scenes()
+
+    pygame.quit()
+
+  def __start(self) -> None:
     pygame.init()
     self._scene.start_scene()
-    screen = self._scene.get_screen()
 
     for game_object in self._game_objects:
       game_object.start()
 
-    while not self._should_stop():
-      for event in pygame.event.get():
-        self._handle_event(event)
+  def __handle_events(self) -> None:
+    for event in pygame.event.get():
+      self._handle_event(event)
 
-      screen.fill('white')
+  def __update_game_objects(self) -> None:
+    for game_object in self._game_objects:
+      game_object.update()
 
-      for game_object in self._game_objects:
-        game_object.update()
+  def __handle_collisions(self) -> None:
+    for layer, colliders in self._collider_groups.items():
+      for i in range(len(colliders)):
+        for j in range(i + 1, len(colliders)):
+          if colliders[i].is_colliding(colliders[j]):
+            colliders[i].on_collide(colliders[j], layer)
+            colliders[j].on_collide(colliders[i], layer)
+            pygame.event.post(pygame.event.Event(EventEnum.COLLISION.value))
 
-      for layer, colliders in self._collider_groups.items():
-        for i in range(len(colliders)):
-          for j in range(i + 1, len(colliders)):
-            if colliders[i].is_colliding(colliders[j]):
-              colliders[i].on_collide(colliders[j], layer)
-              colliders[j].on_collide(colliders[i], layer)
+  def __update_scenes(self) -> None:
+    self._scene.get_screen().fill('white')
 
-              pygame.event.post(pygame.event.Event(EventEnum.COLLISION.value))
+    for game_object in self._game_objects:
+      game_object.update_scene()
 
-      for game_object in self._game_objects:
-        game_object.update_scene()
-
-      self._scene.update_scene()
-      pygame.display.flip()
-
-    pygame.quit()
+    self._scene.update_scene()
+    pygame.display.flip()
