@@ -24,7 +24,7 @@ class PlayerSprites(Sprites):
 
   def sprites_position(self, x: float, y: float) -> Tuple[float, float]:
     return x - self.width() / 4, y - self.height() / 2
-  
+
   def up(self) -> pygame.Surface:
     return self.__up
 

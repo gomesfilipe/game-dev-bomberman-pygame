@@ -18,7 +18,7 @@ if __name__ == '__main__':
   PLAYER_WIDTH = 64
   PLAYER_HEIGHT = 64
 
-  PLAYER_VELOCITY: float = 0.3
+  PLAYER_VELOCITY: float = 0.2
   PLAYER_MAX_LIVES: int = 5
   PLAYER_DELTA_TIME: int = 1
 

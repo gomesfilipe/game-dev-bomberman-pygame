@@ -4,8 +4,8 @@ from src.utils.player_commands import PlayerCommands
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.sprites.player_sprites import PlayerSprites
 import math
-from typing import Tuple
-from src.utils.utils import lerp
+from typing import Tuple, Optional
+from src.utils.utils import lerp, distance_from_points
 from src.scenes.scene import Scene
 import time
 import pygame
@@ -45,6 +45,7 @@ class PlayerGameObject(GameObject):
     self._theta = 0.0
     self._previous_x = self._x
     self._previous_y = self._y
+    self._alpha = 0.45
 
   def update(self) -> None:
     self.__handle_pressed_keys()
@@ -104,12 +105,55 @@ class PlayerGameObject(GameObject):
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     handlers: Dict[str, Callable] = {
-      'player1_collision': self.__handle_block_layer,
-      'player2_collision': self.__handle_block_layer,
+      'player1_collision': lambda: self.__handle_block_layer(other),
+      'player2_collision': lambda: self.__handle_block_layer(other),
     }
 
     handlers[layer]()
 
-  def __handle_block_layer(self) -> None:
-    self._x = self._previous_x
-    self._y = self._previous_y
+  def __handle_block_layer(self, other: GameObject) -> None:
+    other_l: float = other._sprites._hitbox.get_height()
+    self_l: float = self._sprites._hitbox.get_height()
+
+    other_x_center = other._x + other_l / 2
+    other_y_center = other._y + other_l / 2
+
+    closest_point, distance = self.__closest_point(other)
+
+    if distance < self._alpha * self_l:
+      closest_x, closest_y = closest_point
+      self._x = closest_x - other_l / 2
+      self._y = closest_y - other_l / 2
+    else:
+      self._x = self._previous_x
+      self._y = self._previous_y
+
+
+  def __closest_point(self, other: GameObject) -> Tuple[Tuple[float, float], float]:
+    other_l: float = other._sprites._hitbox.get_height()
+    self_l: float = self._sprites._hitbox.get_height()
+
+    other_x_center = other._x + other_l / 2
+    other_y_center = other._y + other_l / 2
+
+    self_x_center = self._x + self_l / 2
+    self_y_center = self._y + self_l / 2
+
+    points: List[Tuple[int, int]] = [
+      (other_x_center - other_l, other_y_center - other_l),
+      (other_x_center + other_l, other_y_center - other_l),
+      (other_x_center - other_l, other_y_center + other_l),
+      (other_x_center + other_l, other_y_center + other_l),
+    ]
+
+    minn = float('inf')
+    closest_point: Optional[Tuple[int, int]] = None
+
+    for point in points:
+      distance = distance_from_points(point, (self_x_center, self_y_center))
+
+      if distance < minn:
+        minn = distance
+        closest_point = point
+
+    return closest_point, minn
