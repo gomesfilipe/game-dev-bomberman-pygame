@@ -50,13 +50,6 @@ class PlayerGameObject(GameObject):
   def update(self) -> None:
     self.__handle_pressed_keys()
 
-  @GameObject._update_scene_decorator
-  def update_scene(self) -> None:
-    x, y = self._sprites.sprites_position(self._x, self._y)
-
-    screen = self._scene.get_screen()
-    screen.blit(self._current_sprite, (x, y))
-
   def __vertical_move(self, angle: int) -> None:
     screen = self._scene.get_screen()
     display = self._scene.get_display()

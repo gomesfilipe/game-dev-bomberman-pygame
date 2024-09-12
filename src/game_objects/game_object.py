@@ -34,18 +34,6 @@ class GameObject(ABC):
 
     return initialize_sprites
 
-  def _update_scene_decorator(func: Callable) -> Callable:
-    def show_hitbox(self: 'GameObject') -> None:
-      func(self)
-
-      if self._debug:
-        sprite_x, sprite_y = self._sprites.sprites_position(self._x, self._y)
-        screen = self._scene.get_screen()
-        pygame.draw.rect(screen, 'blue', self._current_sprite.get_rect(x = sprite_x, y = sprite_y), 2)
-        pygame.draw.rect(screen, (255, 0, 0), self._sprites._hitbox.get_rect(x = self._x, y = self._y), 2)
-
-    return show_hitbox
-
   @abstractmethod
   def start(self) -> None:
     pass
@@ -54,9 +42,20 @@ class GameObject(ABC):
   def update(self) -> None:
     pass
 
-  @abstractmethod
   def update_scene(self) -> None:
-    pass
+    x, y = self._sprites.sprites_position(self._x, self._y)
+
+    screen = self._scene.get_screen()
+    screen.blit(self._current_sprite, (x, y))
+
+    if self._debug:
+      self._show_hitbox()
+
+  def _show_hitbox(self) -> None:
+    sprite_x, sprite_y = self._sprites.sprites_position(self._x, self._y)
+    screen = self._scene.get_screen()
+    pygame.draw.rect(screen, 'blue', self._current_sprite.get_rect(x = sprite_x, y = sprite_y), 2)
+    pygame.draw.rect(screen, (255, 0, 0), self._sprites._hitbox.get_rect(x = self._x, y = self._y), 2)
 
   @abstractmethod
   def on_collide(self, other: 'GameObject', layer: str) -> None:

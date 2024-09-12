@@ -24,10 +24,5 @@ class BlockGameObject(GameObject):
   def update(self) -> None:
     return
 
-  @GameObject._update_scene_decorator
-  def update_scene(self) -> None:
-    screen = self._scene.get_screen()
-    screen.blit(self._current_sprite, (self._x, self._y))
-
   def on_collide(self, other: GameObject, layer: str) -> None:
     return
