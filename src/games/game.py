@@ -47,6 +47,8 @@ class Game(ObserverInterface):
     handlers: Dict[int, Callable] = {
       EventEnum.QUIT.value: lambda: self.__handle_quit_event(event),
       EventEnum.PRESSED_KEY.value: lambda: self.__handle_pressed_key_event(event),
+      EventEnum.NEW_GAME_OBJECT.value: lambda: self.__handle_new_game_object_event(event),
+      EventEnum.DESTROY_GAME_OBJECT.value: lambda: self.__handle_destroy_game_object_event(event),
     }
 
     handlers[event.type]()
@@ -62,12 +64,23 @@ class Game(ObserverInterface):
     if event.key in keys:
       keys[event.key]()
 
+  def __handle_new_game_object_event(self, event: pygame.event.Event) -> None:
+    self.__add_game_object(event.game_object)
+
+  def __handle_destroy_game_object_event(self, event: pygame.event.Event) -> None:
+    self.__delete_game_object(event.game_object)
+
   def __switch_debug_mode(self) -> None:
     for game_object in self._game_objects:
       game_object.switch_debug_mode()
 
   def interested_events(self) -> List[int]:
-    return [pygame.QUIT, pygame.KEYDOWN]
+    return [
+      EventEnum.QUIT.value,
+      EventEnum.PRESSED_KEY.value,
+      EventEnum.NEW_GAME_OBJECT.value,
+      EventEnum.DESTROY_GAME_OBJECT.value,
+    ]
 
   def _handle_event(self, event: pygame.event.Event) -> None:
     for observer in self._observers:
@@ -107,21 +120,44 @@ class Game(ObserverInterface):
           if colliders[i].is_colliding(colliders[j]):
             colliders[i].on_collide(colliders[j], layer)
             colliders[j].on_collide(colliders[i], layer)
-            pygame.event.post(pygame.event.Event(EventEnum.COLLISION.value))
+            EventEnum.COLLISION.post_event()
 
   def __update_scenes(self) -> None:
     now = time.time()
 
     # Reordena os GabeObjects baseados na sua order in layer num certo intervalo de tempo.
     if now >= self._time_last_sort + self._time_to_sort_game_objects:
-      key_func: Callable[[GameObject], Tuple[int, int]] = lambda game_object: (game_object.get_order_in_layer(), random.random())
-      self._game_objects.sort(key = key_func)
+      self.__sort_game_objects_by_order_in_layer()
       self._time_last_sort = now
 
-    self._scene.get_screen().fill('white')
+    self._scene.get_screen().fill('wheat3')
     self._scene.update_scene()
 
     for game_object in self._game_objects:
       game_object.update_scene()
 
     pygame.display.flip()
+
+  def __sort_game_objects_by_order_in_layer(self) -> None:
+    key_func: Callable[[GameObject], Tuple[int, int]] = lambda game_object: (game_object.get_order_in_layer(), random.random())
+    self._game_objects.sort(key = key_func)
+
+  def __delete_game_object(self, game_object: GameObject) -> None:
+    layers = game_object.get_layers()
+
+    for layer in layers:
+      self._collider_groups[layer].remove(game_object)
+
+    self._game_objects.remove(game_object)
+
+  def __add_game_object(self, game_object: GameObject) -> None:
+    layers = game_object.get_layers()
+
+    for layer in layers:
+      if layer in layers:
+        self._collider_groups[layer].append(game_object)
+      else:
+        self._collider_groups[layer] = [game_object]
+
+    self._game_objects.append(game_object)
+    self.__sort_game_objects_by_order_in_layer()

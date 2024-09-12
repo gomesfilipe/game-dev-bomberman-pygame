@@ -1,12 +1,7 @@
-from typing import Dict, Optional, Callable, List
+from typing import List
 from src.game_objects.game_object import GameObject
-from src.utils.player_commands import PlayerCommands
-from src.enums.player_type_enum import PlayerTypeEnum
 from src.sprites.block_sprites import BlockSprites
-import math
-from typing import Tuple
 from src.scenes.scene import Scene
-import time
 import pygame
 
 class BlockGameObject(GameObject):
