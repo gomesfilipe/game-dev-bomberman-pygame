@@ -11,6 +11,7 @@ from src.sprites.block_sprites import SimpleSprite
 from os.path import join
 from typing import Tuple, List
 import pygame
+from config import *
 
 def create_blocks() -> List[BlockGameObject]:
   blocks: List[BlockGameObject] = []
@@ -65,27 +66,6 @@ def create_broken_blocks() -> List[BrokenBlockGameObject]:
   return broken_blocks
 
 if __name__ == '__main__':
-  PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.PIG
-  PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.RABBIT
-
-  PLAYER_WIDTH = 64
-  PLAYER_HEIGHT = 64
-
-  PLAYER_VELOCITY: float = 0.2
-  PLAYER_MAX_LIVES: int = 5
-  PLAYER_DELTA_TIME: int = 1
-
-  PLAYER_GAME_OBJECT_ORDER_IN_LAYER = 1
-  BLOCK_GAME_OBJECT_ORDER_IN_LAYER = 0
-
-  BLOCK_SIZE: int = 32
-  DISPLAY_HEIGHT: int = 80
-
-  GAME_DURATION: int = 300
-
-  SCREEN_WIDTH: int = BLOCK_SIZE * 15
-  SCREEN_HEIGHT: int = DISPLAY_HEIGHT + BLOCK_SIZE * 11
-
   player1_sprites = PlayerSprites(
     join(PLAYER_1_TYPE.rotation_assets_path(), '3 Back.png'),
     join(PLAYER_1_TYPE.rotation_assets_path(), '2 Left.png'),
@@ -108,7 +88,15 @@ if __name__ == '__main__':
   broken_block_sprites = SimpleSprite(join('assets', 'blocks', 'hay_block.png'), (BLOCK_SIZE, BLOCK_SIZE))
 
   screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-  display = ScoreDisplay(screen, GAME_DURATION, PLAYER_MAX_LIVES, player1_sprites, player2_sprites)
+  display = ScoreDisplay(
+    screen,
+    GAME_DURATION,
+    PLAYER_MAX_LIVES,
+    player1_sprites,
+    player2_sprites,
+    PLAYER_1_NAME,
+    PLAYER_2_NAME,
+  )
   scene = MainScene(screen, display)
 
   player1 = PlayerGameObject(
@@ -122,7 +110,8 @@ if __name__ == '__main__':
     0,
     DISPLAY_HEIGHT,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
-    layers = ['player1_collision', 'player1_broken_block'],
+    PLAYER_1_NAME,
+    layers = ['player1_collision', 'player1_broken_block', 'player1_life_power'],
   )
 
   player2 = PlayerGameObject(
@@ -136,7 +125,8 @@ if __name__ == '__main__':
     SCREEN_WIDTH - PLAYER_WIDTH / 2,
     SCREEN_HEIGHT - PLAYER_HEIGHT / 2,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
-    layers = ['player2_collision', 'player2_broken_block'],
+    PLAYER_2_NAME,
+    layers = ['player2_collision', 'player2_broken_block', 'player2_life_power'],
   )
 
   blocks = create_blocks()
@@ -145,12 +135,12 @@ if __name__ == '__main__':
 
   game_objects = [player1, player2] + blocks + broken_blocks
 
-  # observers = [display]
+  observers = [display]
 
   game = BombermanGame(
     scene,
     game_objects,
     GAME_DURATION,
-    # observers = observers,
+    observers = observers,
   )
   game.run()

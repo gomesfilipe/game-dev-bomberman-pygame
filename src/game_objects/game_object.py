@@ -84,6 +84,8 @@ class GameObject(ABC):
 
   def instantiate(self, game_object_class: Type['GameObject'], **params: Dict[str, Any]) -> 'GameObject':
     game_object = game_object_class(**params)
+    game_object.start()
+    game_object._debug = self._debug
     EventEnum.NEW_GAME_OBJECT.post_event(game_object = game_object)
     return game_object
 

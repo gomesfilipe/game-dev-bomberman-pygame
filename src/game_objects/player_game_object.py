@@ -23,6 +23,7 @@ class PlayerGameObject(GameObject):
       x: float,
       y: float,
       order_in_layer: int,
+      name: str,
       layers: List[str] = [],
     ) -> None:
     super().__init__(sprites, scene, x, y, order_in_layer, layers)
@@ -32,6 +33,7 @@ class PlayerGameObject(GameObject):
     self._lives = lives
     self._commands = commands
     self._player_type = player_type
+    self._name = name
 
     self._key_handlers = self.__key_handlers()
 
@@ -159,3 +161,12 @@ class PlayerGameObject(GameObject):
         closest_point = point
 
     return closest_point, minn
+
+  def get_lives(self) -> int:
+    return self._lives
+
+  def set_lives(self, lives: int) -> None:
+    self._lives = lives
+
+  def get_name(self) -> None:
+    return self._name

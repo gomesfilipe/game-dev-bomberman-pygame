@@ -14,6 +14,8 @@ class ScoreDisplay(Display):
     max_lives: int,
     player1_sprites: PlayerSprites,
     player2_sprites: PlayerSprites,
+    player1_name: str,
+    player2_name: str,
   ) -> None:
     super().__init__(screen)
 
@@ -21,6 +23,8 @@ class ScoreDisplay(Display):
     self._max_lives = max_lives
     self._player1_sprites = player1_sprites
     self._player2_sprites = player2_sprites
+    self._player1_name = player1_name
+    self._player2_name = player2_name
 
   def start(self) -> None:
     self._time_spent: int = 0
@@ -48,18 +52,25 @@ class ScoreDisplay(Display):
   def width(self) -> float:
     return self._screen.get_width()
 
-  def handle_event(self, event: int) -> None:
+  def handle_event(self, event: pygame.event.Event) -> None:
     handlers = {
-      EventEnum.COLLISION.value: self.__handle_colision_event
+      EventEnum.LIFE_POWER_COLLECTED.value: lambda: self.__handle_life_power_collected_event(event)
     }
 
-    handlers[event]()
+    handlers[event.type]()
 
-  def __handle_colision_event(self) -> None:
-    self._score += 1
+  def __handle_life_power_collected_event(self, event: pygame.event.Event) -> None:
+    if self._player1_name == event.player_name:
+      self._player1_lives += 1
+    elif self._player2_name == event.player_name:
+      self._player2_lives += 1
+    else:
+      print('warning: inexistent player name in __handle_life_power_collected_event')
 
   def interested_events(self) -> List[int]:
-    return [EventEnum.COLLISION.value]
+    return [
+      EventEnum.LIFE_POWER_COLLECTED.value,
+    ]
 
   def __update_background_rect(self) -> None:
     pygame.draw.rect(self._screen, 'black', (0, 0, self.width(), self.height()))
