@@ -112,38 +112,46 @@ class PlayerGameObject(GameObject):
     handlers[layer]()
 
   def __handle_block_layer(self, other: GameObject) -> None:
-    other_l: float = other._sprites._hitbox.get_height()
-    self_l: float = self._sprites._hitbox.get_height()
-
-    other_x_center = other._x + other_l / 2
-    other_y_center = other._y + other_l / 2
+    self_l: float = self._sprites._hitbox.get_width()
+    self_h: float = self._sprites._hitbox.get_height()
 
     closest_point, distance = self.__closest_point(other)
 
-    if distance < self._alpha * self_l:
+    if distance < self._alpha * self_l: # Corrige a posição de self
       closest_x, closest_y = closest_point
-      self._x = closest_x - other_l / 2
-      self._y = closest_y - other_l / 2
-    else:
+
+      self._previous_x = self._x
+      self._previous_y = self._y
+
+      self._x = closest_x - self_l / 2
+      self._y = closest_y - self_h / 2
+    else: # Volta para a posição anterior
       self._x = self._previous_x
       self._y = self._previous_y
 
-
+  # Pega os quatro pontos centrais da hitbox de self e identifica
+  # o mais próximo e a distância.
   def __closest_point(self, other: GameObject) -> Tuple[Tuple[float, float], float]:
-    other_l: float = other._sprites._hitbox.get_height()
-    self_l: float = self._sprites._hitbox.get_height()
+    other_l: float = other._sprites._hitbox.get_width()
+    other_h: float = other._sprites._hitbox.get_height()
+
+    self_l: float = self._sprites._hitbox.get_width()
+    self_h: float = self._sprites._hitbox.get_height()
 
     other_x_center = other._x + other_l / 2
-    other_y_center = other._y + other_l / 2
+    other_y_center = other._y + other_h / 2
 
     self_x_center = self._x + self_l / 2
-    self_y_center = self._y + self_l / 2
+    self_y_center = self._y + other_h / 2
+
+    dx = (other_l + self_l) / 2
+    dy = (other_h + self_h) / 2
 
     points: List[Tuple[int, int]] = [
-      (other_x_center - other_l, other_y_center - other_l),
-      (other_x_center + other_l, other_y_center - other_l),
-      (other_x_center - other_l, other_y_center + other_l),
-      (other_x_center + other_l, other_y_center + other_l),
+      (other_x_center - dx, other_y_center - dy),
+      (other_x_center + dx, other_y_center - dy),
+      (other_x_center - dx, other_y_center + dy),
+      (other_x_center + dx, other_y_center + dy),
     ]
 
     minn = float('inf')
