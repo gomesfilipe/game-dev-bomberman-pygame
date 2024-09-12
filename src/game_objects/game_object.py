@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Tuple, Optional, Callable, List
+from typing import Dict, Tuple, Optional, Callable, List, Type, Any
 from src.scenes.scene import Scene
-from src.utils.player_commands import PlayerCommands
+from src.enums.event_enum import EventEnum
 from src.sprites.sprites import Sprites
 import pygame
 
@@ -82,3 +82,11 @@ class GameObject(ABC):
 
   def switch_debug_mode(self) -> None:
     self._debug = not self._debug
+
+  def instantiate(self, game_object_class: Type['GameObject'], **params: Dict[str, Any]) -> 'GameObject':
+    game_object = game_object_class(**params)
+    EventEnum.NEW_GAME_OBJECT.post_event(game_object = game_object)
+    return game_object
+
+  def destroy(self) -> None:
+    EventEnum.DESTROY_GAME_OBJECT.post_event(game_object = self)
