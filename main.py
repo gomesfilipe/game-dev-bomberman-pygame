@@ -51,7 +51,7 @@ if __name__ == '__main__':
     (PLAYER_WIDTH, PLAYER_HEIGHT),
   )
 
-  block_sprites = BlockSprites(join('assets', 'blocks', 'block.png'), (BLOCK_SIZE, BLOCK_SIZE))
+  block_sprites = BlockSprites(join('assets', 'blocks', 'block_2.png'), (BLOCK_SIZE, BLOCK_SIZE))
 
   screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
   display = ScoreDisplay(screen, GAME_DURATION, PLAYER_MAX_LIVES, player1_sprites, player2_sprites)
