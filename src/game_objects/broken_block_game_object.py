@@ -1,7 +1,7 @@
 from typing import List
 from src.game_objects.game_object import GameObject
 from src.game_objects.block_game_object import BlockGameObject
-from src.sprites.block_sprites import BlockSprites
+from src.sprites.block_sprites import SimpleSprite
 from src.scenes.scene import Scene
 from typing import Dict, Callable
 import pygame
@@ -9,7 +9,7 @@ import pygame
 class BrokenBlockGameObject(BlockGameObject):
   def __init__(
       self,
-      sprites: BlockSprites,
+      sprites: SimpleSprite,
       scene: Scene,
       x: float,
       y: float,

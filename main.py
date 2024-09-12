@@ -7,7 +7,7 @@ from src.displays.score_display import ScoreDisplay
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.utils.player_commands import PlayerCommands
 from src.sprites.player_sprites import PlayerSprites
-from src.sprites.block_sprites import BlockSprites
+from src.sprites.block_sprites import SimpleSprite
 from os.path import join
 from typing import Tuple, List
 import pygame
@@ -104,8 +104,8 @@ if __name__ == '__main__':
     (PLAYER_WIDTH, PLAYER_HEIGHT),
   )
 
-  block_sprites = BlockSprites(join('assets', 'blocks', 'block_2.png'), (BLOCK_SIZE, BLOCK_SIZE))
-  broken_block_sprites = BlockSprites(join('assets', 'blocks', 'hay_block.png'), (BLOCK_SIZE, BLOCK_SIZE))
+  block_sprites = SimpleSprite(join('assets', 'blocks', 'block_2.png'), (BLOCK_SIZE, BLOCK_SIZE))
+  broken_block_sprites = SimpleSprite(join('assets', 'blocks', 'hay_block.png'), (BLOCK_SIZE, BLOCK_SIZE))
 
   screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
   display = ScoreDisplay(screen, GAME_DURATION, PLAYER_MAX_LIVES, player1_sprites, player2_sprites)
