@@ -109,7 +109,8 @@ class PlayerGameObject(GameObject):
       'player2_collision': lambda: self.__handle_block_layer(other),
     }
 
-    handlers[layer]()
+    if layer in handlers:
+      handlers[layer]()
 
   def __handle_block_layer(self, other: GameObject) -> None:
     self_l: float = self._sprites._hitbox.get_width()

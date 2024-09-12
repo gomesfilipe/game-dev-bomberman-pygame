@@ -2,6 +2,7 @@ from src.games.bomberman_game import BombermanGame
 from src.scenes.main_scene import MainScene
 from src.game_objects.player_game_object import PlayerGameObject
 from src.game_objects.block_game_object import BlockGameObject
+from src.game_objects.broken_block_game_object import BrokenBlockGameObject
 from src.displays.score_display import ScoreDisplay
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.utils.player_commands import PlayerCommands
@@ -10,6 +11,58 @@ from src.sprites.block_sprites import BlockSprites
 from os.path import join
 from typing import Tuple, List
 import pygame
+
+def create_blocks() -> List[BlockGameObject]:
+  blocks: List[BlockGameObject] = []
+
+  l = block_sprites.width()
+  h = block_sprites.height()
+
+  i: int = 1
+  while (i + 1) * h + display.height() < scene.get_screen().get_height():
+    j: int = 1
+    while (j + 1) * l < scene.get_screen().get_width():
+      blocks.append(
+        BlockGameObject(
+          block_sprites,
+          scene,
+          j * h,
+          i * l + display.height(),
+          BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
+          layers = ['player1_collision', 'player2_collision'],
+        )
+      )
+
+      j += 2
+    i += 2
+
+  return blocks
+
+def create_broken_blocks() -> List[BrokenBlockGameObject]:
+  broken_blocks: List[BrokenBlockGameObject] = []
+
+  l = broken_block_sprites.width()
+  h = broken_block_sprites.height()
+
+  i: int = 2
+  while (i + 1) * h + display.height() < scene.get_screen().get_height():
+    j: int = 2
+    while (j + 1) * l < scene.get_screen().get_width():
+      broken_blocks.append(
+        BrokenBlockGameObject(
+          broken_block_sprites,
+          scene,
+          j * h,
+          i * l + display.height(),
+          BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
+          layers = ['player1_broken_block', 'player2_broken_block'],
+        )
+      )
+
+      j += 2
+    i += 2
+
+  return broken_blocks
 
 if __name__ == '__main__':
   PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.PIG
@@ -52,6 +105,7 @@ if __name__ == '__main__':
   )
 
   block_sprites = BlockSprites(join('assets', 'blocks', 'block_2.png'), (BLOCK_SIZE, BLOCK_SIZE))
+  broken_block_sprites = BlockSprites(join('assets', 'blocks', 'hay_block.png'), (BLOCK_SIZE, BLOCK_SIZE))
 
   screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
   display = ScoreDisplay(screen, GAME_DURATION, PLAYER_MAX_LIVES, player1_sprites, player2_sprites)
@@ -68,7 +122,7 @@ if __name__ == '__main__':
     0,
     DISPLAY_HEIGHT,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
-    layers = ['player1_collision'],
+    layers = ['player1_collision', 'player1_broken_block'],
   )
 
   player2 = PlayerGameObject(
@@ -82,32 +136,14 @@ if __name__ == '__main__':
     SCREEN_WIDTH - PLAYER_WIDTH / 2,
     SCREEN_HEIGHT - PLAYER_HEIGHT / 2,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
-    layers = ['player2_collision'],
+    layers = ['player2_collision', 'player2_broken_block'],
   )
 
-  blocks: List[BlockGameObject] = []
+  blocks = create_blocks()
 
-  l = block_sprites.width()
-  h = block_sprites.height()
+  broken_blocks = create_broken_blocks()
 
-  i: int = 1
-  while (i + 1) * h + display.height() < scene.get_screen().get_height():
-    j: int = 1
-    while (j + 1) * l < scene.get_screen().get_width():
-      blocks.append(
-        BlockGameObject(
-          block_sprites,
-          scene,
-          j * h,
-          i * l + display.height(),
-          BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
-          layers = ['player1_collision', 'player2_collision'],
-        )
-      )
-
-      j += 2
-    i += 2
-  game_objects = [player1, player2] + blocks
+  game_objects = [player1, player2] + blocks + broken_blocks
 
   # observers = [display]
 
