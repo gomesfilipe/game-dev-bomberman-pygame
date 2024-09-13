@@ -50,6 +50,10 @@ class PlayerGameObject(GameObject):
     self._alpha = 0.45
 
   def update(self) -> None:
+    if self._lives <= 0:
+      self.destroy()
+      return
+
     self.__handle_pressed_keys()
 
   def __vertical_move(self, angle: int) -> None:
