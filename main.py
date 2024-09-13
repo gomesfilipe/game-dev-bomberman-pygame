@@ -111,7 +111,7 @@ if __name__ == '__main__':
     DISPLAY_HEIGHT,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
     PLAYER_1_NAME,
-    layers = ['player1_collision', 'player1_broken_block', 'player1_life_power'],
+    layers = ['player1_collision', 'player1_broken_block', 'player1_power'],
   )
 
   player2 = PlayerGameObject(
@@ -126,7 +126,7 @@ if __name__ == '__main__':
     SCREEN_HEIGHT - PLAYER_HEIGHT / 2,
     PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
     PLAYER_2_NAME,
-    layers = ['player2_collision', 'player2_broken_block', 'player2_life_power'],
+    layers = ['player2_collision', 'player2_broken_block', 'player2_power'],
   )
 
   blocks = create_blocks()

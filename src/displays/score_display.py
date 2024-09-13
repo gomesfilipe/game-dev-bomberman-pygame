@@ -54,7 +54,8 @@ class ScoreDisplay(Display):
 
   def handle_event(self, event: pygame.event.Event) -> None:
     handlers = {
-      EventEnum.LIFE_POWER_COLLECTED.value: lambda: self.__handle_life_power_collected_event(event)
+      EventEnum.LIFE_POWER_COLLECTED.value: lambda: self.__handle_life_power_collected_event(event),
+      EventEnum.SKULL_POWER_COLLECTED.value: lambda: self.__handle_skull_power_collected_event(event),
     }
 
     handlers[event.type]()
@@ -66,10 +67,19 @@ class ScoreDisplay(Display):
       self._player2_lives += 1
     else:
       print('warning: inexistent player name in __handle_life_power_collected_event')
+  
+  def __handle_skull_power_collected_event(self, event: pygame.event.Event) -> None:
+    if self._player1_name == event.player_name:
+      self._player1_lives -= 1
+    elif self._player2_name == event.player_name:
+      self._player2_lives -= 1
+    else:
+      print('warning: inexistent player name in __handle_death_power_collected_event')
 
   def interested_events(self) -> List[int]:
     return [
       EventEnum.LIFE_POWER_COLLECTED.value,
+      EventEnum.SKULL_POWER_COLLECTED.value,
     ]
 
   def __update_background_rect(self) -> None:

@@ -35,7 +35,6 @@ class PowerGameObject(GameObject):
   @abstractmethod
   def _define_sprites(self) -> SimpleSprite:
     pass
-
-  @abstractmethod
+  
   def _define_layers(self) -> List[str]:
-    pass
+    return ['player1_power', 'player2_power']

@@ -7,7 +7,7 @@ from src.scenes.scene import Scene
 from os.path import join
 from src.enums.event_enum import EventEnum
 
-class LifePowerGameObject(PowerGameObject):
+class SkullPowerGameObject(PowerGameObject):
   def __init__(
       self,
       scene: Scene,
@@ -19,17 +19,17 @@ class LifePowerGameObject(PowerGameObject):
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     handlers: Dict[str, Callable] = {
-      'player1_power': lambda: self.__handle_life_power_layer(other),
-      'player2_power': lambda: self.__handle_life_power_layer(other),
+      'player1_power': lambda: self.__handle_power_layer(other),
+      'player2_power': lambda: self.__handle_power_layer(other),
     }
     if layer in handlers:
       handlers[layer]()
 
   def _define_sprites(self) -> SimpleSprite:
-    return SimpleSprite(join('assets', 'powers', 'life_power.png'), self._size)
+    return SimpleSprite(join('assets', 'powers', 'skull_power.png'), self._size)
 
-  def __handle_life_power_layer(self, other: PlayerGameObject) -> None:
-    other.set_lives(other.get_lives() + 1)
+  def __handle_power_layer(self, other: PlayerGameObject) -> None:
+    other.set_lives(other.get_lives() - 1)
     player_name = other.get_name()
     self.destroy()
-    EventEnum.LIFE_POWER_COLLECTED.post_event(player_name = player_name)
+    EventEnum.SKULL_POWER_COLLECTED.post_event(player_name = player_name)
