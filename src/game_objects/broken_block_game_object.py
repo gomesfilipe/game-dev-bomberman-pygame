@@ -5,10 +5,11 @@ from src.game_objects.life_power_game_object import LifePowerGameObject
 from src.game_objects.skull_power_game_object import SkullPowerGameObject
 from src.game_objects.block_game_object import BlockGameObject
 from src.sprites.block_sprites import SimpleSprite
-from src.scenes.scene import Scene
+from src.displays.display import Display
 from typing import Dict, Callable
 import random
 from config import PROBABILITY_SPAWN_POWER
+import pygame
 
 class BrokenBlockGameObject(BlockGameObject):
   POWERS: List[Type[PowerGameObject]] = [
@@ -18,14 +19,15 @@ class BrokenBlockGameObject(BlockGameObject):
 
   def __init__(
       self,
+      screen: pygame.Surface,
+      display: Display,
       sprites: SimpleSprite,
-      scene: Scene,
       x: float,
       y: float,
       order_in_layer: int,
       layers: List[str] = [],
     ) -> None:
-    super().__init__(sprites, scene, x, y, order_in_layer, layers)
+    super().__init__(screen, display, sprites, x, y, order_in_layer, layers)
     self._spawn_probability = PROBABILITY_SPAWN_POWER
 
   def on_collide(self, other: GameObject, layer: str) -> None:
@@ -43,11 +45,11 @@ class BrokenBlockGameObject(BlockGameObject):
 
       self.instantiate(
         power_class,
-        scene = self._scene,
+        screen = self._screen,
+        display = self._display,
         x = self._x + self._sprites.width() / 4,
         y = self._y + self._sprites.height() / 4,
         size = (self._sprites.width() / 2, self._sprites.height() / 2),
       )
 
     self.destroy()
-

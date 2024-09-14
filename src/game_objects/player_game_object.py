@@ -9,12 +9,13 @@ from src.utils.utils import lerp, distance_from_points
 from src.scenes.scene import Scene
 import time
 import pygame
-
+from src.displays.display import Display
 class PlayerGameObject(GameObject):
   def __init__(
       self,
+      screen: pygame.Surface,
+      display: Display,
       sprites: PlayerSprites,
-      scene: Scene,
       delta_time: int,
       velocity: float,
       commands: PlayerCommands,
@@ -26,7 +27,7 @@ class PlayerGameObject(GameObject):
       name: str,
       layers: List[str] = [],
     ) -> None:
-    super().__init__(sprites, scene, x, y, order_in_layer, layers)
+    super().__init__(screen, display, sprites, x, y, order_in_layer, layers)
     self._sprites = sprites
     self._delta_time = delta_time
     self._velocity = velocity
@@ -57,19 +58,16 @@ class PlayerGameObject(GameObject):
     self.__handle_pressed_keys()
 
   def __vertical_move(self, angle: int) -> None:
-    screen = self._scene.get_screen()
-    display = self._scene.get_display()
     self._theta = math.radians(angle)
     self._vy = self._velocity * math.sin(self._theta)
     self._previous_y = self._y
-    self._y = lerp(self._y + self._vy * self._delta_time, display.height(), screen.get_height() - self._sprites._hitbox.get_height())
+    self._y = lerp(self._y + self._vy * self._delta_time, self._display.height(), self._screen.get_height() - self._sprites._hitbox.get_height())
 
   def __horizontal_move(self, angle: int) -> None:
-    screen = self._scene.get_screen()
     self._theta = math.radians(angle)
     self._vx = self._velocity * math.cos(self._theta)
     self._previous_x = self._x
-    self._x = lerp(self._x + self._vx * self._delta_time, 0, screen.get_width() - self._sprites._hitbox.get_width())
+    self._x = lerp(self._x + self._vx * self._delta_time, 0, self._screen.get_width() - self._sprites._hitbox.get_width())
 
   def __move_up(self) -> None:
     self.__vertical_move(-90)

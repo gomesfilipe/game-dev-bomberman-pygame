@@ -13,79 +13,24 @@ from typing import Tuple, List
 import pygame
 from config import *
 
-def create_blocks() -> List[BlockGameObject]:
-  blocks: List[BlockGameObject] = []
-
-  l = block_sprites.width()
-  h = block_sprites.height()
-
-  i: int = 1
-  while (i + 1) * h + display.height() < scene.get_screen().get_height():
-    j: int = 1
-    while (j + 1) * l < scene.get_screen().get_width():
-      blocks.append(
-        BlockGameObject(
-          block_sprites,
-          scene,
-          j * h,
-          i * l + display.height(),
-          BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
-          layers = ['player1_collision', 'player2_collision'],
-        )
-      )
-
-      j += 2
-    i += 2
-
-  return blocks
-
-def create_broken_blocks() -> List[BrokenBlockGameObject]:
-  broken_blocks: List[BrokenBlockGameObject] = []
-
-  l = broken_block_sprites.width()
-  h = broken_block_sprites.height()
-
-  i: int = 2
-  while (i + 1) * h + display.height() < scene.get_screen().get_height():
-    j: int = 2
-    while (j + 1) * l < scene.get_screen().get_width():
-      broken_blocks.append(
-        BrokenBlockGameObject(
-          broken_block_sprites,
-          scene,
-          j * h,
-          i * l + display.height(),
-          BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
-          layers = ['player1_broken_block', 'player2_broken_block'],
-        )
-      )
-
-      j += 2
-    i += 2
-
-  return broken_blocks
-
 if __name__ == '__main__':
   player1_sprites = PlayerSprites(
-    join(PLAYER_1_TYPE.rotation_assets_path(), '3 Back.png'),
-    join(PLAYER_1_TYPE.rotation_assets_path(), '2 Left.png'),
-    join(PLAYER_1_TYPE.rotation_assets_path(), '1 Front.png'),
-    join(PLAYER_1_TYPE.rotation_assets_path(), '4 Right.png'),
-    join(PLAYER_1_TYPE.face_assets_path(), 'face.png'),
-    (PLAYER_WIDTH, PLAYER_HEIGHT),
-  )
+      join(PLAYER_1_TYPE.rotation_assets_path(), '3 Back.png'),
+      join(PLAYER_1_TYPE.rotation_assets_path(), '2 Left.png'),
+      join(PLAYER_1_TYPE.rotation_assets_path(), '1 Front.png'),
+      join(PLAYER_1_TYPE.rotation_assets_path(), '4 Right.png'),
+      join(PLAYER_1_TYPE.face_assets_path(), 'face.png'),
+      (PLAYER_WIDTH, PLAYER_HEIGHT),
+    )
 
   player2_sprites = PlayerSprites(
-    join(PLAYER_2_TYPE.rotation_assets_path(), '3 Back.png'),
-    join(PLAYER_2_TYPE.rotation_assets_path(), '2 Left.png'),
-    join(PLAYER_2_TYPE.rotation_assets_path(), '1 Front.png'),
-    join(PLAYER_2_TYPE.rotation_assets_path(), '4 Right.png'),
-    join(PLAYER_2_TYPE.face_assets_path(), 'face.png'),
-    (PLAYER_WIDTH, PLAYER_HEIGHT),
-  )
-
-  block_sprites = SimpleSprite(join('assets', 'blocks', 'block_2.png'), (BLOCK_SIZE, BLOCK_SIZE))
-  broken_block_sprites = SimpleSprite(join('assets', 'blocks', 'hay_block.png'), (BLOCK_SIZE, BLOCK_SIZE))
+      join(PLAYER_2_TYPE.rotation_assets_path(), '3 Back.png'),
+      join(PLAYER_2_TYPE.rotation_assets_path(), '2 Left.png'),
+      join(PLAYER_2_TYPE.rotation_assets_path(), '1 Front.png'),
+      join(PLAYER_2_TYPE.rotation_assets_path(), '4 Right.png'),
+      join(PLAYER_2_TYPE.face_assets_path(), 'face.png'),
+      (PLAYER_WIDTH, PLAYER_HEIGHT),
+    )
 
   screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
   display = ScoreDisplay(
@@ -99,47 +44,10 @@ if __name__ == '__main__':
   )
   scene = MainScene(screen, display)
 
-  player1 = PlayerGameObject(
-    player1_sprites,
-    scene,
-    PLAYER_DELTA_TIME,
-    PLAYER_VELOCITY,
-    PlayerCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
-    PLAYER_1_TYPE,
-    PLAYER_MAX_LIVES,
-    0,
-    DISPLAY_HEIGHT,
-    PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
-    PLAYER_1_NAME,
-    layers = ['player1_collision', 'player1_broken_block', 'player1_power'],
-  )
-
-  player2 = PlayerGameObject(
-    player2_sprites,
-    scene,
-    PLAYER_DELTA_TIME,
-    PLAYER_VELOCITY,
-    PlayerCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
-    PLAYER_2_TYPE,
-    PLAYER_MAX_LIVES,
-    SCREEN_WIDTH - PLAYER_WIDTH / 2,
-    SCREEN_HEIGHT - PLAYER_HEIGHT / 2,
-    PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
-    PLAYER_2_NAME,
-    layers = ['player2_collision', 'player2_broken_block', 'player2_power'],
-  )
-
-  blocks = create_blocks()
-
-  broken_blocks = create_broken_blocks()
-
-  game_objects = [player1, player2] + blocks + broken_blocks
-
   observers = [display]
 
   game = BombermanGame(
     scene,
-    game_objects,
     GAME_DURATION,
     observers = observers,
   )

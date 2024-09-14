@@ -3,19 +3,21 @@ from src.game_objects.game_object import GameObject
 from src.game_objects.player_game_object import PlayerGameObject
 from src.game_objects.power_game_object import PowerGameObject
 from src.sprites.block_sprites import SimpleSprite
-from src.scenes.scene import Scene
 from os.path import join
 from src.enums.event_enum import EventEnum
+from src.displays.display import Display
+import pygame
 
 class LifePowerGameObject(PowerGameObject):
   def __init__(
       self,
-      scene: Scene,
+      screen: pygame.Surface,
+      display: Display,
       x: float,
       y: float,
       size: Tuple[int, int],
     ) -> None:
-    super().__init__(scene, x, y, size)
+    super().__init__(screen, display, x, y, size)
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     handlers: Dict[str, Callable] = {

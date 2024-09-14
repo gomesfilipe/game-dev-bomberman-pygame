@@ -1,22 +1,24 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Tuple, Optional, Callable, List, Type, Any
-from src.scenes.scene import Scene
 from src.enums.event_enum import EventEnum
 from src.sprites.sprites import Sprites
+from src.displays.display import Display
 import pygame
 
 class GameObject(ABC):
   def __init__(
       self,
+      screen: pygame.Surface,
+      display: Display,
       sprites: Sprites,
-      scene: Scene,
       x: float,
       y: float,
       order_in_layer: int,
       layers: List[str] = [],
   ) -> None:
+    self._screen = screen
+    self._display = display
     self._sprites = sprites
-    self._scene = scene
     self._order_in_layer = order_in_layer
     self._layers = layers
     self._x = x
@@ -42,20 +44,17 @@ class GameObject(ABC):
   def update(self) -> None:
     pass
 
-  def update_scene(self) -> None:
+  def draw(self) -> None:
     x, y = self._sprites.sprites_position(self._x, self._y)
-
-    screen = self._scene.get_screen()
-    screen.blit(self._current_sprite, (x, y))
+    self._screen.blit(self._current_sprite, (x, y))
 
     if self._debug:
       self._show_hitbox()
 
   def _show_hitbox(self) -> None:
     sprite_x, sprite_y = self._sprites.sprites_position(self._x, self._y)
-    screen = self._scene.get_screen()
-    pygame.draw.rect(screen, 'blue', self._current_sprite.get_rect(x = sprite_x, y = sprite_y), 2)
-    pygame.draw.rect(screen, (255, 0, 0), self._sprites._hitbox.get_rect(x = self._x, y = self._y), 2)
+    pygame.draw.rect(self._screen, 'blue', self._current_sprite.get_rect(x = sprite_x, y = sprite_y), 2)
+    pygame.draw.rect(self._screen, (255, 0, 0), self._sprites._hitbox.get_rect(x = self._x, y = self._y), 2)
 
   @abstractmethod
   def on_collide(self, other: 'GameObject', layer: str) -> None:

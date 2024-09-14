@@ -5,11 +5,13 @@ from src.sprites.block_sprites import SimpleSprite
 from src.scenes.scene import Scene
 import pygame
 from config import POWER_GAME_OBJECT_ORDER_IN_LAYER
+from src.displays.display import Display
 
 class PowerGameObject(GameObject):
   def __init__(
       self,
-      scene: Scene,
+      screen: pygame.Surface,
+      display: Display,
       x: float,
       y: float,
       size: Tuple[int, int],
@@ -19,7 +21,7 @@ class PowerGameObject(GameObject):
     sprites = self._define_sprites()
     layers = self._define_layers()
 
-    super().__init__(sprites, scene, x, y, order_in_layer, layers)
+    super().__init__(screen, display, sprites, x, y, order_in_layer, layers)
     self._sprites = sprites
 
   @GameObject._start_decorator
@@ -35,6 +37,6 @@ class PowerGameObject(GameObject):
   @abstractmethod
   def _define_sprites(self) -> SimpleSprite:
     pass
-  
+
   def _define_layers(self) -> List[str]:
     return ['player1_power', 'player2_power']
