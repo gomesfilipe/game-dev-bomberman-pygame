@@ -1,11 +1,12 @@
-from abc import ABC, abstractmethod
+from src.core.base_object import BaseObject
+from abc import abstractmethod
 from typing import Dict, Tuple, Optional, Callable, List, Type, Any
 from src.enums.event_enum import EventEnum
 from src.core.sprites import Sprites
 from src.core.display import Display
 import pygame
 
-class GameObject(ABC):
+class GameObject(BaseObject):
   def __init__(
       self,
       screen: pygame.Surface,
@@ -36,15 +37,7 @@ class GameObject(ABC):
 
     return initialize_sprites
 
-  @abstractmethod
-  def start(self) -> None:
-    pass
-
-  @abstractmethod
-  def update(self) -> None:
-    pass
-
-  def draw(self) -> None:
+  def draw(self, screen: pygame.Surface) -> None:
     x, y = self._sprites.sprites_position(self._x, self._y)
     self._screen.blit(self._current_sprite, (x, y))
 
@@ -90,3 +83,6 @@ class GameObject(ABC):
 
   def destroy(self) -> None:
     EventEnum.DESTROY_GAME_OBJECT.post_event(game_object = self)
+
+  def fixed_update(self) -> None:
+    return

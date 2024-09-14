@@ -38,19 +38,16 @@ class ScoreDisplay(Display):
     self._start_time: int = int(time.time())
     self._remaining_time: int = self._duration
 
-  def update(self) -> None:
-    self.__update_background_rect()
-    self.__update_player1_image()
-    self.__update_player2_image()
-    self.__update_remainig_time()
-    self.__update_player1_lives()
-    self.__update_player2_lives()
+  def draw(self, screen: pygame.Surface) -> None:
+    self.__draw_background_rect(screen)
+    self.__draw_player1_image(screen)
+    self.__draw_player2_image(screen)
+    self.__draw_remainig_time(screen)
+    self.__draw_player1_lives(screen)
+    self.__draw_player2_lives(screen)
 
   def height(self) -> float:
     return 80.0
-
-  def width(self) -> float:
-    return self._screen.get_width()
 
   def handle_event(self, event: pygame.event.Event) -> None:
     handlers = {
@@ -67,7 +64,7 @@ class ScoreDisplay(Display):
       self._player2_lives += 1
     else:
       print('warning: inexistent player name in __handle_life_power_collected_event')
-  
+
   def __handle_skull_power_collected_event(self, event: pygame.event.Event) -> None:
     if self._player1_name == event.player_name:
       self._player1_lives -= 1
@@ -82,37 +79,37 @@ class ScoreDisplay(Display):
       EventEnum.SKULL_POWER_COLLECTED.value,
     ]
 
-  def __update_background_rect(self) -> None:
-    pygame.draw.rect(self._screen, 'black', (0, 0, self.width(), self.height()))
+  def __draw_background_rect(self, screen: pygame.Surface) -> None:
+    pygame.draw.rect(screen, 'black', (0, 0, self.width(), self.height()))
 
-  def __update_player1_image(self) -> None:
+  def __draw_player1_image(self, screen: pygame.Surface) -> None:
     player1_image = self._player1_sprites.face()
     x = (self.height() - player1_image.get_height()) / 2
-    self._screen.blit(player1_image, (x, x))
+    screen.blit(player1_image, (x, x))
 
-  def __update_player2_image(self) -> None:
+  def __draw_player2_image(self, screen: pygame.Surface) -> None:
     player2_image = self._player2_sprites.face()
     y = (self.height() - player2_image.get_height()) / 2
     x = self.width() - y - player2_image.get_width()
-    self._screen.blit(player2_image, (x, y))
+    screen.blit(player2_image, (x, y))
 
-  def __update_remainig_time(self) -> None:
+  def __draw_remainig_time(self, screen: pygame.Surface) -> None:
     self._time_spent = int(time.time() - self._start_time)
     self._remaining_time = max(self._duration - self._time_spent, 0)
 
     remaining_time_image = self._font.render(f'{format_seconds_to_min_sec(self._remaining_time)}', True, (255, 255, 255))
     x = (self.width() - remaining_time_image.get_width()) / 2
     y = (self.height() - remaining_time_image.get_height()) / 2
-    self._screen.blit(remaining_time_image, (x, y))
+    screen.blit(remaining_time_image, (x, y))
 
-  def __update_player1_lives(self) -> None:
+  def __draw_player1_lives(self, screen: pygame.Surface) -> None:
     player1_lives_image = self._font.render(str(self._player1_lives), True, (255, 255, 255))
     x = self.height()
     y = (self.height() - player1_lives_image.get_height()) / 2
-    self._screen.blit(player1_lives_image, (x, y))
+    screen.blit(player1_lives_image, (x, y))
 
-  def __update_player2_lives(self) -> None:
+  def __draw_player2_lives(self, screen: pygame.Surface) -> None:
     player2_lives_image = self._font.render(str(self._player2_lives), True, (255, 255, 255))
     x = self.width() - self.height() - player2_lives_image.get_width()
     y = (self.height() - player2_lives_image.get_height()) / 2
-    self._screen.blit(player2_lives_image, (x, y))
+    screen.blit(player2_lives_image, (x, y))

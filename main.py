@@ -42,7 +42,7 @@ if __name__ == '__main__':
     PLAYER_1_NAME,
     PLAYER_2_NAME,
   )
-  scene = MainScene(screen, display)
+  scene = MainScene(screen, display, 'wheat3')
 
   observers = [display]
 

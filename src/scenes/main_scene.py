@@ -12,10 +12,15 @@ from src.game_objects.broken_block_game_object import BrokenBlockGameObject
 from src.utils.player_commands import PlayerCommands
 
 class MainScene(Scene):
-  def __init__(self, screen: pygame.Surface, display: Optional[Display] = None) -> None:
-    super().__init__(screen, display)
+  def __init__(
+      self,
+      screen: pygame.Surface,
+      display: Optional[Display] = None,
+      background_color: str = 'white',
+  ) -> None:
+    super().__init__(screen, display, background_color)
 
-  def start_scene(self) -> None:
+  def start(self) -> None:
     if self._display is not None:
       self._display.start()
 

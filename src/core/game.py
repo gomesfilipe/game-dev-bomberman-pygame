@@ -65,20 +65,15 @@ class Game(ObserverInterface):
 
     while not self._should_stop():
       self.__handle_events()
-      self.__update_scenes()
+      self._scene.update()
+      self._scene.draw(self._scene.get_screen())
 
     pygame.quit()
 
   def __start(self) -> None:
     pygame.init()
-    self._scene.start_scene()
+    self._scene.start()
 
   def __handle_events(self) -> None:
     for event in pygame.event.get():
       self._handle_event(event)
-
-  def __update_scenes(self) -> None:
-    self._scene.get_screen().fill('wheat3')
-    self._scene.update_scene()
-
-    pygame.display.flip()

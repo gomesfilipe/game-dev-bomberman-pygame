@@ -1,11 +1,13 @@
 
+from src.core.base_object import BaseObject
 from typing import List, Type, Dict, Callable, Tuple
 from src.core.game_object import GameObject
 from src.enums.event_enum import EventEnum
 import random
 import time
+import pygame
 
-class GameObjectManager:
+class GameObjectManager(BaseObject):
   def __init__(self):
     self._game_objects: List[GameObject] = []
     self._collider_groups = self._build_collider_groups()
@@ -59,13 +61,13 @@ class GameObjectManager:
 
     self.__handle_collisions()
 
-  # def fixed_update(self):
-  #   for game_object in self._game_objects:
-  #     game_object.fixed_update()
-
-  def draw(self):
+  def fixed_update(self) -> None:
     for game_object in self._game_objects:
-      game_object.draw()
+      game_object.fixed_update()
+
+  def draw(self, screen: pygame.Surface) -> None:
+    for game_object in self._game_objects:
+      game_object.draw(screen)
 
   def _build_collider_groups(self) -> Dict[str, List[GameObject]]:
     collider_groups: Dict[str, List[GameObject]] = {}
