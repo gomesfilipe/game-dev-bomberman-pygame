@@ -5,6 +5,7 @@ from src.sprites.block_sprites import SimpleSprite
 import pygame
 from config import POWER_GAME_OBJECT_ORDER_IN_LAYER
 from src.core.display import Display
+from src.components.sprite_renderer_component import SpriteRendererComponent
 
 class PowerGameObject(GameObject):
   def __init__(
@@ -25,6 +26,7 @@ class PowerGameObject(GameObject):
 
   @GameObject._start_decorator
   def start(self) -> None:
+    self._component_manager.add(SpriteRendererComponent, self)
     self._current_sprite: pygame.Surface = self._sprites.idle()
 
   def update(self) -> None:

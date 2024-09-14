@@ -2,6 +2,7 @@ from typing import List
 from src.core.game_object import GameObject
 from src.sprites.block_sprites import SimpleSprite
 from src.core.display import Display
+from src.components.sprite_renderer_component import SpriteRendererComponent
 import pygame
 
 class BlockGameObject(GameObject):
@@ -20,6 +21,7 @@ class BlockGameObject(GameObject):
 
   @GameObject._start_decorator
   def start(self) -> None:
+    self._component_manager.add(SpriteRendererComponent, self)
     self._current_sprite: pygame.Surface = self._sprites.idle()
 
   def update(self) -> None:

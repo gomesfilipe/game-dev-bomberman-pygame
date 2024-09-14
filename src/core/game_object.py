@@ -1,9 +1,14 @@
 from src.core.base_object import BaseObject
+
+class GameObject(BaseObject):
+  pass
+
 from abc import abstractmethod
 from typing import Dict, Tuple, Optional, Callable, List, Type, Any
 from src.enums.event_enum import EventEnum
 from src.core.sprites import Sprites
 from src.core.display import Display
+from src.core.component_manager import ComponentManager
 import pygame
 
 class GameObject(BaseObject):
@@ -26,6 +31,7 @@ class GameObject(BaseObject):
     self._y = y
     self._debug = False
 
+    self._component_manager = ComponentManager(self)
     self._current_sprite: Optional[pygame.Surface] = None
     self._images: Dict[str, pygame.Surface] = {}
 
@@ -38,16 +44,12 @@ class GameObject(BaseObject):
     return initialize_sprites
 
   def draw(self, screen: pygame.Surface) -> None:
-    x, y = self._sprites.sprites_position(self._x, self._y)
-    self._screen.blit(self._current_sprite, (x, y))
+    self._component_manager.draw(screen)
 
-    if self._debug:
-      self._show_hitbox()
-
-  def _show_hitbox(self) -> None:
+  def _show_hitbox(self, screen: pygame.Surface) -> None:
     sprite_x, sprite_y = self._sprites.sprites_position(self._x, self._y)
-    pygame.draw.rect(self._screen, 'blue', self._current_sprite.get_rect(x = sprite_x, y = sprite_y), 2)
-    pygame.draw.rect(self._screen, (255, 0, 0), self._sprites._hitbox.get_rect(x = self._x, y = self._y), 2)
+    pygame.draw.rect(screen, 'blue', self._current_sprite.get_rect(x = sprite_x, y = sprite_y), 2)
+    pygame.draw.rect(screen, (255, 0, 0), self._sprites._hitbox.get_rect(x = self._x, y = self._y), 2)
 
   @abstractmethod
   def on_collide(self, other: 'GameObject', layer: str) -> None:

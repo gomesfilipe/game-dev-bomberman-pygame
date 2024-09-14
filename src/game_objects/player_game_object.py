@@ -3,6 +3,7 @@ from src.core.game_object import GameObject
 from src.utils.player_commands import PlayerCommands
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.sprites.player_sprites import PlayerSprites
+from src.components.sprite_renderer_component import SpriteRendererComponent
 import math
 from typing import Tuple, Optional
 from src.utils.utils import lerp, distance_from_points
@@ -42,6 +43,8 @@ class PlayerGameObject(GameObject):
 
   @GameObject._start_decorator
   def start(self) -> None:
+    self._component_manager.add(SpriteRendererComponent, self)
+
     self._current_sprite = self._sprites.down()
     self._theta = 0.0
     self._previous_x = self._x
