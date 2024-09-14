@@ -9,7 +9,7 @@ from src.sprites.block_sprites import SimpleSprite
 from src.game_objects.player_game_object import PlayerGameObject
 from src.game_objects.block_game_object import BlockGameObject
 from src.game_objects.broken_block_game_object import BrokenBlockGameObject
-from src.utils.player_commands import PlayerCommands
+from src.utils.movement_commands import MovementCommands
 
 class MainScene(Scene):
   def __init__(
@@ -112,7 +112,7 @@ class MainScene(Scene):
       player1_sprites,
       PLAYER_DELTA_TIME,
       PLAYER_VELOCITY,
-      PlayerCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
+      MovementCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
       PLAYER_1_TYPE,
       PLAYER_MAX_LIVES,
       0,
@@ -138,7 +138,7 @@ class MainScene(Scene):
       player2_sprites,
       PLAYER_DELTA_TIME,
       PLAYER_VELOCITY,
-      PlayerCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
+      MovementCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
       PLAYER_2_TYPE,
       PLAYER_MAX_LIVES,
       SCREEN_WIDTH - PLAYER_WIDTH / 2,

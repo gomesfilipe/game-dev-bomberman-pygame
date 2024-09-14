@@ -1,4 +1,4 @@
-class PlayerCommands():
+class MovementCommands():
   def __init__(self, up: int, left: int, down: int, right: int) -> None:
     self.__up = up
     self.__left = left

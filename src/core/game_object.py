@@ -9,6 +9,8 @@ from src.enums.event_enum import EventEnum
 from src.core.sprites import Sprites
 from src.core.display import Display
 from src.core.component_manager import ComponentManager
+from src.utils.movement_commands import MovementCommands
+from src.enums.direction_enum import DirectionEnum
 import pygame
 
 class GameObject(BaseObject):
@@ -27,9 +29,19 @@ class GameObject(BaseObject):
     self._sprites = sprites
     self._order_in_layer = order_in_layer
     self._layers = layers
+    self._debug = False
+    self._commands: Optional[MovementCommands] = None
+
     self._x = x
     self._y = y
-    self._debug = False
+    self._theta: float = 0.0
+    self._previous_x = self._x
+    self._previous_y = self._y
+    self._velocity: float = 0.0
+    self._delta_time: float = 1
+    self._vx: float = 0.0
+    self._vy: float = 0.0
+    self._direction: DirectionEnum = DirectionEnum.DOWN
 
     self._component_manager = ComponentManager(self)
     self._current_sprite: Optional[pygame.Surface] = None
@@ -42,6 +54,13 @@ class GameObject(BaseObject):
       func(self)
 
     return initialize_sprites
+
+  def _update_decorator(func: Callable) -> None:
+    def update_components(self: 'GameObject') -> None:
+      self._component_manager.update()
+      func(self)
+
+    return update_components
 
   def draw(self, screen: pygame.Surface) -> None:
     self._component_manager.draw(screen)

@@ -5,7 +5,7 @@ from src.game_objects.block_game_object import BlockGameObject
 from src.game_objects.broken_block_game_object import BrokenBlockGameObject
 from src.displays.score_display import ScoreDisplay
 from src.enums.player_type_enum import PlayerTypeEnum
-from src.utils.player_commands import PlayerCommands
+from src.utils.movement_commands import MovementCommands
 from src.sprites.player_sprites import PlayerSprites
 from src.sprites.block_sprites import SimpleSprite
 from os.path import join

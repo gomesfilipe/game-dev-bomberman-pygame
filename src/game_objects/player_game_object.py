@@ -1,23 +1,25 @@
 from typing import Dict, Optional, Callable, List
 from src.core.game_object import GameObject
-from src.utils.player_commands import PlayerCommands
+from src.utils.movement_commands import MovementCommands
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.sprites.player_sprites import PlayerSprites
 from src.components.sprite_renderer_component import SpriteRendererComponent
+from src.components.movement_controller_component import MovementControllerComponent
 import math
 from typing import Tuple, Optional
 from src.utils.utils import lerp, distance_from_points
 import pygame
 from src.core.display import Display
+from src.enums.direction_enum import DirectionEnum
 class PlayerGameObject(GameObject):
   def __init__(
       self,
       screen: pygame.Surface,
       display: Display,
       sprites: PlayerSprites,
-      delta_time: int,
+      delta_time: float,
       velocity: float,
-      commands: PlayerCommands,
+      commands: MovementCommands,
       player_type: PlayerTypeEnum,
       lives: int,
       x: float,
@@ -35,71 +37,32 @@ class PlayerGameObject(GameObject):
     self._player_type = player_type
     self._name = name
 
-    self._key_handlers = self.__key_handlers()
-
-    self._theta: Optional[float] = None
-    self._vx: Optional[float] = None
-    self._vy: Optional[float] = None
-
   @GameObject._start_decorator
   def start(self) -> None:
     self._component_manager.add(SpriteRendererComponent, self)
+    self._component_manager.add(MovementControllerComponent, self)
 
-    self._current_sprite = self._sprites.down()
-    self._theta = 0.0
-    self._previous_x = self._x
-    self._previous_y = self._y
+    self._direction = DirectionEnum.DOWN
+    self._current_sprite = self.__sprite_by_direction()
     self._alpha = 0.45
 
+  @GameObject._update_decorator
   def update(self) -> None:
     if self._lives <= 0:
       self.destroy()
       return
 
-    self.__handle_pressed_keys()
+    self._current_sprite = self.__sprite_by_direction()
 
-  def __vertical_move(self, angle: int) -> None:
-    self._theta = math.radians(angle)
-    self._vy = self._velocity * math.sin(self._theta)
-    self._previous_y = self._y
-    self._y = lerp(self._y + self._vy * self._delta_time, self._display.height(), self._screen.get_height() - self._sprites._hitbox.get_height())
-
-  def __horizontal_move(self, angle: int) -> None:
-    self._theta = math.radians(angle)
-    self._vx = self._velocity * math.cos(self._theta)
-    self._previous_x = self._x
-    self._x = lerp(self._x + self._vx * self._delta_time, 0, self._screen.get_width() - self._sprites._hitbox.get_width())
-
-  def __move_up(self) -> None:
-    self.__vertical_move(-90)
-    self._current_sprite = self._sprites.up()
-
-  def __move_down(self) -> None:
-    self.__vertical_move(90)
-    self._current_sprite = self._sprites.down()
-
-  def __move_left(self) -> None:
-    self.__horizontal_move(-180)
-    self._current_sprite = self._sprites.left()
-
-  def __move_right(self) -> None:
-    self.__horizontal_move(0)
-    self._current_sprite = self._sprites.right()
-
-  def __key_handlers(self) -> Dict[str, Callable]:
-    return {
-      self._commands.up(): self.__move_up,
-      self._commands.down(): self.__move_down,
-      self._commands.left(): self.__move_left,
-      self._commands.right(): self.__move_right,
+  def __sprite_by_direction(self) -> pygame.Surface:
+    sprites = {
+      DirectionEnum.UP: lambda: self._sprites.up(),
+      DirectionEnum.LEFT: lambda: self._sprites.left(),
+      DirectionEnum.DOWN: lambda: self._sprites.down(),
+      DirectionEnum.RIGHT: lambda: self._sprites.right(),
     }
 
-  def __handle_pressed_keys(self) -> None:
-    pressed_keys = pygame.key.get_pressed()
-
-    for key, handler in self._key_handlers.items():
-      if pressed_keys[key]:
-        handler()
+    return sprites[self._direction]()
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     handlers: Dict[str, Callable] = {

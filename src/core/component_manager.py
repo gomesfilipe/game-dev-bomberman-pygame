@@ -29,7 +29,8 @@ class ComponentManager(BaseObject):
       component.start()
 
   def update(self):
-    return
+    for component in self._components:
+      component.update()
 
   def fixed_update(self) -> None:
     for component in self._components:
