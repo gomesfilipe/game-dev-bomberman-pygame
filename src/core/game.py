@@ -1,12 +1,8 @@
 import pygame
-from typing import Tuple, Optional, List, Dict, Callable
-from abc import ABC, abstractmethod
-from src.game_objects.game_object import GameObject
-from src.scenes.scene import Scene
+from typing import Optional, List, Dict, Callable
+from src.core.scene import Scene
 from src.interfaces.observer_interface import ObserverInterface
 from src.enums.event_enum import EventEnum
-import random
-import time
 
 class Game(ObserverInterface):
   def __init__(

@@ -1,7 +1,7 @@
 import pygame
-from src.games.game import Game
-from src.scenes.scene import Scene
-from src.game_objects.game_object import GameObject
+from src.core.game import Game
+from src.core.scene import Scene
+from src.core.game_object import GameObject
 from typing import List
 from src.interfaces.observer_interface import ObserverInterface
 

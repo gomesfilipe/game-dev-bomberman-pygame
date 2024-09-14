@@ -1,9 +1,9 @@
 import pygame
 from abc import ABC, abstractmethod
 from typing import Tuple, Optional
-from src.displays.display import Display
+from src.core.display import Display
 from src.core.game_object_manager import GameObjectManager
-from src.game_objects.game_object import GameObject
+from src.core.game_object import GameObject
 
 class Scene(ABC):
   def __init__(self, screen: Tuple[int, int], display: Optional[Display] = None) -> None:

@@ -1,15 +1,13 @@
 from typing import Dict, Optional, Callable, List
-from src.game_objects.game_object import GameObject
+from src.core.game_object import GameObject
 from src.utils.player_commands import PlayerCommands
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.sprites.player_sprites import PlayerSprites
 import math
 from typing import Tuple, Optional
 from src.utils.utils import lerp, distance_from_points
-from src.scenes.scene import Scene
-import time
 import pygame
-from src.displays.display import Display
+from src.core.display import Display
 class PlayerGameObject(GameObject):
   def __init__(
       self,

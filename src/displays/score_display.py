@@ -1,4 +1,4 @@
-from src.displays.display import Display
+from src.core.display import Display
 from typing import List, Optional
 import pygame
 import time

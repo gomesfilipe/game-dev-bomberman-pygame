@@ -1,7 +1,7 @@
 from typing import List
-from src.game_objects.game_object import GameObject
+from src.core.game_object import GameObject
 from src.sprites.block_sprites import SimpleSprite
-from src.displays.display import Display
+from src.core.display import Display
 import pygame
 
 class BlockGameObject(GameObject):

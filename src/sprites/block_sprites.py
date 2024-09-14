@@ -1,4 +1,4 @@
-from src.sprites.sprites import Sprites
+from src.core.sprites import Sprites
 from typing import Tuple
 import pygame
 

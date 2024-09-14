@@ -1,11 +1,11 @@
 from typing import List, Type
-from src.game_objects.game_object import GameObject
+from src.core.game_object import GameObject
 from src.game_objects.power_game_object import PowerGameObject
 from src.game_objects.life_power_game_object import LifePowerGameObject
 from src.game_objects.skull_power_game_object import SkullPowerGameObject
 from src.game_objects.block_game_object import BlockGameObject
 from src.sprites.block_sprites import SimpleSprite
-from src.displays.display import Display
+from src.core.display import Display
 from typing import Dict, Callable
 import random
 from config import PROBABILITY_SPAWN_POWER

@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Tuple, Optional, Callable, List, Type, Any
 from src.enums.event_enum import EventEnum
-from src.sprites.sprites import Sprites
-from src.displays.display import Display
+from src.core.sprites import Sprites
+from src.core.display import Display
 import pygame
 
 class GameObject(ABC):

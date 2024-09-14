@@ -1,6 +1,6 @@
 from typing import Tuple, Optional, List
-from src.scenes.scene import Scene
-from src.displays.display import Display
+from src.core.scene import Scene
+from src.core.display import Display
 import pygame
 from config import *
 from os.path import join
