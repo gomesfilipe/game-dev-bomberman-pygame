@@ -9,9 +9,6 @@ class BombermanGame(Game):
   def __init__(
       self,
       scene: Scene,
-      duration: int,
       observers: List[ObserverInterface] = [],
   ) -> None:
     super().__init__(scene, observers)
-
-    self._duration = duration

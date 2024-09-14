@@ -32,6 +32,4 @@ class SkullPowerGameObject(PowerGameObject):
 
   def __handle_power_layer(self, other: PlayerGameObject) -> None:
     other.set_lives(other.get_lives() - 1)
-    player_name = other.get_name()
     self.destroy()
-    EventEnum.SKULL_POWER_COLLECTED.post_event(player_name = player_name)

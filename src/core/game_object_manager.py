@@ -88,7 +88,6 @@ class GameObjectManager(BaseObject):
           if colliders[i].is_colliding(colliders[j]):
             colliders[i].on_collide(colliders[j], layer)
             colliders[j].on_collide(colliders[i], layer)
-            EventEnum.COLLISION.post_event()
 
   def switch_debug_mode(self) -> None:
     for game_object in self._game_objects:

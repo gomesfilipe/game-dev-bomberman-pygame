@@ -4,7 +4,6 @@ from src.game_objects.player_game_object import PlayerGameObject
 from src.game_objects.power_game_object import PowerGameObject
 from src.sprites.block_sprites import SimpleSprite
 from os.path import join
-from src.enums.event_enum import EventEnum
 from src.core.display import Display
 import pygame
 
@@ -32,6 +31,4 @@ class LifePowerGameObject(PowerGameObject):
 
   def __handle_life_power_layer(self, other: PlayerGameObject) -> None:
     other.set_lives(other.get_lives() + 1)
-    player_name = other.get_name()
     self.destroy()
-    EventEnum.LIFE_POWER_COLLECTED.post_event(player_name = player_name)

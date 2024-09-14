@@ -1,6 +1,5 @@
-from typing import Tuple, Optional, List
+from typing import List
 from src.core.scene import Scene
-from src.core.display import Display
 import pygame
 from config import *
 from os.path import join
@@ -10,15 +9,19 @@ from src.game_objects.player_game_object import PlayerGameObject
 from src.game_objects.block_game_object import BlockGameObject
 from src.game_objects.broken_block_game_object import BrokenBlockGameObject
 from src.utils.movement_commands import MovementCommands
+from src.displays.score_display import ScoreDisplay
 
 class MainScene(Scene):
   def __init__(
       self,
       screen: pygame.Surface,
-      display: Optional[Display] = None,
+      duration: int,
       background_color: str = 'white',
   ) -> None:
+    display = ScoreDisplay(screen, duration)
     super().__init__(screen, display, background_color)
+    self._display = display
+    self._duration = duration
 
   def start(self) -> None:
     if self._display is not None:
@@ -29,6 +32,7 @@ class MainScene(Scene):
     blocks = self._create_blocks()
     broken_blocks = self._create_broken_blocks()
 
+    self._display.set_players(player1, player2)
     self._game_object_manager.add(player1)
     self._game_object_manager.add(player2)
 

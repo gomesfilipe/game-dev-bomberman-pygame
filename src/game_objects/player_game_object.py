@@ -5,7 +5,6 @@ from src.enums.player_type_enum import PlayerTypeEnum
 from src.sprites.player_sprites import PlayerSprites
 from src.components.sprite_renderer_component import SpriteRendererComponent
 from src.components.movement_controller_component import MovementControllerComponent
-import math
 from typing import Tuple, Optional
 from src.utils.utils import lerp, distance_from_points
 import pygame
