@@ -10,18 +10,20 @@ from src.components.sprite_renderer_component import SpriteRendererComponent
 class PowerGameObject(GameObject):
   def __init__(
       self,
-      screen: pygame.Surface,
-      display: Display,
       x: float,
       y: float,
       size: Tuple[int, int],
+      min_x: float = -float('inf'),
+      max_x: float = float('inf'),
+      min_y: float = -float('inf'),
+      max_y: float = float('inf'),
     ) -> None:
     self._size = size
     order_in_layer = POWER_GAME_OBJECT_ORDER_IN_LAYER
     sprites = self._define_sprites()
     layers = self._define_layers()
 
-    super().__init__(screen, display, sprites, x, y, order_in_layer, layers)
+    super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
 
   @GameObject._start_decorator

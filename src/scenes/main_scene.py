@@ -57,13 +57,15 @@ class MainScene(Scene):
       while (j + 1) * l < self._screen.get_width():
         blocks.append(
           BlockGameObject(
-            self._screen,
-            self._display,
             block_sprites,
             j * h,
             i * l + self._display.height(),
             BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
             layers = ['player1_collision', 'player2_collision'],
+            min_x = 0.0,
+            max_x = self._screen.get_width(),
+            min_y = self._display.height(),
+            max_y = self._screen.get_height(),
           )
         )
 
@@ -85,13 +87,15 @@ class MainScene(Scene):
       while (j + 1) * l < self._screen.get_width():
         broken_blocks.append(
           BrokenBlockGameObject(
-            self._screen,
-            self._display,
             broken_block_sprites,
             j * h,
             i * l + self._display.height(),
             BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
             layers = ['player1_broken_block', 'player2_broken_block'],
+            min_x = 0.0,
+            max_x = self._screen.get_width(),
+            min_y = self._display.height(),
+            max_y = self._screen.get_height(),
           )
         )
 
@@ -111,8 +115,6 @@ class MainScene(Scene):
     )
 
     return PlayerGameObject(
-      self._screen,
-      self._display,
       player1_sprites,
       PLAYER_DELTA_TIME,
       PLAYER_VELOCITY,
@@ -124,6 +126,10 @@ class MainScene(Scene):
       PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
       PLAYER_1_NAME,
       layers = ['player1_collision', 'player1_broken_block', 'player1_power'],
+      min_x = 0.0,
+      max_x = self._screen.get_width(),
+      min_y = self._display.height(),
+      max_y = self._screen.get_height(),
     )
 
   def _create_player2(self) -> PlayerGameObject:
@@ -137,8 +143,6 @@ class MainScene(Scene):
     )
 
     return PlayerGameObject(
-      self._screen,
-      self._display,
       player2_sprites,
       PLAYER_DELTA_TIME,
       PLAYER_VELOCITY,
@@ -150,4 +154,8 @@ class MainScene(Scene):
       PLAYER_GAME_OBJECT_ORDER_IN_LAYER,
       PLAYER_2_NAME,
       layers = ['player2_collision', 'player2_broken_block', 'player2_power'],
+      min_x = 0.0,
+      max_x = self._screen.get_width(),
+      min_y = self._display.height(),
+      max_y = self._screen.get_height(),
     )

@@ -17,21 +17,25 @@ class GameObject(BaseObject):
   def __init__(
       self,
       screen: pygame.Surface,
-      display: Display,
-      sprites: Sprites,
       x: float,
       y: float,
       order_in_layer: int,
       layers: List[str] = [],
+      min_x: float = -float('inf'),
+      max_x: float = float('inf'),
+      min_y: float = -float('inf'),
+      max_y: float = float('inf'),
   ) -> None:
     self._screen = screen
-    self._display = display
-    self._sprites = sprites
     self._order_in_layer = order_in_layer
     self._layers = layers
     self._debug = False
     self._commands: Optional[MovementCommands] = None
 
+    self._min_x = min_x
+    self._max_x = max_x
+    self._min_y = min_y
+    self._max_y = max_y
     self._x = x
     self._y = y
     self._theta: float = 0.0

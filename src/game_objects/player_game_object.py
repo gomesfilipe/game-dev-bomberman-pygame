@@ -13,8 +13,6 @@ from src.enums.direction_enum import DirectionEnum
 class PlayerGameObject(GameObject):
   def __init__(
       self,
-      screen: pygame.Surface,
-      display: Display,
       sprites: PlayerSprites,
       delta_time: float,
       velocity: float,
@@ -26,8 +24,12 @@ class PlayerGameObject(GameObject):
       order_in_layer: int,
       name: str,
       layers: List[str] = [],
+      min_x: float = -float('inf'),
+      max_x: float = float('inf'),
+      min_y: float = -float('inf'),
+      max_y: float = float('inf'),
     ) -> None:
-    super().__init__(screen, display, sprites, x, y, order_in_layer, layers)
+    super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
     self._delta_time = delta_time
     self._velocity = velocity

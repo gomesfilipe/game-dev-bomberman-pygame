@@ -19,15 +19,17 @@ class BrokenBlockGameObject(BlockGameObject):
 
   def __init__(
       self,
-      screen: pygame.Surface,
-      display: Display,
       sprites: SimpleSprite,
       x: float,
       y: float,
       order_in_layer: int,
       layers: List[str] = [],
+      min_x: float = -float('inf'),
+      max_x: float = float('inf'),
+      min_y: float = -float('inf'),
+      max_y: float = float('inf'),
     ) -> None:
-    super().__init__(screen, display, sprites, x, y, order_in_layer, layers)
+    super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
     self._spawn_probability = PROBABILITY_SPAWN_POWER
 
   def on_collide(self, other: GameObject, layer: str) -> None:
@@ -45,11 +47,13 @@ class BrokenBlockGameObject(BlockGameObject):
 
       self.instantiate(
         power_class,
-        screen = self._screen,
-        display = self._display,
         x = self._x + self._sprites.width() / 4,
         y = self._y + self._sprites.height() / 4,
         size = (self._sprites.width() / 2, self._sprites.height() / 2),
+        min_x = self._min_x,
+        max_x = self._max_x,
+        min_y = self._min_y,
+        max_y = self._max_y,
       )
 
     self.destroy()

@@ -10,13 +10,15 @@ import pygame
 class SkullPowerGameObject(PowerGameObject):
   def __init__(
       self,
-      screen: pygame.Surface,
-      display: Display,
       x: float,
       y: float,
       size: Tuple[int, int],
+      min_x: float = -float('inf'),
+      max_x: float = float('inf'),
+      min_y: float = -float('inf'),
+      max_y: float = float('inf'),
     ) -> None:
-    super().__init__(screen, display, x, y, size)
+    super().__init__(x, y, size, min_x, max_x, min_y, max_y)
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     handlers: Dict[str, Callable] = {

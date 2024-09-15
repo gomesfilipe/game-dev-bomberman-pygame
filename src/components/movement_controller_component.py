@@ -40,15 +40,19 @@ class MovementControllerComponent(Component):
     self._game_object._previous_y = self._game_object._y
     self._game_object._y = lerp(
       self._game_object._y + self._game_object._vy * self._game_object._delta_time,
-      self._game_object._display.height(),
-      self._game_object._screen.get_height() - self._game_object._sprites._hitbox.get_height()
+      self._game_object._min_y,
+      self._game_object._max_y - self._game_object._sprites._hitbox.get_height()
     )
 
   def __horizontal_move(self, angle: int) -> None:
     self._game_object._theta = math.radians(angle)
     self._game_object._vx = self._game_object._velocity * math.cos(self._game_object._theta)
     self._game_object._previous_x = self._game_object._x
-    self._game_object._x = lerp(self._game_object._x + self._game_object._vx * self._game_object._delta_time, 0, self._game_object._screen.get_width() - self._game_object._sprites._hitbox.get_width())
+    self._game_object._x = lerp(
+      self._game_object._x + self._game_object._vx * self._game_object._delta_time,
+      self._game_object._min_x,
+      self._game_object._max_x - self._game_object._sprites._hitbox.get_width()
+    )
 
   def __move_up(self) -> None:
     self.__vertical_move(-90)
