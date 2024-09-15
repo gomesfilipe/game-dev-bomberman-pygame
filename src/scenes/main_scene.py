@@ -13,11 +13,11 @@ from src.displays.score_display import ScoreDisplay
 
 class MainScene(Scene):
   def __init__(
-      self,
-      width: float,
-      height: float,
-      duration: int,
-      background_color: str = 'white',
+    self,
+    width: float,
+    height: float,
+    duration: int,
+    background_color: str = 'white',
   ) -> None:
     display = ScoreDisplay(width, DISPLAY_HEIGHT, duration)
     super().__init__(width, height, display, background_color)
