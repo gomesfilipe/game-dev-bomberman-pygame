@@ -1,6 +1,5 @@
 from src.core.base_object import BaseObject
 import pygame
-from abc import abstractmethod
 from typing import Tuple, Optional
 from src.core.display import Display
 from src.core.game_object_manager import GameObjectManager

@@ -1,5 +1,5 @@
 from src.core.display import Display
-from typing import List, Optional
+from typing import Optional
 import pygame
 import time
 from src.utils.utils import format_seconds_to_min_sec

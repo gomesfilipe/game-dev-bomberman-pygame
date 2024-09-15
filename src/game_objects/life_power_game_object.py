@@ -1,4 +1,4 @@
-from typing import List, Tuple, Callable, Dict
+from typing import Tuple, Callable, Dict
 from src.core.game_object import GameObject
 from src.game_objects.player_game_object import PlayerGameObject
 from src.game_objects.power_game_object import PowerGameObject

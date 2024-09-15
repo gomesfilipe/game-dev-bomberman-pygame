@@ -2,7 +2,6 @@
 from src.core.base_object import BaseObject
 from typing import List, Type, Dict, Callable, Tuple
 from src.core.game_object import GameObject
-from src.enums.event_enum import EventEnum
 import random
 import time
 import pygame
