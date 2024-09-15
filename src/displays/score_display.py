@@ -8,10 +8,11 @@ from src.game_objects.player_game_object import PlayerGameObject
 class ScoreDisplay(Display):
   def __init__(
     self,
-    screen: pygame.Surface,
+    width: float,
+    height: float,
     duration: int,
   ) -> None:
-    super().__init__(screen)
+    super().__init__(width, height)
 
     self._duration = duration
     self._player1: Optional[PlayerGameObject] = None
@@ -34,9 +35,6 @@ class ScoreDisplay(Display):
     self.__draw_remainig_time(screen)
     self.__draw_player1_lives(screen)
     self.__draw_player2_lives(screen)
-
-  def height(self) -> float:
-    return 80.0
 
   def __draw_background_rect(self, screen: pygame.Surface) -> None:
     pygame.draw.rect(screen, 'black', (0, 0, self.width(), self.height()))

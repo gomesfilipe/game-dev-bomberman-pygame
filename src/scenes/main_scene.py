@@ -14,12 +14,13 @@ from src.displays.score_display import ScoreDisplay
 class MainScene(Scene):
   def __init__(
       self,
-      screen: pygame.Surface,
+      width: float,
+      height: float,
       duration: int,
       background_color: str = 'white',
   ) -> None:
-    display = ScoreDisplay(screen, duration)
-    super().__init__(screen, display, background_color)
+    display = ScoreDisplay(width, DISPLAY_HEIGHT, duration)
+    super().__init__(width, height, display, background_color)
     self._display = display
     self._duration = duration
 
@@ -52,9 +53,9 @@ class MainScene(Scene):
     h = block_sprites.height()
 
     i: int = 1
-    while (i + 1) * h + self._display.height() < self._screen.get_height():
+    while (i + 1) * h + self._display.height() < self.height():
       j: int = 1
-      while (j + 1) * l < self._screen.get_width():
+      while (j + 1) * l < self.width():
         blocks.append(
           BlockGameObject(
             block_sprites,
@@ -63,9 +64,9 @@ class MainScene(Scene):
             BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
             layers = ['player1_collision', 'player2_collision'],
             min_x = 0.0,
-            max_x = self._screen.get_width(),
+            max_x = self.width(),
             min_y = self._display.height(),
-            max_y = self._screen.get_height(),
+            max_y = self.height(),
           )
         )
 
@@ -82,9 +83,9 @@ class MainScene(Scene):
     h = broken_block_sprites.height()
 
     i: int = 2
-    while (i + 1) * h + self._display.height() < self._screen.get_height():
+    while (i + 1) * h + self._display.height() < self.height():
       j: int = 2
-      while (j + 1) * l < self._screen.get_width():
+      while (j + 1) * l < self.width():
         broken_blocks.append(
           BrokenBlockGameObject(
             broken_block_sprites,
@@ -93,9 +94,9 @@ class MainScene(Scene):
             BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
             layers = ['player1_broken_block', 'player2_broken_block'],
             min_x = 0.0,
-            max_x = self._screen.get_width(),
+            max_x = self.width(),
             min_y = self._display.height(),
-            max_y = self._screen.get_height(),
+            max_y = self.height(),
           )
         )
 
@@ -126,9 +127,9 @@ class MainScene(Scene):
       PLAYER_1_NAME,
       layers = ['player1_collision', 'player1_broken_block', 'player1_power'],
       min_x = 0.0,
-      max_x = self._screen.get_width(),
+      max_x = self.width(),
       min_y = self._display.height(),
-      max_y = self._screen.get_height(),
+      max_y = self.height(),
     )
 
   def _create_player2(self) -> PlayerGameObject:
@@ -153,7 +154,7 @@ class MainScene(Scene):
       PLAYER_2_NAME,
       layers = ['player2_collision', 'player2_broken_block', 'player2_power'],
       min_x = 0.0,
-      max_x = self._screen.get_width(),
+      max_x = self.width(),
       min_y = self._display.height(),
-      max_y = self._screen.get_height(),
+      max_y = self.height(),
     )

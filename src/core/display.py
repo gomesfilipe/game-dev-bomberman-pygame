@@ -3,15 +3,15 @@ from abc import abstractmethod
 import pygame
 
 class Display(BaseObject):
-  def __init__(self, screen: pygame.Surface) -> None:
-    self._screen = screen
+  def __init__(self, width: float, height: float) -> None:
+    self._width = width
+    self._height = height
 
-  @abstractmethod
   def height(self) -> float:
-    pass
+    return self._height
 
   def width(self) -> float:
-    return self._screen.get_width()
+    return self._width
 
   def update(self) -> None:
     return

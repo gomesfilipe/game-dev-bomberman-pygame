@@ -6,7 +6,7 @@ from config import *
 
 if __name__ == '__main__':
   screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-  scene = MainScene(screen, GAME_DURATION, 'wheat3')
+  scene = MainScene(screen.get_width(), screen.get_height(), GAME_DURATION, 'wheat3')
 
-  game = Game(scene)
+  game = Game(screen, scene)
   game.run()

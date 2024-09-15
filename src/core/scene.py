@@ -8,14 +8,22 @@ from src.core.game_object import GameObject
 class Scene(BaseObject):
   def __init__(
       self,
-      screen: Tuple[int, int],
+      width: float,
+      height: float,
       display: Optional[Display] = None,
       background_color: str = 'white',
   ) -> None:
-    self._screen: pygame.Surface = screen
+    self._width = width
+    self._height = height
     self._display = display
     self._background_color = background_color
     self._game_object_manager = GameObjectManager()
+
+  def width(self) -> float:
+    return self._width
+
+  def height(self) -> float:
+    return self._height
 
   def update(self) -> None:
     if self._display is not None:
@@ -34,9 +42,6 @@ class Scene(BaseObject):
 
     self._game_object_manager.draw(screen)
     pygame.display.flip()
-
-  def get_screen(self) -> pygame.Surface:
-    return self._screen
 
   def get_display(self) -> Optional[Display]:
     return self._display

@@ -7,8 +7,10 @@ from src.core.game_time import GameTime
 class Game():
   def __init__(
       self,
+      screen: pygame.Surface,
       scene: Scene,
     ) -> None:
+    self._screen = screen
     self._scene = scene
     self._stop: bool = False
 
@@ -63,7 +65,7 @@ class Game():
         i += 1
 
       if i > 0:
-        self._scene.draw(self._scene.get_screen())
+        self._scene.draw(self._screen)
       GameTime.wait_fps()
 
     pygame.quit()
