@@ -7,7 +7,6 @@ from abc import abstractmethod
 from typing import Dict, Tuple, Optional, Callable, List, Type, Any
 from src.enums.event_enum import EventEnum
 from src.core.sprites import Sprites
-from src.core.display import Display
 from src.core.component_manager import ComponentManager
 from src.utils.movement_commands import MovementCommands
 from src.enums.direction_enum import DirectionEnum
@@ -16,7 +15,7 @@ import pygame
 class GameObject(BaseObject):
   def __init__(
       self,
-      screen: pygame.Surface,
+      sprites: Sprites,
       x: float,
       y: float,
       order_in_layer: int,
@@ -26,7 +25,7 @@ class GameObject(BaseObject):
       min_y: float = -float('inf'),
       max_y: float = float('inf'),
   ) -> None:
-    self._screen = screen
+    self._sprites = sprites
     self._order_in_layer = order_in_layer
     self._layers = layers
     self._debug = False
@@ -42,7 +41,6 @@ class GameObject(BaseObject):
     self._previous_x = self._x
     self._previous_y = self._y
     self._velocity: float = 0.0
-    self._delta_time: float = 1
     self._vx: float = 0.0
     self._vy: float = 0.0
     self._direction: DirectionEnum = DirectionEnum.DOWN

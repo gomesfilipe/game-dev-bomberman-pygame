@@ -116,7 +116,6 @@ class MainScene(Scene):
 
     return PlayerGameObject(
       player1_sprites,
-      PLAYER_DELTA_TIME,
       PLAYER_VELOCITY,
       MovementCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
       PLAYER_1_TYPE,
@@ -144,7 +143,6 @@ class MainScene(Scene):
 
     return PlayerGameObject(
       player2_sprites,
-      PLAYER_DELTA_TIME,
       PLAYER_VELOCITY,
       MovementCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
       PLAYER_2_TYPE,

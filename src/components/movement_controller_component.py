@@ -4,6 +4,7 @@ from src.utils.utils import lerp
 from typing import Dict, Callable
 from src.utils.movement_commands import MovementCommands
 from src.enums.direction_enum import DirectionEnum
+from src.core.game_time import GameTime
 
 class MovementControllerComponent(Component):
   pass
@@ -39,7 +40,7 @@ class MovementControllerComponent(Component):
     self._game_object._vy = self._game_object._velocity * math.sin(self._game_object._theta)
     self._game_object._previous_y = self._game_object._y
     self._game_object._y = lerp(
-      self._game_object._y + self._game_object._vy * self._game_object._delta_time,
+      self._game_object._y + self._game_object._vy * GameTime.fixed_delta_time,
       self._game_object._min_y,
       self._game_object._max_y - self._game_object._sprites._hitbox.get_height()
     )
@@ -49,7 +50,7 @@ class MovementControllerComponent(Component):
     self._game_object._vx = self._game_object._velocity * math.cos(self._game_object._theta)
     self._game_object._previous_x = self._game_object._x
     self._game_object._x = lerp(
-      self._game_object._x + self._game_object._vx * self._game_object._delta_time,
+      self._game_object._x + self._game_object._vx * GameTime.fixed_delta_time,
       self._game_object._min_x,
       self._game_object._max_x - self._game_object._sprites._hitbox.get_width()
     )

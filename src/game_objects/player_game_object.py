@@ -14,7 +14,6 @@ class PlayerGameObject(GameObject):
   def __init__(
       self,
       sprites: PlayerSprites,
-      delta_time: float,
       velocity: float,
       commands: MovementCommands,
       player_type: PlayerTypeEnum,
@@ -31,7 +30,6 @@ class PlayerGameObject(GameObject):
     ) -> None:
     super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
-    self._delta_time = delta_time
     self._velocity = velocity
     self._lives = lives
     self._commands = commands

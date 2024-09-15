@@ -2,6 +2,7 @@ import pygame
 from typing import Dict, Callable
 from src.core.scene import Scene
 from src.enums.event_enum import EventEnum
+from src.core.game_time import GameTime
 
 class Game():
   def __init__(
@@ -48,18 +49,24 @@ class Game():
     self._scene.remove_game_object(event.game_object)
 
   def run(self):
-    self.__start()
-
-    while not self._should_stop():
-      self.__handle_events()
-      self._scene.update()
-      self._scene.draw(self._scene.get_screen())
-
-    pygame.quit()
-
-  def __start(self) -> None:
     pygame.init()
     self._scene.start()
+
+    while not self._should_stop():
+      GameTime.update()
+
+      i: int = 0
+      while GameTime.has_physics_time():
+        self.__handle_events()
+        self._scene.update()
+        GameTime.fixed_update()
+        i += 1
+
+      if i > 0:
+        self._scene.draw(self._scene.get_screen())
+      GameTime.wait_fps()
+
+    pygame.quit()
 
   def __handle_events(self) -> None:
     for event in pygame.event.get():
