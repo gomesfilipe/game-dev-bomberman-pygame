@@ -1,7 +1,5 @@
 from src.core.component import Component
-import math
-from src.utils.utils import lerp
-from typing import Dict, Callable
+from typing import Dict, Callable, Tuple
 from src.commands.skill_commands import SkillCommands
 from src.game_objects.bomb_game_object import BombGameObject
 from config import BOMB_ORDER_IN_LAYER, EXPLOSION_TIME, EXPLOSION_RANGE, KICK_RANGE
@@ -37,11 +35,16 @@ class SkillControllerComponent(Component):
     return
 
   def __drop_bomb(self) -> None:
+    x_bomb, y_bomb = self.__bomb_position()
+
+    width = self._game_object._sprites._hitbox.get_width()
+    height = self._game_object._sprites._hitbox.get_height()
+
     self._game_object.instantiate(
       BombGameObject,
-      x = self._game_object._x,
-      y = self._game_object._y,
-      size = (self._game_object._sprites._hitbox.get_width(), self._game_object._sprites._hitbox.get_height()),
+      x = x_bomb,
+      y = y_bomb,
+      size = (width, height),
       order_in_layer = BOMB_ORDER_IN_LAYER,
       explosion_time = EXPLOSION_TIME,
       explosion_range = EXPLOSION_RANGE,
@@ -52,6 +55,17 @@ class SkillControllerComponent(Component):
       min_y = self._game_object._min_y,
       max_y = self._game_object._max_y,
     )
+
+  def __bomb_position(self) -> Tuple[float, float]:
+    width = self._game_object._sprites._hitbox.get_width()
+    height = self._game_object._sprites._hitbox.get_height()
+    min_x = self._game_object._min_x
+    min_y = self._game_object._min_y
+
+    x = round((self._game_object._x - min_x) / width) * width + min_x
+    y = round((self._game_object._y - min_y) / height) * height + min_y
+
+    return x, y
 
   def __key_handlers(self) -> Dict[str, Callable]:
     return {
