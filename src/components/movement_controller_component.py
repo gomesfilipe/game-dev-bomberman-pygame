@@ -2,7 +2,7 @@ from src.core.component import Component
 import math
 from src.utils.utils import lerp
 from typing import Dict, Callable
-from src.utils.movement_commands import MovementCommands
+from src.commands.movement_commands import MovementCommands
 from src.enums.direction_enum import DirectionEnum
 from src.core.game_time import GameTime
 
@@ -16,10 +16,10 @@ class MovementControllerComponent(Component):
   def __init__(self, game_object: GameObject, name: str = ''):
     super().__init__(game_object, name)
 
-    if self._game_object._commands is None:
+    if self._game_object._movement_commands is None:
       self._commands = MovementCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT)
     else:
-      self._commands = self._game_object._commands
+      self._commands = self._game_object._movement_commands
 
     self._key_handlers = self.__key_handlers()
 

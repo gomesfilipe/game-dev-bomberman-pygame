@@ -1,6 +1,7 @@
 from typing import Dict, Optional, Callable, List
 from src.core.game_object import GameObject
-from src.utils.movement_commands import MovementCommands
+from src.commands.movement_commands import MovementCommands
+from src.commands.skill_commands import SkillCommands
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.sprites.player_sprites import PlayerSprites
 from src.components.sprite_renderer_component import SpriteRendererComponent
@@ -15,7 +16,8 @@ class PlayerGameObject(GameObject):
       self,
       sprites: PlayerSprites,
       velocity: float,
-      commands: MovementCommands,
+      movement_commands: MovementCommands,
+      skill_commands: SkillCommands,
       player_type: PlayerTypeEnum,
       lives: int,
       x: float,
@@ -32,7 +34,8 @@ class PlayerGameObject(GameObject):
     self._sprites = sprites
     self._velocity = velocity
     self._lives = lives
-    self._commands = commands
+    self._movement_commands = movement_commands
+    self._skill_commands = skill_commands
     self._player_type = player_type
     self._name = name
 

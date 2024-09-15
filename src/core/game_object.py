@@ -8,7 +8,8 @@ from typing import Dict, Tuple, Optional, Callable, List, Type, Any
 from src.enums.event_enum import EventEnum
 from src.core.sprites import Sprites
 from src.core.component_manager import ComponentManager
-from src.utils.movement_commands import MovementCommands
+from src.commands.movement_commands import MovementCommands
+from src.commands.skill_commands import SkillCommands
 from src.enums.direction_enum import DirectionEnum
 import pygame
 
@@ -29,7 +30,8 @@ class GameObject(BaseObject):
     self._order_in_layer = order_in_layer
     self._layers = layers
     self._debug = False
-    self._commands: Optional[MovementCommands] = None
+    self._movement_commands: Optional[MovementCommands] = None
+    self._skill_commands: Optional[SkillCommands] = None
 
     self._min_x = min_x
     self._max_x = max_x
