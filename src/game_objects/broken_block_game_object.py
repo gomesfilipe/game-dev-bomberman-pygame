@@ -1,15 +1,20 @@
 from typing import List, Type
 from src.core.game_object import GameObject
-from src.enums.power_enum import PowerEnum
 from src.game_objects.block_game_object import BlockGameObject
 from src.sprites.block_sprites import SimpleSprite
-from src.core.display import Display
 from typing import Dict, Callable
 import random
 from config import PROBABILITY_SPAWN_POWER
-import pygame
+from src.game_objects.power_game_object import PowerGameObject
+from src.game_objects.life_power_game_object import LifePowerGameObject
+from src.game_objects.skull_power_game_object import SkullPowerGameObject
 
 class BrokenBlockGameObject(BlockGameObject):
+  __POWERS: List[PowerGameObject] = [
+    LifePowerGameObject,
+    SkullPowerGameObject,
+  ]
+
   def __init__(
       self,
       sprites: SimpleSprite,
@@ -36,7 +41,7 @@ class BrokenBlockGameObject(BlockGameObject):
 
   def __handle_player_broken_block_layer(self, other: GameObject) -> None:
     if self.__should_spawn_power():
-      power_class = PowerEnum.random_power_class()
+      power_class = random.choice(BrokenBlockGameObject.__POWERS)
 
       self.instantiate(
         power_class,

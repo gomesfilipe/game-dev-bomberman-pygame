@@ -1,11 +1,11 @@
+from src.core.game_object import GameObject
 from abc import abstractmethod
 from typing import List, Tuple
-from src.core.game_object import GameObject
 from src.sprites.block_sprites import SimpleSprite
 import pygame
 from config import POWER_GAME_OBJECT_ORDER_IN_LAYER
-from src.core.display import Display
 from src.components.sprite_renderer_component import SpriteRendererComponent
+from src.enums.power_enum import PowerEnum
 
 class PowerGameObject(GameObject):
   def __init__(
@@ -13,6 +13,7 @@ class PowerGameObject(GameObject):
       x: float,
       y: float,
       size: Tuple[int, int],
+      type: PowerEnum,
       min_x: float = -float('inf'),
       max_x: float = float('inf'),
       min_y: float = -float('inf'),
@@ -20,6 +21,7 @@ class PowerGameObject(GameObject):
     ) -> None:
     self._size = size
     order_in_layer = POWER_GAME_OBJECT_ORDER_IN_LAYER
+    self._type = type
     sprites = self._define_sprites()
     layers = self._define_layers()
 

@@ -1,11 +1,10 @@
+from src.game_objects.power_game_object import PowerGameObject
 from typing import List, Tuple, Callable, Dict
 from src.core.game_object import GameObject
 from src.game_objects.player_game_object import PlayerGameObject
-from src.game_objects.power_game_object import PowerGameObject
 from src.sprites.block_sprites import SimpleSprite
 from os.path import join
-from src.core.display import Display
-import pygame
+from src.enums.power_enum import PowerEnum
 
 class SkullPowerGameObject(PowerGameObject):
   def __init__(
@@ -18,7 +17,7 @@ class SkullPowerGameObject(PowerGameObject):
       min_y: float = -float('inf'),
       max_y: float = float('inf'),
     ) -> None:
-    super().__init__(x, y, size, min_x, max_x, min_y, max_y)
+    super().__init__(x, y, size, PowerEnum.SKULL, min_x, max_x, min_y, max_y)
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     handlers: Dict[str, Callable] = {
@@ -29,7 +28,7 @@ class SkullPowerGameObject(PowerGameObject):
       handlers[layer]()
 
   def _define_sprites(self) -> SimpleSprite:
-    return SimpleSprite(join('assets', 'powers', 'skull_power.png'), self._size)
+    return SimpleSprite(join(self._type.base_dir(), 'skull_power.png'), self._size)
 
   def __handle_power_layer(self, other: PlayerGameObject) -> None:
     other.set_lives(other.get_lives() - 1)
