@@ -3,6 +3,7 @@ from typing import Dict, Callable
 from src.core.scene import Scene
 from src.enums.event_enum import EventEnum
 from src.core.game_time import GameTime
+from src.core.game_events import GameEvents
 
 class Game():
   def __init__(
@@ -32,10 +33,6 @@ class Game():
     return {
       pygame.K_SPACE: lambda: self._scene.switch_debug_mode(),
     }
-
-  def _handle_event(self, event: pygame.event.Event) -> None:
-    if event.type in self._event_handlers:
-      self._event_handlers[event.type](event)
 
   def __handle_quit_event(self, event: pygame.event.Event) -> None:
     self._stop = True
@@ -71,8 +68,11 @@ class Game():
     pygame.quit()
 
   def __handle_events(self) -> None:
-    for event in pygame.event.get():
-      self._handle_event(event)
+    GameEvents.update()
+    events = GameEvents.get(lambda event: event.type in self._event_handlers)
+
+    for event in events:
+      self._event_handlers[event.type](event)
 
   def set_scene(self, scene: Scene) -> None:
     self._scene = scene

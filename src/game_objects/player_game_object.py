@@ -6,6 +6,7 @@ from src.enums.player_type_enum import PlayerTypeEnum
 from src.sprites.player_sprites import PlayerSprites
 from src.components.sprite_renderer_component import SpriteRendererComponent
 from src.components.movement_controller_component import MovementControllerComponent
+from src.components.skill_controller_component import SkillControllerComponent
 from typing import Tuple, Optional
 from src.utils.utils import distance_from_points
 import pygame
@@ -43,6 +44,7 @@ class PlayerGameObject(GameObject):
   def start(self) -> None:
     self._component_manager.add(SpriteRendererComponent, self)
     self._component_manager.add(MovementControllerComponent, self)
+    self._component_manager.add(SkillControllerComponent, self)
 
     self._direction = DirectionEnum.DOWN
     self._current_sprite = self.__sprite_by_direction()

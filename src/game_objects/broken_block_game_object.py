@@ -45,9 +45,9 @@ class BrokenBlockGameObject(BlockGameObject):
 
       self.instantiate(
         power_class,
-        x = self._x + self._sprites.width() / 4,
-        y = self._y + self._sprites.height() / 4,
-        size = (self._sprites.width() / 2, self._sprites.height() / 2),
+        x = self._x + self._sprites._hitbox.get_width() / 4,
+        y = self._y + self._sprites._hitbox.get_height() / 4,
+        size = (self._sprites._hitbox.get_width() / 2, self._sprites._hitbox.get_height() / 2),
         min_x = self._min_x,
         max_x = self._max_x,
         min_y = self._min_y,

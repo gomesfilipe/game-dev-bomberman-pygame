@@ -1,18 +1,18 @@
-from typing import List
+from typing import List, Tuple
 from src.core.game_object import GameObject
 from src.sprites.block_sprites import SimpleSprite
-from src.core.display import Display
 from src.components.sprite_renderer_component import SpriteRendererComponent
 from src.components.movement_controller_component import MovementControllerComponent
 import pygame
 import time
+from os.path import join
 
 class BombGameObject(GameObject):
   def __init__(
       self,
-      sprites: SimpleSprite,
       x: float,
       y: float,
+      size: Tuple[int, int],
       order_in_layer: int,
       explosion_time: int,
       explosion_range: int,
@@ -23,6 +23,9 @@ class BombGameObject(GameObject):
       min_y: float = -float('inf'),
       max_y: float = float('inf'),
     ) -> None:
+    self._size = size
+    sprites =  SimpleSprite(join('assets', 'bomb', 'bomb.png'), self._size)
+
     super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
     self._explosion_time = explosion_time
