@@ -1,6 +1,6 @@
-from enum import Enum
+from src.core.base_enum import BaseEnum
 
-class DirectionEnum(Enum):
+class DirectionEnum(BaseEnum):
   UP = 'Up'
   LEFT = 'Left'
   DOWN = 'Down'

@@ -1,9 +1,9 @@
-from enum import Enum
+from src.core.base_enum import BaseEnum
 from src.core.game_object import GameObject
 import pygame
 from typing import Dict, Callable
 
-class EventEnum(Enum):
+class EventEnum(BaseEnum):
   NEW_GAME_OBJECT = pygame.USEREVENT + 1
   DESTROY_GAME_OBJECT = pygame.USEREVENT + 2
   QUIT = pygame.QUIT # Tratado pelo pygame

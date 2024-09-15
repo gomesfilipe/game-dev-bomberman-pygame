@@ -1,7 +1,7 @@
-from enum import Enum
+from src.core.base_enum import BaseEnum
 from os.path import join
 
-class PlayerTypeEnum(Enum):
+class PlayerTypeEnum(BaseEnum):
   BEAR = 'Bear'
   CAT = 'Cat'
   DOG = 'Dog'
