@@ -35,3 +35,8 @@ BOMB_CDR: float = 2
 
 DROP_BOMB_CDR: float = 0.2
 EXPLOSION_DURATION: float = 1.0
+
+NONE_STATUS_DURATION: float = float('inf')
+IMMUNE_STATUS_DURATION: float = 3.0
+DEAD_STATUS_DURATION: float = float('inf')
+

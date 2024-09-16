@@ -89,10 +89,13 @@ class ExplosionGameObject(GameObject):
   def __handle_explosion_layer(self, other: GameObject) -> None:
     self.destroy()
 
-
-
   def __handle_player_explosion_layer(self, other: GameObject) -> None:
-    other.take_damage()
+    if isinstance(other, ExplosionGameObject):
+      return
+
+    if not other._status_manager.immune.is_active():
+      other.take_damage()
+      other._status_manager.immune.set_active(True)
 
   def __should_destroy(self) -> bool:
     return time.time() - self._start_time >= self._duration

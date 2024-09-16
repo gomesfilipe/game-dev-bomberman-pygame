@@ -7,6 +7,7 @@ from src.sprites.player_sprites import PlayerSprites
 from src.components.sprite_renderer_component import SpriteRendererComponent
 from src.components.movement_controller_component import MovementControllerComponent
 from src.components.skill_controller_component import SkillControllerComponent
+from src.utils.player_status_manager import PlayerStatusManager
 from typing import Tuple, Optional
 from src.utils.utils import distance_from_points
 import pygame
@@ -40,6 +41,7 @@ class PlayerGameObject(GameObject):
     self._skill_commands = skill_commands
     self._player_type = player_type
     self._name = name
+    self._status_manager = PlayerStatusManager()
 
   @GameObject._start_decorator
   def start(self) -> None:
@@ -53,11 +55,15 @@ class PlayerGameObject(GameObject):
 
   @GameObject._update_decorator
   def update(self) -> None:
+    if self._status_manager.dead.is_active():
+      return
+
     if self._lives <= 0:
-      self.destroy()
+      self.death()
       return
 
     self._current_sprite = self.__sprite_by_direction()
+    self._status_manager.update()
 
   def __sprite_by_direction(self) -> pygame.Surface:
     sprites = {
@@ -139,3 +145,15 @@ class PlayerGameObject(GameObject):
 
   def add_life(self) -> None:
     self._lives = min(self._lives + 1, PLAYER_MAX_LIVES)
+
+  def death(self) -> None:
+    self._status_manager.dead.set_active(True)
+    movement_controller = self._component_manager.get(MovementControllerComponent)
+    skill_controller = self._component_manager.get(SkillControllerComponent)
+    self._component_manager.remove(movement_controller)
+    self._component_manager.remove(skill_controller)
+
+    if self._current_sprite in [self._sprites.up(), self._sprites.left(), self._sprites.left_dead()]:
+      self._current_sprite = self._sprites.left_dead()
+    elif self._current_sprite in [self._sprites.down(), self._sprites.right(), self._sprites.right_dead()]:
+      self._current_sprite = self._sprites.right_dead()
