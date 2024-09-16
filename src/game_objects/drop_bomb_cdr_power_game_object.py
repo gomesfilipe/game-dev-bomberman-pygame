@@ -37,6 +37,6 @@ class DropBombCdrPowerGameObject(PowerGameObject):
 
     if skill_component is not None:
       drop_bomb_skill = skill_component._dromp_bomb_skill
-      drop_bomb_skill.set_cdr(drop_bomb_skill.get_cdr() - DROP_BOMB_CDR)
+      drop_bomb_skill.set_cdr(max(0, drop_bomb_skill.get_cdr() - DROP_BOMB_CDR))
 
     self.destroy()
