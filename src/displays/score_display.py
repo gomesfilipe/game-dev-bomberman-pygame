@@ -4,6 +4,7 @@ import pygame
 import time
 from src.utils.utils import format_seconds_to_min_sec
 from src.game_objects.player_game_object import PlayerGameObject
+from src.components.skill_controller_component import SkillControllerComponent
 
 class ScoreDisplay(Display):
   def __init__(
@@ -21,6 +22,7 @@ class ScoreDisplay(Display):
   def start(self) -> None:
     self._time_spent: int = 0
     self._font: pygame.font.Font = pygame.font.SysFont('impact', 48)
+    self._cdr_font: pygame.font.Font = pygame.font.SysFont('impact', 32)
     self._start_time: int = int(time.time())
     self._remaining_time: int = self._duration
 
@@ -32,6 +34,8 @@ class ScoreDisplay(Display):
     self.__draw_background_rect(screen)
     self.__draw_player1_image(screen)
     self.__draw_player2_image(screen)
+    self.__draw_player1_bomb_cdr(screen)
+    self.__draw_player2_bomb_cdr(screen)
     self.__draw_remainig_time(screen)
     self.__draw_player1_lives(screen)
     self.__draw_player2_lives(screen)
@@ -49,6 +53,34 @@ class ScoreDisplay(Display):
     y = (self.height() - player2_image.get_height()) / 2
     x = self.width() - y - player2_image.get_width()
     screen.blit(player2_image, (x, y))
+
+  def __draw_player1_bomb_cdr(self, screen: pygame.Surface) -> None:
+    skill_component: Optional[SkillControllerComponent] = self._player1.get_component(SkillControllerComponent)
+
+    if skill_component is None:
+      return
+
+    drop_bomb_skill = skill_component._dromp_bomb_skill
+    remaining_cdr: float = max(0.0, drop_bomb_skill._cdr - time.time() + drop_bomb_skill._last_use)
+
+    remaining_cdr_image = self._cdr_font.render(f'{remaining_cdr:.2f}', True, (255, 255, 255))
+    x = self.height() + remaining_cdr_image.get_width()
+    y = (self.height() - remaining_cdr_image.get_height()) / 2
+    screen.blit(remaining_cdr_image, (x, y))
+
+  def __draw_player2_bomb_cdr(self, screen: pygame.Surface) -> None:
+    skill_component: Optional[SkillControllerComponent] = self._player2.get_component(SkillControllerComponent)
+
+    if skill_component is None:
+      return
+
+    drop_bomb_skill = skill_component._dromp_bomb_skill
+    remaining_cdr: float = max(0.0, drop_bomb_skill._cdr - time.time() + drop_bomb_skill._last_use)
+
+    remaining_cdr_image = self._cdr_font.render(f'{remaining_cdr:.2f}', True, (255, 255, 255))
+    x = self.width() - self.height() - 2 * remaining_cdr_image.get_width()
+    y = (self.height() - remaining_cdr_image.get_height()) / 2
+    screen.blit(remaining_cdr_image, (x, y))
 
   def __draw_remainig_time(self, screen: pygame.Surface) -> None:
     self._time_spent = int(time.time() - self._start_time)

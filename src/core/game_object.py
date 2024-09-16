@@ -8,6 +8,7 @@ from typing import Dict, Tuple, Optional, Callable, List, Type, Any
 from src.enums.event_enum import EventEnum
 from src.core.sprites import Sprites
 from src.core.component_manager import ComponentManager
+from src.core.component import Component
 from src.commands.movement_commands import MovementCommands
 from src.commands.skill_commands import SkillCommands
 from src.enums.direction_enum import DirectionEnum
@@ -111,3 +112,6 @@ class GameObject(BaseObject):
 
   def fixed_update(self) -> None:
     return
+
+  def get_component(self, component_class: Type[Component]) -> Optional[Component]:
+    return self._component_manager.get(component_class)
