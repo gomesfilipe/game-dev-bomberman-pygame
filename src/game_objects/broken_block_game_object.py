@@ -8,11 +8,13 @@ from config import PROBABILITY_SPAWN_POWER
 from src.game_objects.power_game_object import PowerGameObject
 from src.game_objects.life_power_game_object import LifePowerGameObject
 from src.game_objects.skull_power_game_object import SkullPowerGameObject
+from src.game_objects.drop_bomb_cdr_power_game_object import DropBombCdrPowerGameObject
 
 class BrokenBlockGameObject(BlockGameObject):
   __POWERS: List[PowerGameObject] = [
     LifePowerGameObject,
     SkullPowerGameObject,
+    DropBombCdrPowerGameObject,
   ]
 
   def __init__(

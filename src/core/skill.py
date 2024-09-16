@@ -11,6 +11,9 @@ class Skill(ABC):
   def _can_execute(self) -> bool:
     return time.time() - self._last_use >= self._cdr
 
+  def get_cdr(self) -> float:
+    return self._cdr
+
   def set_cdr(self, cdr: float) -> None:
     self._cdr = cdr
 

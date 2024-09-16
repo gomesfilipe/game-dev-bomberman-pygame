@@ -1,7 +1,7 @@
 from src.enums.player_type_enum import PlayerTypeEnum
 
-PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.PIG
-PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.RABBIT
+PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.MOUSE
+PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.CAT
 
 PLAYER_WIDTH = 64
 PLAYER_HEIGHT = 64
@@ -25,9 +25,11 @@ GAME_DURATION: int = 300
 SCREEN_WIDTH: int = BLOCK_SIZE * 15
 SCREEN_HEIGHT: int = DISPLAY_HEIGHT + BLOCK_SIZE * 11
 
-PROBABILITY_SPAWN_POWER: float = 0.5
+PROBABILITY_SPAWN_POWER: float = 0.7
 
 EXPLOSION_TIME: int = 3
 EXPLOSION_RANGE: int = 3
 KICK_RANGE: int = 4
 BOMB_CDR: float = 2
+
+DROP_BOMB_CDR: float = 0.2
