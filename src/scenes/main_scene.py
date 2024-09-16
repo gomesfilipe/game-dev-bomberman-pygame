@@ -113,8 +113,8 @@ class MainScene(Scene):
       join(PLAYER_1_TYPE.rotation_assets_path(), '1 Front.png'),
       join(PLAYER_1_TYPE.rotation_assets_path(), '4 Right.png'),
       join(PLAYER_1_TYPE.face_assets_path(), 'face.png'),
-      join(PLAYER_1_TYPE.base_dir(), 'Left', 'dead', '1.png'),
-      join(PLAYER_1_TYPE.base_dir(), 'Right', 'dead', '1.png'),
+      join(PLAYER_1_TYPE.base_dir(), 'Left', 'death.png'),
+      join(PLAYER_1_TYPE.base_dir(), 'Right', 'death.png'),
       (PLAYER_WIDTH, PLAYER_HEIGHT),
     )
 
@@ -143,8 +143,8 @@ class MainScene(Scene):
       join(PLAYER_2_TYPE.rotation_assets_path(), '1 Front.png'),
       join(PLAYER_2_TYPE.rotation_assets_path(), '4 Right.png'),
       join(PLAYER_2_TYPE.face_assets_path(), 'face.png'),
-      join(PLAYER_2_TYPE.base_dir(), 'Left', 'dead', '1.png'),
-      join(PLAYER_2_TYPE.base_dir(), 'Right', 'dead', '1.png'),
+      join(PLAYER_2_TYPE.base_dir(), 'Left', 'death.png'),
+      join(PLAYER_2_TYPE.base_dir(), 'Right', 'death.png'),
       (PLAYER_WIDTH, PLAYER_HEIGHT),
     )
 
