@@ -31,5 +31,5 @@ class LifePowerGameObject(PowerGameObject):
     return SimpleSprite(join(self._type.base_dir(), 'life_power.png'), self._size)
 
   def __handle_life_power_layer(self, other: PlayerGameObject) -> None:
-    other.set_lives(other.get_lives() + 1)
+    other.add_life()
     self.destroy()

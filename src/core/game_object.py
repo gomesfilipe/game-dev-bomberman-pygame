@@ -12,6 +12,7 @@ from src.core.component import Component
 from src.commands.movement_commands import MovementCommands
 from src.commands.skill_commands import SkillCommands
 from src.enums.direction_enum import DirectionEnum
+from src.utils.utils import between
 import pygame
 
 class GameObject(BaseObject):
@@ -115,3 +116,10 @@ class GameObject(BaseObject):
 
   def get_component(self, component_class: Type[Component]) -> Optional[Component]:
     return self._component_manager.get(component_class)
+
+  def _valid_position(self, x: float, y: float) -> bool:
+    width = self._sprites._hitbox.get_width()
+    height = self._sprites._hitbox.get_height()
+
+    return between(x, self._min_x, self._max_x - width) and \
+      between(y, self._min_y, self._max_y - height)

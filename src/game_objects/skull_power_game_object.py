@@ -31,5 +31,5 @@ class SkullPowerGameObject(PowerGameObject):
     return SimpleSprite(join(self._type.base_dir(), 'skull_power.png'), self._size)
 
   def __handle_power_layer(self, other: PlayerGameObject) -> None:
-    other.set_lives(other.get_lives() - 1)
+    other.take_damage()
     self.destroy()

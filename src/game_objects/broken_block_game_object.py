@@ -34,14 +34,13 @@ class BrokenBlockGameObject(BlockGameObject):
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     handlers: Dict[str, Callable] = {
-      'player1_broken_block': lambda: self.__handle_player_broken_block_layer(other),
-      'player2_broken_block': lambda: self.__handle_player_broken_block_layer(other),
+      'explosion': lambda: self.__handle_player_explosion_layer(other),
     }
 
     if layer in handlers:
       handlers[layer]()
 
-  def __handle_player_broken_block_layer(self, other: GameObject) -> None:
+  def __handle_player_explosion_layer(self, other: GameObject) -> None:
     if self.__should_spawn_power():
       power_class = random.choice(BrokenBlockGameObject.__POWERS)
 

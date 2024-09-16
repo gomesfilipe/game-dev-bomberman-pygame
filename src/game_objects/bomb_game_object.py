@@ -1,8 +1,11 @@
-from typing import List, Tuple
+from typing import List, Tuple, Dict
+from src.enums.direction_enum import DirectionEnum
 from src.core.game_object import GameObject
 from src.sprites.block_sprites import SimpleSprite
 from src.components.sprite_renderer_component import SpriteRendererComponent
 from src.components.movement_controller_component import MovementControllerComponent
+from src.game_objects.explosion_game_object import ExplosionGameObject
+from config import EXPLOSION_ORDER_IN_LAYER
 import pygame
 import time
 from os.path import join
@@ -40,8 +43,42 @@ class BombGameObject(GameObject):
 
   @GameObject._update_decorator
   def update(self) -> None:
-    if self.__should_explode():
-      self.destroy()
+    if not self.__should_explode():
+      return
+
+    width = self._sprites._hitbox.get_width()
+    height = self._sprites._hitbox.get_height()
+
+    positions: Dict[DirectionEnum, Tuple[int, int]] = {
+      DirectionEnum.UP: (self._x, self._y - height),
+      DirectionEnum.LEFT: (self._x - width, self._y),
+      DirectionEnum.DOWN: (self._x, self._y + height),
+      DirectionEnum.RIGHT: (self._x + width, self._y),
+      None: (self._x, self._y),
+    }
+
+    for direction, position in positions.items():
+      x, y = position
+
+      if not self._valid_position(x, y):
+        continue
+
+      self.instantiate(
+        ExplosionGameObject,
+        x = x,
+        y = y,
+        size = self._size,
+        order_in_layer = EXPLOSION_ORDER_IN_LAYER,
+        explosion_range = self._explosion_range - 1,
+        directions = [] if direction is None else [direction],
+        layers = ['player1_explosion', 'player2_explosion', 'explosion'],
+        min_x = self._min_x,
+        max_x = self._max_x,
+        min_y = self._min_y,
+        max_y = self._max_y,
+      )
+
+    self.destroy()
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     return

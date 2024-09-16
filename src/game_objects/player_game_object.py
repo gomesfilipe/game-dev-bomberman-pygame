@@ -10,8 +10,9 @@ from src.components.skill_controller_component import SkillControllerComponent
 from typing import Tuple, Optional
 from src.utils.utils import distance_from_points
 import pygame
-from src.core.display import Display
 from src.enums.direction_enum import DirectionEnum
+from config import PLAYER_MAX_LIVES
+
 class PlayerGameObject(GameObject):
   def __init__(
       self,
@@ -81,19 +82,17 @@ class PlayerGameObject(GameObject):
     self_l: float = self._sprites._hitbox.get_width()
     self_h: float = self._sprites._hitbox.get_height()
 
+    self._x = self._previous_x
+    self._y = self._previous_y
+
     closest_point, distance = self.__closest_point(other)
 
     if distance < self._alpha * self_l: # Corrige a posição de self
       closest_x, closest_y = closest_point
-
-      self._previous_x = self._x
-      self._previous_y = self._y
-
       self._x = closest_x - self_l / 2
       self._y = closest_y - self_h / 2
-    else: # Volta para a posição anterior
-      self._x = self._previous_x
-      self._y = self._previous_y
+      self._previous_x = self._x
+      self._previous_y = self._y
 
   # Pega os quatro pontos centrais da hitbox de self e identifica
   # o mais próximo e a distância.
@@ -108,7 +107,7 @@ class PlayerGameObject(GameObject):
     other_y_center = other._y + other_h / 2
 
     self_x_center = self._x + self_l / 2
-    self_y_center = self._y + other_h / 2
+    self_y_center = self._y + self_h / 2
 
     dx = (other_l + self_l) / 2
     dy = (other_h + self_h) / 2
@@ -132,11 +131,11 @@ class PlayerGameObject(GameObject):
 
     return closest_point, minn
 
-  def get_lives(self) -> int:
-    return self._lives
-
-  def set_lives(self, lives: int) -> None:
-    self._lives = lives
-
   def get_name(self) -> None:
     return self._name
+
+  def take_damage(self) -> None:
+    self._lives = max(0, self._lives - 1)
+
+  def add_life(self) -> None:
+    self._lives = min(self._lives + 1, PLAYER_MAX_LIVES)
