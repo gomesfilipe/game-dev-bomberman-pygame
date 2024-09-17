@@ -8,6 +8,7 @@ class DropBombSkill(Skill):
   def __init__(self) -> None:
     super().__init__(BOMB_CDR)
     self._explosion_range = EXPLOSION_RANGE
+    self._super_bomb: bool = False
 
   @Skill._execute_decorator
   def execute(self, game_object: GameObject) -> None:
@@ -25,12 +26,15 @@ class DropBombSkill(Skill):
       explosion_time = EXPLOSION_TIME,
       explosion_range = self._explosion_range,
       kick_range = KICK_RANGE,
+      super_bomb = self._super_bomb,
       layers = [],
       min_x = game_object._min_x,
       max_x = game_object._max_x,
       min_y = game_object._min_y,
       max_y = game_object._max_y,
     )
+
+    self._super_bomb = False
 
   def __bomb_position(self, game_object: GameObject) -> Tuple[float, float]:
     width = game_object._sprites._hitbox.get_width()
@@ -45,3 +49,6 @@ class DropBombSkill(Skill):
 
   def increase_explosion_range(self) -> None:
     self._explosion_range += 1
+
+  def set_super_bomb(self) -> None:
+    self._super_bomb = True

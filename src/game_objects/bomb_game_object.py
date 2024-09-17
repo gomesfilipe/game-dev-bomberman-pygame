@@ -1,4 +1,4 @@
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Optional
 from src.enums.direction_enum import DirectionEnum
 from src.core.game_object import GameObject
 from src.sprites.block_sprites import SimpleSprite
@@ -20,6 +20,7 @@ class BombGameObject(GameObject):
       explosion_time: int,
       explosion_range: int,
       kick_range: int,
+      super_bomb: bool = False,
       layers: List[str] = [],
       min_x: float = -float('inf'),
       max_x: float = float('inf'),
@@ -34,6 +35,7 @@ class BombGameObject(GameObject):
     self._explosion_time = explosion_time
     self._explosion_range = explosion_range
     self._kick_range = kick_range
+    self._super_bomb = super_bomb
 
   @GameObject._start_decorator
   def start(self) -> None:
@@ -70,7 +72,7 @@ class BombGameObject(GameObject):
         size = self._size,
         order_in_layer = EXPLOSION_ORDER_IN_LAYER,
         explosion_range = self._explosion_range - 1,
-        directions = [] if direction is None else [direction],
+        directions = self.__define_directions(direction),
         layers = ['player1_explosion', 'player2_explosion', 'explosion'],
         min_x = self._min_x,
         max_x = self._max_x,
@@ -85,3 +87,13 @@ class BombGameObject(GameObject):
 
   def __should_explode(self) -> bool:
     return time.time() - self._start_time >= self._explosion_time
+
+  def __define_directions(self, direction: Optional[DirectionEnum]) -> List[DirectionEnum]:
+    if direction is None:
+      return []
+
+    if self._super_bomb:
+      print(self._super_bomb, 'super')
+      return DirectionEnum.cases()
+
+    return [direction]
