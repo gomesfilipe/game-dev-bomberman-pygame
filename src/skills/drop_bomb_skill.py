@@ -7,6 +7,7 @@ from typing import Tuple
 class DropBombSkill(Skill):
   def __init__(self) -> None:
     super().__init__(BOMB_CDR)
+    self._explosion_range = EXPLOSION_RANGE
 
   @Skill._execute_decorator
   def execute(self, game_object: GameObject) -> None:
@@ -22,7 +23,7 @@ class DropBombSkill(Skill):
       size = (width, height),
       order_in_layer = BOMB_ORDER_IN_LAYER,
       explosion_time = EXPLOSION_TIME,
-      explosion_range = EXPLOSION_RANGE,
+      explosion_range = self._explosion_range,
       kick_range = KICK_RANGE,
       layers = [],
       min_x = game_object._min_x,
@@ -41,3 +42,6 @@ class DropBombSkill(Skill):
     y = round((game_object._y - min_y) / height) * height + min_y
 
     return x, y
+
+  def increase_explosion_range(self) -> None:
+    self._explosion_range += 1

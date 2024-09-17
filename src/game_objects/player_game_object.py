@@ -73,7 +73,13 @@ class PlayerGameObject(GameObject):
       DirectionEnum.RIGHT: lambda: self._sprites.right(),
     }
 
-    return sprites[self._direction]()
+    sprite = sprites[self._direction]()
+
+    if self._status_manager.immune.is_active():
+      sprite = sprite.copy()
+      sprite.set_alpha(128)
+
+    return sprite
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     handlers: Dict[str, Callable] = {
@@ -141,7 +147,9 @@ class PlayerGameObject(GameObject):
     return self._name
 
   def take_damage(self) -> None:
-    self._lives = max(0, self._lives - 1)
+    if not self._status_manager.immune.is_active():
+      self._lives = max(0, self._lives - 1)
+      self._status_manager.immune.set_active(True)
 
   def add_life(self) -> None:
     self._lives = min(self._lives + 1, PLAYER_MAX_LIVES)

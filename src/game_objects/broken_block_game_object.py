@@ -9,12 +9,14 @@ from src.game_objects.power_game_object import PowerGameObject
 from src.game_objects.life_power_game_object import LifePowerGameObject
 from src.game_objects.skull_power_game_object import SkullPowerGameObject
 from src.game_objects.drop_bomb_cdr_power_game_object import DropBombCdrPowerGameObject
+from src.game_objects.increase_explosion_range_power_game_object import IncreaseExplosionRangePowerGameObject
 
 class BrokenBlockGameObject(BlockGameObject):
   __POWERS: List[PowerGameObject] = [
     LifePowerGameObject,
     SkullPowerGameObject,
     DropBombCdrPowerGameObject,
+    IncreaseExplosionRangePowerGameObject,
   ]
 
   def __init__(
