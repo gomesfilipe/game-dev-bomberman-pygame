@@ -32,5 +32,6 @@ class LifePowerGameObject(PowerGameObject):
     return LIFE_POWER_SPRITE
 
   def __handle_life_power_layer(self, other: PlayerGameObject) -> None:
-    other.add_life()
-    self.destroy()
+    if isinstance(other, PlayerGameObject):
+      other.add_life()
+      self.destroy()

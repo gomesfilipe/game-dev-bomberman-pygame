@@ -55,8 +55,8 @@ class GameObject(BaseObject):
 
   def _start_decorator(func: Callable) -> Callable:
     def initialize_sprites(self: 'GameObject') -> None:
-      self._sprites.initialize_sprites()
-      self._sprites.initialize_hitbox()
+      # self._sprites.initialize_sprites()
+      # self._sprites.initialize_hitbox()
       func(self)
 
     return initialize_sprites
@@ -79,12 +79,6 @@ class GameObject(BaseObject):
   @abstractmethod
   def on_collide(self, other: 'GameObject', layer: str) -> None:
     pass
-
-  def _read_image(self, path: str, size: Tuple[int, int]) -> pygame.Surface:
-    image = pygame.image.load(path)
-    image = pygame.transform.scale(image, size)
-    image = image.convert_alpha()
-    return image
 
   def get_layers(self) -> List[str]:
     return self._layers

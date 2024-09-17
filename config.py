@@ -4,6 +4,7 @@ from src.sprites.player_sprites import PlayerSprites
 from src.sprites.block_sprites import SimpleSprite
 from os.path import join
 from typing import Tuple
+import pygame
 
 PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.MOUSE
 PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.CAT
@@ -45,6 +46,10 @@ NONE_STATUS_DURATION: float = float('inf')
 IMMUNE_STATUS_DURATION: float = 3.0
 DEAD_STATUS_DURATION: float = float('inf')
 
+POWER_SIZE: Tuple[int, int] = (BLOCK_SIZE / 2, BLOCK_SIZE / 2)
+
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
 PLAYER_1_SPRITES = PlayerSprites(
   join(PLAYER_1_TYPE.rotation_assets_path(), '3 Back.png'),
   join(PLAYER_1_TYPE.rotation_assets_path(), '2 Left.png'),
@@ -67,10 +72,7 @@ PLAYER_2_SPRITES = PlayerSprites(
   (PLAYER_WIDTH, PLAYER_HEIGHT),
 )
 
-POWER_SIZE: Tuple[int, int] = (BLOCK_SIZE / 2, BLOCK_SIZE / 2)
-
 EXPLOSION_SPRITE = SimpleSprite(join('assets', 'explosion', 'explosion.png'), (BLOCK_SIZE, BLOCK_SIZE))
-
 BOMB_SPRITE = SimpleSprite(join('assets', 'bomb', 'bomb.png'), (BLOCK_SIZE, BLOCK_SIZE))
 BLOCK_SPRITE = SimpleSprite(join('assets', 'blocks', 'block_2.png'), (BLOCK_SIZE, BLOCK_SIZE))
 BROKEN_BLOCK_SPRITE = SimpleSprite(join('assets', 'blocks', 'hay_block.png'), (BLOCK_SIZE, BLOCK_SIZE))

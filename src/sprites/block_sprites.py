@@ -7,6 +7,9 @@ class SimpleSprite(Sprites):
     super().__init__(size)
     self.__idle_path = idle_path
 
+    self.initialize_sprites()
+    self.initialize_hitbox()
+
   def initialize_sprites(self) -> None:
     self.__idle = self._read_sprite(self.__idle_path)
 

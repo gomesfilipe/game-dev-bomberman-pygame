@@ -24,6 +24,9 @@ class PlayerSprites(Sprites):
     self.__left_dead_path = left_dead_path
     self.__right_dead_path = right_dead_path
 
+    self.initialize_sprites()
+    self.initialize_hitbox()
+
   def initialize_sprites(self) -> None:
     self.__up = self._read_sprite(self.__up_path)
     self.__left = self._read_sprite(self.__left_path)
