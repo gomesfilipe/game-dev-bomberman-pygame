@@ -47,11 +47,10 @@ class MainScene(Scene):
     self._game_object_manager.start()
 
   def _create_blocks(self) -> List[BlockGameObject]:
-    block_sprites = SimpleSprite(join('assets', 'blocks', 'block_2.png'), (BLOCK_SIZE, BLOCK_SIZE))
     blocks: List[BlockGameObject] = []
 
-    l = block_sprites.width()
-    h = block_sprites.height()
+    l = BLOCK_SPRITE.width()
+    h = BLOCK_SPRITE.height()
 
     i: int = 1
     while (i + 1) * h + self._display.height() < self.height():
@@ -59,7 +58,7 @@ class MainScene(Scene):
       while (j + 1) * l < self.width():
         blocks.append(
           BlockGameObject(
-            block_sprites,
+            BLOCK_SPRITE,
             j * h,
             i * l + self._display.height(),
             BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
@@ -77,11 +76,10 @@ class MainScene(Scene):
     return blocks
 
   def _create_broken_blocks(self) -> List[BrokenBlockGameObject]:
-    broken_block_sprites = SimpleSprite(join('assets', 'blocks', 'hay_block.png'), (BLOCK_SIZE, BLOCK_SIZE))
     broken_blocks: List[BrokenBlockGameObject] = []
 
-    l = broken_block_sprites.width()
-    h = broken_block_sprites.height()
+    l = BROKEN_BLOCK_SPRITE.width()
+    h = BROKEN_BLOCK_SPRITE.height()
 
     i: int = 2
     while (i + 1) * h + self._display.height() < self.height():
@@ -89,7 +87,7 @@ class MainScene(Scene):
       while (j + 1) * l < self.width():
         broken_blocks.append(
           BrokenBlockGameObject(
-            broken_block_sprites,
+            BROKEN_BLOCK_SPRITE,
             j * h,
             i * l + self._display.height(),
             BLOCK_GAME_OBJECT_ORDER_IN_LAYER,
@@ -107,19 +105,8 @@ class MainScene(Scene):
     return broken_blocks
 
   def _create_player1(self) -> PlayerGameObject:
-    player1_sprites = PlayerSprites(
-      join(PLAYER_1_TYPE.rotation_assets_path(), '3 Back.png'),
-      join(PLAYER_1_TYPE.rotation_assets_path(), '2 Left.png'),
-      join(PLAYER_1_TYPE.rotation_assets_path(), '1 Front.png'),
-      join(PLAYER_1_TYPE.rotation_assets_path(), '4 Right.png'),
-      join(PLAYER_1_TYPE.face_assets_path(), 'face.png'),
-      join(PLAYER_1_TYPE.base_dir(), 'Left', 'death.png'),
-      join(PLAYER_1_TYPE.base_dir(), 'Right', 'death.png'),
-      (PLAYER_WIDTH, PLAYER_HEIGHT),
-    )
-
     return PlayerGameObject(
-      player1_sprites,
+      PLAYER_1_SPRITES,
       PLAYER_VELOCITY,
       MovementCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
       SkillCommands(pygame.K_p),
@@ -137,19 +124,8 @@ class MainScene(Scene):
     )
 
   def _create_player2(self) -> PlayerGameObject:
-    player2_sprites = PlayerSprites(
-      join(PLAYER_2_TYPE.rotation_assets_path(), '3 Back.png'),
-      join(PLAYER_2_TYPE.rotation_assets_path(), '2 Left.png'),
-      join(PLAYER_2_TYPE.rotation_assets_path(), '1 Front.png'),
-      join(PLAYER_2_TYPE.rotation_assets_path(), '4 Right.png'),
-      join(PLAYER_2_TYPE.face_assets_path(), 'face.png'),
-      join(PLAYER_2_TYPE.base_dir(), 'Left', 'death.png'),
-      join(PLAYER_2_TYPE.base_dir(), 'Right', 'death.png'),
-      (PLAYER_WIDTH, PLAYER_HEIGHT),
-    )
-
     return PlayerGameObject(
-      player2_sprites,
+      PLAYER_2_SPRITES,
       PLAYER_VELOCITY,
       MovementCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
       SkillCommands(pygame.K_q),

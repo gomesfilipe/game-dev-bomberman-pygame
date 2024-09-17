@@ -6,7 +6,7 @@ from src.sprites.block_sprites import SimpleSprite
 from os.path import join
 from src.enums.power_enum import PowerEnum
 from src.components.skill_controller_component import SkillControllerComponent
-from config import DROP_BOMB_CDR
+from config import INCREASE_EXPLOSION_RANGE_POWER_SPRITE
 
 class IncreaseExplosionRangePowerGameObject(PowerGameObject):
   def __init__(
@@ -30,7 +30,7 @@ class IncreaseExplosionRangePowerGameObject(PowerGameObject):
       handlers[layer]()
 
   def _define_sprites(self) -> SimpleSprite:
-    return SimpleSprite(join(self._type.base_dir(), 'increase_explosion_range_power.png'), self._size)
+    return INCREASE_EXPLOSION_RANGE_POWER_SPRITE
 
   def __handle_power_layer(self, other: PlayerGameObject) -> None:
     skill_component: Optional[SkillControllerComponent] = other.get_component(SkillControllerComponent)

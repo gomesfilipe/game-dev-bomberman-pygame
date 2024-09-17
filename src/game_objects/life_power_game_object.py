@@ -5,6 +5,7 @@ from src.game_objects.power_game_object import PowerGameObject
 from src.sprites.block_sprites import SimpleSprite
 from os.path import join
 from src.enums.power_enum import PowerEnum
+from config import LIFE_POWER_SPRITE
 
 class LifePowerGameObject(PowerGameObject):
   def __init__(
@@ -28,7 +29,7 @@ class LifePowerGameObject(PowerGameObject):
       handlers[layer]()
 
   def _define_sprites(self) -> SimpleSprite:
-    return SimpleSprite(join(self._type.base_dir(), 'life_power.png'), self._size)
+    return LIFE_POWER_SPRITE
 
   def __handle_life_power_layer(self, other: PlayerGameObject) -> None:
     other.add_life()

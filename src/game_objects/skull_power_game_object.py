@@ -1,10 +1,11 @@
 from src.game_objects.power_game_object import PowerGameObject
-from typing import List, Tuple, Callable, Dict
+from typing import Tuple, Callable, Dict
 from src.core.game_object import GameObject
 from src.game_objects.player_game_object import PlayerGameObject
 from src.sprites.block_sprites import SimpleSprite
 from os.path import join
 from src.enums.power_enum import PowerEnum
+from config import SKULL_POWER_SPRITE
 
 class SkullPowerGameObject(PowerGameObject):
   def __init__(
@@ -28,7 +29,7 @@ class SkullPowerGameObject(PowerGameObject):
       handlers[layer]()
 
   def _define_sprites(self) -> SimpleSprite:
-    return SimpleSprite(join(self._type.base_dir(), 'skull_power.png'), self._size)
+    return SKULL_POWER_SPRITE
 
   def __handle_power_layer(self, other: PlayerGameObject) -> None:
     other.take_damage()

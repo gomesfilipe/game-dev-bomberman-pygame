@@ -14,9 +14,9 @@ from src.game_objects.super_bomb_power_game_object import SuperBombPowerGameObje
 
 class BrokenBlockGameObject(BlockGameObject):
   __POWERS: List[PowerGameObject] = [
-    # LifePowerGameObject,
-    # SkullPowerGameObject,
-    # DropBombCdrPowerGameObject,
+    LifePowerGameObject,
+    SkullPowerGameObject,
+    DropBombCdrPowerGameObject,
     IncreaseExplosionRangePowerGameObject,
     SuperBombPowerGameObject,
   ]

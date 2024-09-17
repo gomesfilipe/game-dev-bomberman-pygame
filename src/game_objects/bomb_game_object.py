@@ -5,7 +5,7 @@ from src.sprites.block_sprites import SimpleSprite
 from src.components.sprite_renderer_component import SpriteRendererComponent
 from src.components.movement_controller_component import MovementControllerComponent
 from src.game_objects.explosion_game_object import ExplosionGameObject
-from config import EXPLOSION_ORDER_IN_LAYER
+from config import EXPLOSION_ORDER_IN_LAYER, BOMB_SPRITE
 import pygame
 import time
 from os.path import join
@@ -28,7 +28,7 @@ class BombGameObject(GameObject):
       max_y: float = float('inf'),
     ) -> None:
     self._size = size
-    sprites =  SimpleSprite(join('assets', 'bomb', 'bomb.png'), self._size)
+    sprites =  BOMB_SPRITE
 
     super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
@@ -93,7 +93,6 @@ class BombGameObject(GameObject):
       return []
 
     if self._super_bomb:
-      print(self._super_bomb, 'super')
       return DirectionEnum.cases()
 
     return [direction]

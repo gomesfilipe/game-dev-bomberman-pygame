@@ -1,4 +1,9 @@
 from src.enums.player_type_enum import PlayerTypeEnum
+from src.enums.power_enum import PowerEnum
+from src.sprites.player_sprites import PlayerSprites
+from src.sprites.block_sprites import SimpleSprite
+from os.path import join
+from typing import Tuple
 
 PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.MOUSE
 PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.CAT
@@ -40,3 +45,37 @@ NONE_STATUS_DURATION: float = float('inf')
 IMMUNE_STATUS_DURATION: float = 3.0
 DEAD_STATUS_DURATION: float = float('inf')
 
+PLAYER_1_SPRITES = PlayerSprites(
+  join(PLAYER_1_TYPE.rotation_assets_path(), '3 Back.png'),
+  join(PLAYER_1_TYPE.rotation_assets_path(), '2 Left.png'),
+  join(PLAYER_1_TYPE.rotation_assets_path(), '1 Front.png'),
+  join(PLAYER_1_TYPE.rotation_assets_path(), '4 Right.png'),
+  join(PLAYER_1_TYPE.face_assets_path(), 'face.png'),
+  join(PLAYER_1_TYPE.base_dir(), 'Left', 'death.png'),
+  join(PLAYER_1_TYPE.base_dir(), 'Right', 'death.png'),
+  (PLAYER_WIDTH, PLAYER_HEIGHT),
+)
+
+PLAYER_2_SPRITES = PlayerSprites(
+  join(PLAYER_2_TYPE.rotation_assets_path(), '3 Back.png'),
+  join(PLAYER_2_TYPE.rotation_assets_path(), '2 Left.png'),
+  join(PLAYER_2_TYPE.rotation_assets_path(), '1 Front.png'),
+  join(PLAYER_2_TYPE.rotation_assets_path(), '4 Right.png'),
+  join(PLAYER_2_TYPE.face_assets_path(), 'face.png'),
+  join(PLAYER_2_TYPE.base_dir(), 'Left', 'death.png'),
+  join(PLAYER_2_TYPE.base_dir(), 'Right', 'death.png'),
+  (PLAYER_WIDTH, PLAYER_HEIGHT),
+)
+
+POWER_SIZE: Tuple[int, int] = (BLOCK_SIZE / 2, BLOCK_SIZE / 2)
+
+EXPLOSION_SPRITE = SimpleSprite(join('assets', 'explosion', 'explosion.png'), (BLOCK_SIZE, BLOCK_SIZE))
+
+BOMB_SPRITE = SimpleSprite(join('assets', 'bomb', 'bomb.png'), (BLOCK_SIZE, BLOCK_SIZE))
+BLOCK_SPRITE = SimpleSprite(join('assets', 'blocks', 'block_2.png'), (BLOCK_SIZE, BLOCK_SIZE))
+BROKEN_BLOCK_SPRITE = SimpleSprite(join('assets', 'blocks', 'hay_block.png'), (BLOCK_SIZE, BLOCK_SIZE))
+DROP_BOMB_CDR_POWER_SPRITE = SimpleSprite(join(PowerEnum.DROP_BOMB_CDR.base_dir(), 'drop_bomb_cdr_power.png'), POWER_SIZE)
+INCREASE_EXPLOSION_RANGE_POWER_SPRITE = SimpleSprite(join(PowerEnum.INCREASE_EXPLOSION_RANGE.base_dir(), 'increase_explosion_range_power.png'), POWER_SIZE)
+LIFE_POWER_SPRITE = SimpleSprite(join(PowerEnum.LIFE.base_dir(), 'life_power.png'), POWER_SIZE)
+SKULL_POWER_SPRITE = SimpleSprite(join(PowerEnum.SKULL.base_dir(), 'skull_power.png'), POWER_SIZE)
+SUPER_BOMB_POWER_SPRITE = SimpleSprite(join(PowerEnum.SUPER_BOMB.base_dir(), 'super_bomb_power.png'), POWER_SIZE)

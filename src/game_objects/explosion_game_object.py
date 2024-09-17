@@ -6,7 +6,7 @@ from src.enums.direction_enum import DirectionEnum
 import pygame
 import time
 from os.path import join
-from config import EXPLOSION_DURATION, EXPLOSION_ORDER_IN_LAYER
+from config import EXPLOSION_DURATION, EXPLOSION_ORDER_IN_LAYER, EXPLOSION_SPRITE
 
 class ExplosionGameObject(GameObject):
   def __init__(
@@ -24,7 +24,7 @@ class ExplosionGameObject(GameObject):
       max_y: float = float('inf'),
     ) -> None:
     self._size = size
-    sprites = SimpleSprite(join('assets', 'explosion', 'explosion.png'), self._size)
+    sprites = EXPLOSION_SPRITE
 
     super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
