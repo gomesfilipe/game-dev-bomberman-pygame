@@ -1,7 +1,7 @@
-from typing import List, Type
+from typing import List
 from src.core.game_object import GameObject
 from src.game_objects.block_game_object import BlockGameObject
-from src.sprites.block_sprites import SimpleSprite
+from src.sprites.simple_sprite import SimpleSprite
 from typing import Dict, Callable
 import random
 from config import PROBABILITY_SPAWN_POWER

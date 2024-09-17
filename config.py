@@ -1,7 +1,7 @@
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.enums.power_enum import PowerEnum
 from src.sprites.player_sprites import PlayerSprites
-from src.sprites.block_sprites import SimpleSprite
+from src.sprites.simple_sprite import SimpleSprite
 from os.path import join
 from typing import Tuple
 import pygame

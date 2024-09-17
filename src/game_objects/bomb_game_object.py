@@ -1,9 +1,7 @@
 from typing import List, Tuple, Dict, Optional
 from src.enums.direction_enum import DirectionEnum
 from src.core.game_object import GameObject
-from src.sprites.block_sprites import SimpleSprite
 from src.components.sprite_renderer_component import SpriteRendererComponent
-from src.components.movement_controller_component import MovementControllerComponent
 from src.game_objects.explosion_game_object import ExplosionGameObject
 from config import EXPLOSION_ORDER_IN_LAYER, BOMB_SPRITE
 import pygame

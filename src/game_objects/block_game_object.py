@@ -1,7 +1,6 @@
 from typing import List
 from src.core.game_object import GameObject
-from src.sprites.block_sprites import SimpleSprite
-from src.core.display import Display
+from src.sprites.simple_sprite import SimpleSprite
 from src.components.sprite_renderer_component import SpriteRendererComponent
 from src.components.movement_controller_component import MovementControllerComponent
 import pygame

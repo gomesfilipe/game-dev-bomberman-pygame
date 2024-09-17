@@ -4,7 +4,7 @@ import pygame
 from config import *
 from os.path import join
 from src.sprites.player_sprites import PlayerSprites
-from src.sprites.block_sprites import SimpleSprite
+from src.sprites.simple_sprite import SimpleSprite
 from src.game_objects.player_game_object import PlayerGameObject
 from src.game_objects.block_game_object import BlockGameObject
 from src.game_objects.broken_block_game_object import BrokenBlockGameObject
@@ -83,7 +83,11 @@ class MainScene(Scene):
 
     i: int = 2
     while (i + 1) * h + self._display.height() < self.height():
-      j: int = 2
+      # if i % 2 == 0:
+      #   j = 1
+      # else:
+      j = 2
+
       while (j + 1) * l < self.width():
         broken_blocks.append(
           BrokenBlockGameObject(
@@ -98,7 +102,9 @@ class MainScene(Scene):
             max_y = self.height(),
           )
         )
-
+        # if i % 2 == 0:
+        #   j += 1
+        # else:
         j += 2
       i += 2
 

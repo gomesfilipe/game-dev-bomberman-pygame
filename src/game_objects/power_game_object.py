@@ -1,7 +1,7 @@
 from src.core.game_object import GameObject
 from abc import abstractmethod
 from typing import List, Tuple
-from src.sprites.block_sprites import SimpleSprite
+from src.sprites.simple_sprite import SimpleSprite
 import pygame
 from config import POWER_GAME_OBJECT_ORDER_IN_LAYER
 from src.components.sprite_renderer_component import SpriteRendererComponent

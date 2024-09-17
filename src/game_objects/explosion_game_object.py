@@ -1,6 +1,5 @@
 from typing import List, Tuple, FrozenSet, Dict, Callable
 from src.core.game_object import GameObject
-from src.sprites.block_sprites import SimpleSprite
 from src.components.sprite_renderer_component import SpriteRendererComponent
 from src.enums.direction_enum import DirectionEnum
 import pygame
