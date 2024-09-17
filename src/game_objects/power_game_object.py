@@ -6,6 +6,7 @@ import pygame
 from config import POWER_GAME_OBJECT_ORDER_IN_LAYER
 from src.components.sprite_renderer_component import SpriteRendererComponent
 from src.enums.power_enum import PowerEnum
+from src.enums.game_object_type_enum import GameObjectTypeEnum
 
 class PowerGameObject(GameObject):
   def __init__(
@@ -13,6 +14,7 @@ class PowerGameObject(GameObject):
       x: float,
       y: float,
       size: Tuple[int, int],
+      game_object_type: GameObjectTypeEnum,
       type: PowerEnum,
       min_x: float = -float('inf'),
       max_x: float = float('inf'),
@@ -25,7 +27,7 @@ class PowerGameObject(GameObject):
     sprites = self._define_sprites()
     layers = self._define_layers()
 
-    super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
+    super().__init__(sprites, x, y, order_in_layer, game_object_type, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
 
   @GameObject._start_decorator

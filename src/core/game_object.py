@@ -12,6 +12,7 @@ from src.core.component import Component
 from src.commands.movement_commands import MovementCommands
 from src.commands.skill_commands import SkillCommands
 from src.enums.direction_enum import DirectionEnum
+from src.enums.game_object_type_enum import GameObjectTypeEnum
 from src.utils.utils import between
 import pygame
 
@@ -22,6 +23,7 @@ class GameObject(BaseObject):
       x: float,
       y: float,
       order_in_layer: int,
+      game_object_type: GameObjectTypeEnum,
       layers: List[str] = [],
       min_x: float = -float('inf'),
       max_x: float = float('inf'),
@@ -30,6 +32,7 @@ class GameObject(BaseObject):
   ) -> None:
     self._sprites = sprites
     self._order_in_layer = order_in_layer
+    self._type = game_object_type
     self._layers = layers
     self._debug = False
     self._movement_commands: Optional[MovementCommands] = None

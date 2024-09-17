@@ -7,17 +7,21 @@ from src.core.game_object import GameObject
 
 class Scene(BaseObject):
   def __init__(
-      self,
-      width: float,
-      height: float,
-      display: Optional[Display] = None,
-      background_color: str = 'white',
+    self,
+    width: float,
+    height: float,
+    tiles_width: int,
+    tiles_height: int,
+    display: Optional[Display] = None,
+    background_color: str = 'white',
   ) -> None:
     self._width = width
     self._height = height
+    self._tiles_width = tiles_width
+    self._tiles_height = tiles_height
     self._display = display
     self._background_color = background_color
-    self._game_object_manager = GameObjectManager()
+    self._game_object_manager = GameObjectManager(self._tiles_width, self._tiles_height)
 
   def width(self) -> float:
     return self._width
@@ -54,3 +58,15 @@ class Scene(BaseObject):
 
   def remove_game_object(self, game_object: GameObject) -> None:
     self._game_object_manager.remove(game_object)
+
+  def add_main_game_object(self, game_object: GameObject) -> None:
+    self._game_object_manager.add_main(game_object)
+
+  def remove_game_object(self, game_object: GameObject) -> None:
+    self._game_object_manager.remove_main(game_object)
+
+  def add_tile_game_object(self, game_object: GameObject) -> None:
+    self._game_object_manager.remove_main(game_object)
+
+  def remove_tile_game_object(self, game_object: GameObject) -> None:
+    self._game_object_manager.add_tile(game_object)

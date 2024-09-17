@@ -7,6 +7,7 @@ from os.path import join
 from src.enums.power_enum import PowerEnum
 from src.components.skill_controller_component import SkillControllerComponent
 from config import SUPER_BOMB_POWER_SPRITE
+from src.enums.game_object_type_enum import GameObjectTypeEnum
 
 class SuperBombPowerGameObject(PowerGameObject):
   def __init__(
@@ -14,12 +15,13 @@ class SuperBombPowerGameObject(PowerGameObject):
       x: float,
       y: float,
       size: Tuple[int, int],
+      game_object_type: GameObjectTypeEnum,
       min_x: float = -float('inf'),
       max_x: float = float('inf'),
       min_y: float = -float('inf'),
       max_y: float = float('inf'),
     ) -> None:
-    super().__init__(x, y, size, PowerEnum.SUPER_BOMB, min_x, max_x, min_y, max_y)
+    super().__init__(x, y, size, game_object_type, PowerEnum.SUPER_BOMB, min_x, max_x, min_y, max_y)
 
   def on_collide(self, other: GameObject, layer: str) -> None:
     handlers: Dict[str, Callable] = {

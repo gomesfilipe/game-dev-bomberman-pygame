@@ -2,6 +2,7 @@ from typing import List, Tuple, Dict, Optional
 from src.enums.direction_enum import DirectionEnum
 from src.core.game_object import GameObject
 from src.components.sprite_renderer_component import SpriteRendererComponent
+from src.enums.game_object_type_enum import GameObjectTypeEnum
 from src.game_objects.explosion_game_object import ExplosionGameObject
 from config import EXPLOSION_ORDER_IN_LAYER, BOMB_SPRITE
 import pygame
@@ -15,6 +16,7 @@ class BombGameObject(GameObject):
       y: float,
       size: Tuple[int, int],
       order_in_layer: int,
+      game_object_type: GameObjectTypeEnum,
       explosion_time: int,
       explosion_range: int,
       kick_range: int,
@@ -28,7 +30,7 @@ class BombGameObject(GameObject):
     self._size = size
     sprites =  BOMB_SPRITE
 
-    super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
+    super().__init__(sprites, x, y, order_in_layer, game_object_type, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
     self._explosion_time = explosion_time
     self._explosion_range = explosion_range
@@ -69,6 +71,7 @@ class BombGameObject(GameObject):
         y = y,
         size = self._size,
         order_in_layer = EXPLOSION_ORDER_IN_LAYER,
+        game_object_type = GameObjectTypeEnum.MAIN,
         explosion_range = self._explosion_range - 1,
         directions = self.__define_directions(direction),
         layers = ['player1_explosion', 'player2_explosion', 'explosion'],

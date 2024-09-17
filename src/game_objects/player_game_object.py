@@ -13,6 +13,7 @@ from src.utils.utils import distance_from_points
 import pygame
 from src.enums.direction_enum import DirectionEnum
 from config import PLAYER_MAX_LIVES
+from src.enums.game_object_type_enum import GameObjectTypeEnum
 
 class PlayerGameObject(GameObject):
   def __init__(
@@ -26,6 +27,7 @@ class PlayerGameObject(GameObject):
       x: float,
       y: float,
       order_in_layer: int,
+      game_object_type: GameObjectTypeEnum,
       name: str,
       layers: List[str] = [],
       min_x: float = -float('inf'),
@@ -33,7 +35,7 @@ class PlayerGameObject(GameObject):
       min_y: float = -float('inf'),
       max_y: float = float('inf'),
     ) -> None:
-    super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
+    super().__init__(sprites, x, y, order_in_layer, game_object_type, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
     self._velocity = velocity
     self._lives = lives

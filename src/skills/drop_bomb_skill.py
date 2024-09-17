@@ -3,6 +3,7 @@ from src.game_objects.bomb_game_object import BombGameObject
 from src.core.skill import Skill
 from config import BOMB_CDR, BOMB_ORDER_IN_LAYER, EXPLOSION_TIME, EXPLOSION_RANGE, KICK_RANGE
 from typing import Tuple
+from src.enums.game_object_type_enum import GameObjectTypeEnum
 
 class DropBombSkill(Skill):
   def __init__(self) -> None:
@@ -23,6 +24,7 @@ class DropBombSkill(Skill):
       y = y_bomb,
       size = (width, height),
       order_in_layer = BOMB_ORDER_IN_LAYER,
+      game_object_type = GameObjectTypeEnum.NORMAL,
       explosion_time = EXPLOSION_TIME,
       explosion_range = self._explosion_range,
       kick_range = KICK_RANGE,

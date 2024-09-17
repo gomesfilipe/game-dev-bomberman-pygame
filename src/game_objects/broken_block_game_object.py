@@ -11,6 +11,7 @@ from src.game_objects.skull_power_game_object import SkullPowerGameObject
 from src.game_objects.drop_bomb_cdr_power_game_object import DropBombCdrPowerGameObject
 from src.game_objects.increase_explosion_range_power_game_object import IncreaseExplosionRangePowerGameObject
 from src.game_objects.super_bomb_power_game_object import SuperBombPowerGameObject
+from src.enums.game_object_type_enum import GameObjectTypeEnum
 
 class BrokenBlockGameObject(BlockGameObject):
   __POWERS: List[PowerGameObject] = [
@@ -27,13 +28,14 @@ class BrokenBlockGameObject(BlockGameObject):
       x: float,
       y: float,
       order_in_layer: int,
+      game_object_type: GameObjectTypeEnum,
       layers: List[str] = [],
       min_x: float = -float('inf'),
       max_x: float = float('inf'),
       min_y: float = -float('inf'),
       max_y: float = float('inf'),
     ) -> None:
-    super().__init__(sprites, x, y, order_in_layer, layers, min_x, max_x, min_y, max_y)
+    super().__init__(sprites, x, y, order_in_layer, game_object_type, layers, min_x, max_x, min_y, max_y)
     self._spawn_probability = PROBABILITY_SPAWN_POWER
 
   def on_collide(self, other: GameObject, layer: str) -> None:
@@ -53,6 +55,7 @@ class BrokenBlockGameObject(BlockGameObject):
         x = self._x + self._sprites._hitbox.get_width() / 4,
         y = self._y + self._sprites._hitbox.get_height() / 4,
         size = (self._sprites._hitbox.get_width() / 2, self._sprites._hitbox.get_height() / 2),
+        game_object_type = GameObjectTypeEnum.NORMAL,
         min_x = self._min_x,
         max_x = self._max_x,
         min_y = self._min_y,
