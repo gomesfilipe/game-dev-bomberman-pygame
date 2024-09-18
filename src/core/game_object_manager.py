@@ -18,20 +18,25 @@ class GameObjectManager(BaseObject):
 
     self._main_game_objects: List[GameObject] = []
 
-    self._collider_groups = self._build_collider_groups()
     self._time_to_sort_game_objects: float = 0.5
     self._time_last_sort: float = time.time()
 
-  def add_game_object(self, game_object: GameObject, i: Optional[int] = None, j: Optional[int] = None) -> None:
+  def add_game_object(self, game_object: GameObject) -> None:
     types = {
       GameObjectTypeEnum.NORMAL: lambda: self.__add(game_object),
       GameObjectTypeEnum.MAIN: lambda: self.__add_main(game_object),
-      GameObjectTypeEnum.TILE: lambda: self.__add_tile(game_object, i, j),
+      GameObjectTypeEnum.TILE: lambda: self.__add_tile(game_object),
     }
 
     types[game_object._type]()
 
-  def __add_tile(self, game_object: GameObject, i: int, j: int) -> None:
+  def __add_tile(self, game_object: GameObject) -> None:
+    i: int = int((game_object._y - game_object._min_y) / BLOCK_SIZE)
+    j: int = int((game_object._x - game_object._min_x) / BLOCK_SIZE)
+
+    if self._tiles[i][j] is not None:
+      self.remove_game_object(self._tiles[i][j])
+
     self._tiles[i][j] = game_object
     self.__add(game_object)
 
@@ -43,7 +48,16 @@ class GameObjectManager(BaseObject):
     self._game_objects.append(game_object)
     self.__sort_game_objects_by_order_in_layer()
 
-  def remove_tile(self, game_object: GameObject) -> None:
+  def remove_game_object(self, game_object: GameObject) -> None:
+    types = {
+      GameObjectTypeEnum.NORMAL: lambda: self.__remove(game_object),
+      GameObjectTypeEnum.MAIN: lambda: self.__remove_main(game_object),
+      GameObjectTypeEnum.TILE: lambda: self.__remove_tile(game_object),
+    }
+
+    types[game_object._type]()
+
+  def __remove_tile(self, game_object: GameObject) -> None:
     stop: bool = False
 
     for i in range(self._tiles_height):
@@ -56,15 +70,15 @@ class GameObjectManager(BaseObject):
       if stop:
         break
 
-    self.remove(game_object)
-  
-  def remove_main(self, game_object: GameObject) -> None:
+    self.__remove(game_object)
+
+  def __remove_main(self, game_object: GameObject) -> None:
     if game_object in self._main_game_objects:
       self._main_game_objects.remove(game_object)
 
-    self.remove(game_object)
+    self.__remove(game_object)
 
-  def remove(self, game_object: GameObject):
+  def __remove(self, game_object: GameObject):
     if game_object in self._game_objects:
       self._game_objects.remove(game_object)
 
@@ -100,19 +114,18 @@ class GameObjectManager(BaseObject):
     for game_object in self._game_objects:
       game_object.draw(screen)
 
-  def _build_collider_groups(self) -> Dict[str, List[GameObject]]:
-    collider_groups: Dict[str, List[GameObject]] = {}
-
-    for game_object in self._game_objects:
-      for layer in game_object.get_layers():
-        if layer in collider_groups:
-          collider_groups[layer].append(game_object)
-        else:
-          collider_groups[layer] = [game_object]
-
-    return collider_groups
-
   def __handle_collisions(self) -> None:
+    for i in range(len(self._main_game_objects)):
+      for j in range(i + 1, len(self._main_game_objects)):
+        main_i = self._main_game_objects[i]
+        main_j = self._main_game_objects[j]
+
+        for layer_i in main_i._layers:
+          for layer_j in main_j._layers:
+            if layer_i == layer_j and main_i.is_colliding(main_j):
+              main_i.on_collide(main_j, layer_i)
+              main_j.on_collide(main_i, layer_j)
+
     for main_game_object in self._main_game_objects:
       collision_tiles = self.__get_collision_tiles(main_game_object)
 
@@ -122,14 +135,6 @@ class GameObjectManager(BaseObject):
             if layer_i == layer_j and main_game_object.is_colliding(collision_tile):
               main_game_object.on_collide(collision_tile, layer_i)
               collision_tile.on_collide(main_game_object, layer_j)
-    
-    # for layer, colliders in self._collider_groups.items():
-    #   for i in range(len(colliders)):
-    #     for j in range(i + 1, len(colliders)):
-    #       # continue
-    #       if colliders[i].is_colliding(colliders[j]):
-    #         colliders[i].on_collide(colliders[j], layer)
-    #         colliders[j].on_collide(colliders[i], layer)
 
   def switch_debug_mode(self) -> None:
     for game_object in self._game_objects:
@@ -149,12 +154,12 @@ class GameObjectManager(BaseObject):
 
     tile_positions: MutableSet[Tuple[int, int]] = set()
     for x_, y_ in positions:
-      i = int((y_ - DISPLAY_HEIGHT) / h)
-      j = int(x_ / l)
+      i = int((y_ - game_object._min_y) / h)
+      j = int((x_ - game_object._min_x) / l)
 
       if i == self._tiles_height or j == self._tiles_width:
         continue
-      
+
       tile_positions.add((i, j))
 
     return [self._tiles[i][j] for i, j in tile_positions if self._tiles[i][j] is not None]

@@ -54,19 +54,7 @@ class Scene(BaseObject):
     self._game_object_manager.switch_debug_mode()
 
   def add_game_object(self, game_object: GameObject) -> None:
-    self._game_object_manager.add(game_object)
+    self._game_object_manager.add_game_object(game_object)
 
   def remove_game_object(self, game_object: GameObject) -> None:
-    self._game_object_manager.remove(game_object)
-
-  def add_main_game_object(self, game_object: GameObject) -> None:
-    self._game_object_manager.add_main(game_object)
-
-  def remove_game_object(self, game_object: GameObject) -> None:
-    self._game_object_manager.remove_main(game_object)
-
-  def add_tile_game_object(self, game_object: GameObject) -> None:
-    self._game_object_manager.remove_main(game_object)
-
-  def remove_tile_game_object(self, game_object: GameObject) -> None:
-    self._game_object_manager.add_tile(game_object)
+    self._game_object_manager.remove_game_object(game_object)
