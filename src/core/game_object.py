@@ -56,14 +56,6 @@ class GameObject(BaseObject):
     self._current_sprite: Optional[pygame.Surface] = None
     self._images: Dict[str, pygame.Surface] = {}
 
-  def _start_decorator(func: Callable) -> Callable:
-    def initialize_sprites(self: 'GameObject') -> None:
-      # self._sprites.initialize_sprites()
-      # self._sprites.initialize_hitbox()
-      func(self)
-
-    return initialize_sprites
-
   def _update_decorator(func: Callable) -> None:
     def update_components(self: 'GameObject') -> None:
       self._component_manager.update()

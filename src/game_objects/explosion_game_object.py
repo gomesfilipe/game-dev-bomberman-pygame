@@ -35,7 +35,6 @@ class ExplosionGameObject(GameObject):
     self._propagated: bool = False
     self._first_update: bool = True
 
-  @GameObject._start_decorator
   def start(self) -> None:
     self._component_manager.add(SpriteRendererComponent, self)
     self._current_sprite: pygame.Surface = self._sprites.idle()

@@ -45,7 +45,6 @@ class PlayerGameObject(GameObject):
     self._name = name
     self._status_manager = PlayerStatusManager()
 
-  @GameObject._start_decorator
   def start(self) -> None:
     self._component_manager.add(SpriteRendererComponent, self)
     self._component_manager.add(MovementControllerComponent, self)

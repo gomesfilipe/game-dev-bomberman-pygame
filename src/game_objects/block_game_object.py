@@ -23,7 +23,6 @@ class BlockGameObject(GameObject):
     super().__init__(sprites, x, y, order_in_layer, game_object_type, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
 
-  @GameObject._start_decorator
   def start(self) -> None:
     self._component_manager.add(SpriteRendererComponent, self)
     self._component_manager.add(MovementControllerComponent, self)

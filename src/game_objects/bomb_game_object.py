@@ -7,7 +7,6 @@ from src.game_objects.explosion_game_object import ExplosionGameObject
 from config import EXPLOSION_ORDER_IN_LAYER, BOMB_SPRITE
 import pygame
 import time
-from os.path import join
 
 class BombGameObject(GameObject):
   def __init__(
@@ -28,20 +27,28 @@ class BombGameObject(GameObject):
       max_y: float = float('inf'),
     ) -> None:
     self._size = size
-    sprites =  BOMB_SPRITE
+    self._super_bomb = super_bomb
+
+    sprites = BOMB_SPRITE
 
     super().__init__(sprites, x, y, order_in_layer, game_object_type, layers, min_x, max_x, min_y, max_y)
     self._sprites = sprites
     self._explosion_time = explosion_time
     self._explosion_range = explosion_range
     self._kick_range = kick_range
-    self._super_bomb = super_bomb
 
-  @GameObject._start_decorator
   def start(self) -> None:
     self._component_manager.add(SpriteRendererComponent, self)
-    self._current_sprite: pygame.Surface = self._sprites.idle()
+    self._current_sprite: pygame.Surface = self._determine_current_sprite()
     self._start_time: float = time.time()
+
+  def _determine_current_sprite(self) -> pygame.Surface:
+    if self._super_bomb:
+      current_sprite = self._sprites.idle().copy()
+      current_sprite.fill((255, 100, 100), special_flags = pygame.BLEND_RGB_MULT)
+      return current_sprite
+
+    return self._sprites.idle()
 
   @GameObject._update_decorator
   def update(self) -> None:
