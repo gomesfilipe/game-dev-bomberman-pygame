@@ -14,6 +14,7 @@ import pygame
 from src.enums.direction_enum import DirectionEnum
 from config import PLAYER_MAX_LIVES
 from src.enums.game_object_type_enum import GameObjectTypeEnum
+from src.enums.event_enum import EventEnum
 
 class PlayerGameObject(GameObject):
   def __init__(
@@ -166,3 +167,5 @@ class PlayerGameObject(GameObject):
       self._current_sprite = self._sprites.left_dead()
     elif self._current_sprite in [self._sprites.down(), self._sprites.right(), self._sprites.right_dead()]:
       self._current_sprite = self._sprites.right_dead()
+
+    EventEnum.END_OF_GAME.post_event()

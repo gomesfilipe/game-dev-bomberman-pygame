@@ -4,6 +4,7 @@ from src.core.scene import Scene
 from src.enums.event_enum import EventEnum
 from src.core.game_time import GameTime
 from src.core.game_events import GameEvents
+import time
 
 class Game():
   def __init__(
@@ -27,6 +28,7 @@ class Game():
       EventEnum.PRESSED_KEY.value: lambda event: self.__handle_pressed_key_event(event),
       EventEnum.NEW_GAME_OBJECT.value: lambda event: self.__handle_new_game_object_event(event),
       EventEnum.DESTROY_GAME_OBJECT.value: lambda event: self.__handle_destroy_game_object_event(event),
+      EventEnum.END_OF_GAME.value: lambda event: self.__handle_end_of_game_event(event),
     }
 
   def _get_key_handlers(self) -> Dict[int, Callable]:
@@ -46,6 +48,10 @@ class Game():
 
   def __handle_destroy_game_object_event(self, event: pygame.event.Event) -> None:
     self._scene.remove_game_object(event.game_object)
+
+  def __handle_end_of_game_event(self, event: pygame.event.Event) -> None:
+    self._stop = True
+    time.sleep(3)
 
   def run(self):
     pygame.init()

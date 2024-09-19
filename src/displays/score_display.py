@@ -5,6 +5,7 @@ import time
 from src.utils.utils import format_seconds_to_min_sec
 from src.game_objects.player_game_object import PlayerGameObject
 from src.components.skill_controller_component import SkillControllerComponent
+from src.enums.event_enum import EventEnum
 
 class ScoreDisplay(Display):
   def __init__(
@@ -25,6 +26,13 @@ class ScoreDisplay(Display):
     self._cdr_font: pygame.font.Font = pygame.font.SysFont('impact', 32)
     self._start_time: int = int(time.time())
     self._remaining_time: int = self._duration
+
+  def update(self) -> None:
+    self._time_spent = int(time.time() - self._start_time)
+    self._remaining_time = max(self._duration - self._time_spent, 0)
+
+    if self._remaining_time == 0:
+      EventEnum.END_OF_GAME.post_event()
 
   def set_players(self, player1: PlayerGameObject, player2: PlayerGameObject) -> None:
     self._player1 = player1
@@ -83,9 +91,6 @@ class ScoreDisplay(Display):
     screen.blit(remaining_cdr_image, (x, y))
 
   def __draw_remainig_time(self, screen: pygame.Surface) -> None:
-    self._time_spent = int(time.time() - self._start_time)
-    self._remaining_time = max(self._duration - self._time_spent, 0)
-
     remaining_time_image = self._font.render(f'{format_seconds_to_min_sec(self._remaining_time)}', True, (255, 255, 255))
     x = (self.width() - remaining_time_image.get_width()) / 2
     y = (self.height() - remaining_time_image.get_height()) / 2
