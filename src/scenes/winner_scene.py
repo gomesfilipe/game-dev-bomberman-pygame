@@ -32,7 +32,6 @@ class WinnerScene(Scene):
 
   def set_winner_player_type(self, player_type: PlayerTypeEnum) -> None:
     self._winner_player_type = player_type
-    self._sprite = self._winner_player_type.sprites(self._sprites_size, self._sprites_size)
 
   def _draw_rectangle(
     self,
