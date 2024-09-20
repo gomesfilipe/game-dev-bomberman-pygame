@@ -1,6 +1,7 @@
 import pygame
 from typing import Dict, Callable
 from src.core.scene import Scene
+from typing import Dict, Tuple, Optional, Callable
 from src.enums.event_enum import EventEnum
 from src.core.game_time import GameTime
 from src.core.game_events import GameEvents
@@ -10,10 +11,12 @@ class Game():
   def __init__(
       self,
       screen: pygame.Surface,
-      scene: Scene,
+      initial_scene: Scene,
+      scenes_order: Dict[Scene, Tuple[Optional[Scene], Optional[Callable[[Scene, Scene], None]]]],
     ) -> None:
     self._screen = screen
-    self._scene = scene
+    self._scene = initial_scene
+    self._scenes_order = scenes_order
     self._stop: bool = False
 
     self._event_handlers = self._get_event_handlers()
@@ -29,6 +32,7 @@ class Game():
       EventEnum.NEW_GAME_OBJECT.value: lambda event: self.__handle_new_game_object_event(event),
       EventEnum.DESTROY_GAME_OBJECT.value: lambda event: self.__handle_destroy_game_object_event(event),
       EventEnum.END_OF_GAME.value: lambda event: self.__handle_end_of_game_event(event),
+      EventEnum.NEXT_SCENE.value: lambda event: self.__handle_next_event(event),
     }
 
   def _get_key_handlers(self) -> Dict[int, Callable]:
@@ -52,6 +56,12 @@ class Game():
   def __handle_end_of_game_event(self, event: pygame.event.Event) -> None:
     self._stop = True
     time.sleep(3)
+
+  def __handle_next_event(self, event: pygame.event.Event) -> None:
+    next_scene, fn_transition = self._scenes_order[self._scene]
+    fn_transition(self._scene, next_scene)
+    next_scene.start()
+    self._scene = next_scene
 
   def run(self):
     pygame.init()

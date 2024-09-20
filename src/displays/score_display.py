@@ -21,10 +21,10 @@ class ScoreDisplay(Display):
     self._player2: Optional[PlayerGameObject] = None
 
   def start(self) -> None:
+    self._start_time: int = int(time.time())
     self._time_spent: int = 0
     self._font: pygame.font.Font = pygame.font.SysFont('impact', 48)
     self._cdr_font: pygame.font.Font = pygame.font.SysFont('impact', 32)
-    self._start_time: int = int(time.time())
     self._remaining_time: int = self._duration
 
   def update(self) -> None:

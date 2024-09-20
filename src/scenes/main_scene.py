@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from src.core.scene import Scene
 import pygame
 from config import *
@@ -12,6 +12,7 @@ from src.commands.movement_commands import MovementCommands
 from src.commands.skill_commands import SkillCommands
 from src.displays.score_display import ScoreDisplay
 from src.enums.game_object_type_enum import GameObjectTypeEnum
+from src.enums.player_type_enum import PlayerTypeEnum
 
 class MainScene(Scene):
   def __init__(
@@ -27,6 +28,9 @@ class MainScene(Scene):
     super().__init__(width, height, tiles_width, tiles_height, display, background_color)
     self._display = display
     self._duration = duration
+
+    self._player1_type: Optional[PlayerTypeEnum] = None
+    self._player2_type: Optional[PlayerTypeEnum] = None
 
   def start(self) -> None:
     if self._display is not None:
@@ -48,6 +52,10 @@ class MainScene(Scene):
     self._game_object_manager.add_game_object(player2)
 
     self._game_object_manager.start()
+
+  def set_player_types(self, player1_type: PlayerTypeEnum, player2_type: PlayerTypeEnum) -> None:
+    self._player1_type = player1_type
+    self._player2_type = player2_type
 
   def _create_blocks(self) -> List[BlockGameObject]:
     blocks: List[BlockGameObject] = []
@@ -81,11 +89,11 @@ class MainScene(Scene):
 
   def _create_player1(self) -> PlayerGameObject:
     return PlayerGameObject(
-      PLAYER_1_SPRITES,
+      self._player1_type.sprites(PLAYER_WIDTH, PLAYER_HEIGHT),
       PLAYER_VELOCITY,
       MovementCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
       SkillCommands(pygame.K_p),
-      PLAYER_1_TYPE,
+      self._player1_type,
       PLAYER_MAX_LIVES,
       BLOCK_SIZE,
       DISPLAY_HEIGHT + BLOCK_SIZE,
@@ -101,11 +109,11 @@ class MainScene(Scene):
 
   def _create_player2(self) -> PlayerGameObject:
     return PlayerGameObject(
-      PLAYER_2_SPRITES,
+      self._player2_type.sprites(PLAYER_WIDTH, PLAYER_HEIGHT),
       PLAYER_VELOCITY,
       MovementCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
       SkillCommands(pygame.K_q),
-      PLAYER_2_TYPE,
+      self._player2_type,
       PLAYER_MAX_LIVES,
       SCREEN_WIDTH - 2 * BLOCK_SIZE,
       SCREEN_HEIGHT - 2 * BLOCK_SIZE,

@@ -34,7 +34,7 @@ class SkillControllerComponent(Component):
   def fixed_update(self) -> None:
     return
 
-  def __key_handlers(self) -> Dict[str, Callable]:
+  def __key_handlers(self) -> Dict[int, Callable]:
     return {
       self._commands.drop_bomb(): lambda: self._dromp_bomb_skill.execute(self._game_object),
     }
