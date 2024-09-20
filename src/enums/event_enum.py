@@ -6,8 +6,7 @@ from typing import Dict, Callable
 class EventEnum(BaseEnum):
   NEW_GAME_OBJECT = pygame.USEREVENT + 1
   DESTROY_GAME_OBJECT = pygame.USEREVENT + 2
-  END_OF_GAME = pygame.USEREVENT + 3
-  NEXT_SCENE = pygame.USEREVENT + 4
+  NEXT_SCENE = pygame.USEREVENT + 3
   QUIT = pygame.QUIT # Tratado pelo pygame
   PRESSED_KEY = pygame.KEYDOWN # Tratado pelo pygame
 

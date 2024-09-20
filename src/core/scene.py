@@ -23,6 +23,9 @@ class Scene(BaseObject):
     self._background_color = background_color
     self._game_object_manager = GameObjectManager(self._tiles_width, self._tiles_height)
 
+  def on_end_scene(self) -> None:
+    return
+
   def width(self) -> float:
     return self._width
 

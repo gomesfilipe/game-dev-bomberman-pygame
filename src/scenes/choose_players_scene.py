@@ -2,16 +2,6 @@ from typing import List, Optional, Dict, Callable
 from src.core.scene import Scene
 import pygame
 from config import *
-from os.path import join
-from src.sprites.player_sprites import PlayerSprites
-from src.sprites.simple_sprite import SimpleSprite
-from src.game_objects.player_game_object import PlayerGameObject
-from src.game_objects.block_game_object import BlockGameObject
-from src.game_objects.broken_block_game_object import BrokenBlockGameObject
-from src.commands.movement_commands import MovementCommands
-from src.commands.skill_commands import SkillCommands
-from src.displays.score_display import ScoreDisplay
-from src.enums.game_object_type_enum import GameObjectTypeEnum
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.core.game_events import GameEvents
 from src.enums.event_enum import EventEnum

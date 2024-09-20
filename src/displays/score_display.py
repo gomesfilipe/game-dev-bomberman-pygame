@@ -32,7 +32,7 @@ class ScoreDisplay(Display):
     self._remaining_time = max(self._duration - self._time_spent, 0)
 
     if self._remaining_time == 0:
-      EventEnum.END_OF_GAME.post_event()
+      EventEnum.NEXT_SCENE.post_event()
 
   def set_players(self, player1: PlayerGameObject, player2: PlayerGameObject) -> None:
     self._player1 = player1

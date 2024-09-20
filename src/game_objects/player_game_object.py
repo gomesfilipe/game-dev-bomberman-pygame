@@ -168,4 +168,10 @@ class PlayerGameObject(GameObject):
     elif self._current_sprite in [self._sprites.down(), self._sprites.right(), self._sprites.right_dead()]:
       self._current_sprite = self._sprites.right_dead()
 
-    EventEnum.END_OF_GAME.post_event()
+    EventEnum.NEXT_SCENE.post_event()
+
+  def get_lives(self) -> int:
+    return self._lives
+
+  def get_type(self) -> PlayerTypeEnum:
+    return self._player_type

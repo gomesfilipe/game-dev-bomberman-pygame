@@ -31,7 +31,6 @@ class Game():
       EventEnum.PRESSED_KEY.value: lambda event: self.__handle_pressed_key_event(event),
       EventEnum.NEW_GAME_OBJECT.value: lambda event: self.__handle_new_game_object_event(event),
       EventEnum.DESTROY_GAME_OBJECT.value: lambda event: self.__handle_destroy_game_object_event(event),
-      EventEnum.END_OF_GAME.value: lambda event: self.__handle_end_of_game_event(event),
       EventEnum.NEXT_SCENE.value: lambda event: self.__handle_next_event(event),
     }
 
@@ -53,11 +52,8 @@ class Game():
   def __handle_destroy_game_object_event(self, event: pygame.event.Event) -> None:
     self._scene.remove_game_object(event.game_object)
 
-  def __handle_end_of_game_event(self, event: pygame.event.Event) -> None:
-    self._stop = True
-    time.sleep(3)
-
   def __handle_next_event(self, event: pygame.event.Event) -> None:
+    self._scene.on_end_scene()
     next_scene, fn_transition = self._scenes_order[self._scene]
     fn_transition(self._scene, next_scene)
     next_scene.start()

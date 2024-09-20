@@ -2,9 +2,6 @@ from typing import List, Optional
 from src.core.scene import Scene
 import pygame
 from config import *
-from os.path import join
-from src.sprites.player_sprites import PlayerSprites
-from src.sprites.simple_sprite import SimpleSprite
 from src.game_objects.player_game_object import PlayerGameObject
 from src.game_objects.block_game_object import BlockGameObject
 from src.game_objects.broken_block_game_object import BrokenBlockGameObject
@@ -13,6 +10,7 @@ from src.commands.skill_commands import SkillCommands
 from src.displays.score_display import ScoreDisplay
 from src.enums.game_object_type_enum import GameObjectTypeEnum
 from src.enums.player_type_enum import PlayerTypeEnum
+from src.core.game_object_manager import GameObjectManager
 
 class MainScene(Scene):
   def __init__(
@@ -31,13 +29,14 @@ class MainScene(Scene):
 
     self._player1_type: Optional[PlayerTypeEnum] = None
     self._player2_type: Optional[PlayerTypeEnum] = None
+    self._winner_player_type: Optional[PlayerTypeEnum] = None
 
   def start(self) -> None:
     if self._display is not None:
       self._display.start()
 
-    player1 = self._create_player1()
-    player2 = self._create_player2()
+    self._player1 = self._create_player1()
+    self._player2 = self._create_player2()
     blocks = self._create_blocks()
     broken_blocks = self._create_broken_blocks()
 
@@ -47,15 +46,21 @@ class MainScene(Scene):
     for broken_block in broken_blocks:
       self._game_object_manager.add_game_object(broken_block)
 
-    self._display.set_players(player1, player2)
-    self._game_object_manager.add_game_object(player1)
-    self._game_object_manager.add_game_object(player2)
+    self._display.set_players(self._player1, self._player2)
+    self._game_object_manager.add_game_object(self._player1)
+    self._game_object_manager.add_game_object(self._player2)
 
     self._game_object_manager.start()
 
   def set_player_types(self, player1_type: PlayerTypeEnum, player2_type: PlayerTypeEnum) -> None:
     self._player1_type = player1_type
     self._player2_type = player2_type
+
+  def set_winner_player_type(self, player_type: PlayerTypeEnum) -> None:
+    self._winner_player_type = player_type
+
+  def winner_player_type(self) -> Optional[PlayerTypeEnum]:
+    return self._winner_player_type
 
   def _create_blocks(self) -> List[BlockGameObject]:
     blocks: List[BlockGameObject] = []
@@ -160,3 +165,16 @@ class MainScene(Scene):
       min_y = self._display.height(),
       max_y = self.height(),
     )
+
+  def on_end_scene(self) -> None:
+    if self._player1.get_lives() <= 0:
+      self._winner_player_type = self._player2.get_type()
+    elif self._player2.get_lives() <= 0:
+      self._winner_player_type = self._player1.get_type()
+    else:
+      self._winner_player_type = None
+
+    self._game_object_manager = GameObjectManager(self._tiles_width, self._tiles_height)
+
+  def get_winner_player_type(self) -> PlayerTypeEnum:
+    return self._winner_player_type
