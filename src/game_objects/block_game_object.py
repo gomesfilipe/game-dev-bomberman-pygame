@@ -25,7 +25,6 @@ class BlockGameObject(GameObject):
 
   def start(self) -> None:
     self._component_manager.add(SpriteRendererComponent, self)
-    self._component_manager.add(MovementControllerComponent, self)
     self._current_sprite: pygame.Surface = self._sprites.idle()
 
   @GameObject._update_decorator
