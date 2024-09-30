@@ -49,6 +49,8 @@ NONE_STATUS_DURATION: float = float('inf')
 IMMUNE_STATUS_DURATION: float = 3.0
 DEAD_STATUS_DURATION: float = float('inf')
 
+PAUSE_ON_END_DURATION: int = 2
+
 POWER_SIZE: Tuple[int, int] = (BLOCK_SIZE / 2, BLOCK_SIZE / 2)
 
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))

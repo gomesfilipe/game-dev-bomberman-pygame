@@ -12,6 +12,7 @@ from src.enums.game_object_type_enum import GameObjectTypeEnum
 from src.enums.player_type_enum import PlayerTypeEnum
 from src.core.game_object_manager import GameObjectManager
 from src.enums.event_enum import EventEnum
+import time
 
 class MainScene(Scene):
   def __init__(
@@ -170,7 +171,7 @@ class MainScene(Scene):
   def on_end_scene(self) -> None:
     player1_dead: bool = self._player1._status_manager.dead.is_active()
     player2_dead: bool = self._player2._status_manager.dead.is_active()
-    
+
     if player1_dead and player2_dead:
       self._winner_player_type = None
     elif player1_dead:
@@ -181,10 +182,11 @@ class MainScene(Scene):
       self._winner_player_type = None
 
     self._game_object_manager = GameObjectManager(self._tiles_width, self._tiles_height)
+    time.sleep(PAUSE_ON_END_DURATION)
 
   def get_winner_player_type(self) -> PlayerTypeEnum:
     return self._winner_player_type
-  
+
   def update(self) -> None:
     super().update()
 

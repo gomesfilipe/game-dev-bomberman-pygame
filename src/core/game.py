@@ -53,6 +53,7 @@ class Game():
     self._scene.remove_game_object(event.game_object)
 
   def __handle_next_event(self, event: pygame.event.Event) -> None:
+    self._scene.draw(self._screen)
     self._scene.on_end_scene()
     next_scene, fn_transition = self._scenes_order[self._scene]
     fn_transition(self._scene, next_scene)
