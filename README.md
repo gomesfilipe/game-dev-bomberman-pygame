@@ -33,7 +33,7 @@ Movement of second player is by <b>W, A, S, D keys</b> and the bomb is dropped b
 - Decrease bomb cooldown in 0.2 seconds;
 
 ## Gameplay Demonstration
-<a href="">Click here</a> to see more details about the game in Youtube.
+<a href="https://www.youtube.com/watch?v=E-1jolPAPtg&ab_channel=FilipeGomes">Click here</a> to see more details about the game in Youtube.
 
 ## More Details
 Read more details about mini Bomberman in PATH_TO_FILE
