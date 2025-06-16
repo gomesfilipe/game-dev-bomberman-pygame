@@ -1,13 +1,8 @@
-from src.enums.player_type_enum import PlayerTypeEnum
 from src.enums.power_enum import PowerEnum
-from src.sprites.player_sprites import PlayerSprites
 from src.sprites.simple_sprite import SimpleSprite
 from os.path import join
 from typing import Tuple
 import pygame
-
-PLAYER_1_TYPE: PlayerTypeEnum = PlayerTypeEnum.MOUSE
-PLAYER_2_TYPE: PlayerTypeEnum = PlayerTypeEnum.CAT
 
 PLAYER_WIDTH = 64
 PLAYER_HEIGHT = 64
@@ -54,28 +49,6 @@ PAUSE_ON_END_DURATION: int = 2
 POWER_SIZE: Tuple[int, int] = (BLOCK_SIZE / 2, BLOCK_SIZE / 2)
 
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
-PLAYER_1_SPRITES = PlayerSprites(
-  join(PLAYER_1_TYPE.rotation_assets_path(), '3 Back.png'),
-  join(PLAYER_1_TYPE.rotation_assets_path(), '2 Left.png'),
-  join(PLAYER_1_TYPE.rotation_assets_path(), '1 Front.png'),
-  join(PLAYER_1_TYPE.rotation_assets_path(), '4 Right.png'),
-  join(PLAYER_1_TYPE.face_assets_path(), 'face.png'),
-  join(PLAYER_1_TYPE.base_dir(), 'Left', 'death.png'),
-  join(PLAYER_1_TYPE.base_dir(), 'Right', 'death.png'),
-  (PLAYER_WIDTH, PLAYER_HEIGHT),
-)
-
-PLAYER_2_SPRITES = PlayerSprites(
-  join(PLAYER_2_TYPE.rotation_assets_path(), '3 Back.png'),
-  join(PLAYER_2_TYPE.rotation_assets_path(), '2 Left.png'),
-  join(PLAYER_2_TYPE.rotation_assets_path(), '1 Front.png'),
-  join(PLAYER_2_TYPE.rotation_assets_path(), '4 Right.png'),
-  join(PLAYER_2_TYPE.face_assets_path(), 'face.png'),
-  join(PLAYER_2_TYPE.base_dir(), 'Left', 'death.png'),
-  join(PLAYER_2_TYPE.base_dir(), 'Right', 'death.png'),
-  (PLAYER_WIDTH, PLAYER_HEIGHT),
-)
 
 EXPLOSION_SPRITE = SimpleSprite(join('assets', 'explosion', 'explosion.png'), (BLOCK_SIZE, BLOCK_SIZE))
 BOMB_SPRITE = SimpleSprite(join('assets', 'bomb', 'bomb.png'), (BLOCK_SIZE, BLOCK_SIZE))

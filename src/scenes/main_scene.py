@@ -96,7 +96,7 @@ class MainScene(Scene):
 
   def _create_player1(self) -> PlayerGameObject:
     return PlayerGameObject(
-      PLAYER_1_SPRITES,
+      self._player1_type.sprites(PLAYER_WIDTH, PLAYER_HEIGHT),
       PLAYER_VELOCITY,
       MovementCommands(pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT),
       SkillCommands(pygame.K_p),
@@ -116,7 +116,7 @@ class MainScene(Scene):
 
   def _create_player2(self) -> PlayerGameObject:
     return PlayerGameObject(
-      PLAYER_2_SPRITES,
+      self._player2_type.sprites(PLAYER_WIDTH, PLAYER_HEIGHT),
       PLAYER_VELOCITY,
       MovementCommands(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d),
       SkillCommands(pygame.K_q),
