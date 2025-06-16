@@ -6,21 +6,28 @@ from src.enums.event_enum import EventEnum
 from src.core.game_time import GameTime
 from src.core.game_events import GameEvents
 import time
+from abc import ABC, abstractmethod
 
-class Game():
+class Game(ABC):
   def __init__(
       self,
       screen: pygame.Surface,
-      initial_scene: Scene,
-      scenes_order: Dict[Scene, Tuple[Optional[Scene], Optional[Callable[[Scene, Scene], None]]]],
     ) -> None:
     self._screen = screen
-    self._scene = initial_scene
-    self._scenes_order = scenes_order
+    self._scene = self._initial_scene()
+    self.__scenes_order = self._scenes_order()
     self._stop: bool = False
 
     self._event_handlers = self._get_event_handlers()
     self._key_handlers = self._get_key_handlers()
+
+  @abstractmethod
+  def _scenes_order(self) -> Dict[Scene, Tuple[Optional[Scene], Optional[Callable[[Scene, Scene], None]]]]:
+    pass
+
+  @abstractmethod
+  def _initial_scene(self) -> Scene:
+    pass
 
   def _should_stop(self) -> None:
     return self._stop
@@ -31,7 +38,7 @@ class Game():
       EventEnum.PRESSED_KEY.value: lambda event: self.__handle_pressed_key_event(event),
       EventEnum.NEW_GAME_OBJECT.value: lambda event: self.__handle_new_game_object_event(event),
       EventEnum.DESTROY_GAME_OBJECT.value: lambda event: self.__handle_destroy_game_object_event(event),
-      EventEnum.NEXT_SCENE.value: lambda event: self.__handle_next_event(event),
+      EventEnum.NEXT_SCENE.value: lambda event: self.__handle_next_scene_event(event),
     }
 
   def _get_key_handlers(self) -> Dict[int, Callable]:
@@ -52,10 +59,10 @@ class Game():
   def __handle_destroy_game_object_event(self, event: pygame.event.Event) -> None:
     self._scene.remove_game_object(event.game_object)
 
-  def __handle_next_event(self, event: pygame.event.Event) -> None:
+  def __handle_next_scene_event(self, event: pygame.event.Event) -> None:
     self._scene.draw(self._screen)
     self._scene.on_end_scene()
-    next_scene, fn_transition = self._scenes_order[self._scene]
+    next_scene, fn_transition = self.__scenes_order[self._scene]
     fn_transition(self._scene, next_scene)
     next_scene.start()
     self._scene = next_scene
